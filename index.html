@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Andres Laverde - Centro de mando</title>
+<meta name="theme-color" content="#F1F4F2">
+<meta name="robots" content="noindex,nofollow">
+<script>
+/* Tema (auto | claro | oscuro): se aplica antes de pintar para que no haya parpadeo */
+(function(){
+  var K="institutional_power_v1_tema", root=document.documentElement;
+  function get(){ try{ var t=localStorage.getItem(K); return t==="light"||t==="dark"?t:"auto"; }catch(e){ return "auto"; } }
+  function apply(t){
+    if(t==="light"||t==="dark") root.setAttribute("data-theme",t); else root.removeAttribute("data-theme");
+    var dark=t==="dark"||(t!=="light"&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);
+    var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",dark?"#090D0B":"#F1F4F2");
+  }
+  window.__tema={get:get,apply:apply,set:function(t){ try{ if(t==="auto") localStorage.removeItem(K); else localStorage.setItem(K,t); }catch(e){} apply(t); }};
+  apply(get());
+  try{ matchMedia("(prefers-color-scheme: dark)").addEventListener("change",function(){ apply(get()); }); }catch(e){}
+})();
+</script>
+<meta name="apple-mobile-web-app-title" content="A. Laverde">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2313221B'/%3E%3Cstop offset='1' stop-color='%23070C0A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='15' fill='url%28%23b%29'/%3E%3Crect x='12' y='35' width='7' height='18' rx='3.5' fill='%23fff' opacity='.55'/%3E%3Crect x='28.5' y='24' width='7' height='29' rx='3.5' fill='%23fff' opacity='.8'/%3E%3Crect x='45' y='11' width='7' height='42' rx='3.5' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<style>
+  :root{
+    color-scheme:light;
+    --bg:#F1F4F2; --card:#FFFFFF; --card2:#F5F7F6; --ink:#0E1A14; --muted:#5A6861; --faint:#87938D; --line:#E1E7E3; --line2:#CFD8D3;
+    --accent:#1D9E75; --accent-ink:#0F6E56; --accent-bg:#E1F5EE;
+    --pos:#22A87F; --neg:#E05B46;
+    --red:#E24B4A; --red-ink:#A32D2D; --red-bg:#FCEBEB;
+    --amber:#BA7517; --amber-bg:#FAEEDA;
+    --grid:rgba(14,26,20,.08); --axis:rgba(14,26,20,.30);
+    --shadow:0 1px 2px rgba(14,26,20,.04),0 14px 34px -16px rgba(14,26,20,.16);
+    --radius:18px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      color-scheme:dark;
+      --bg:#090D0B; --card:#111714; --card2:#0D1210; --ink:#EBF2EE; --muted:#94A29B; --faint:#66746D; --line:#1D2723; --line2:#2A3731;
+      --accent:#1D9E75; --accent-ink:#5DCAA5; --accent-bg:rgba(29,158,117,.16);
+      --red-ink:#F09595; --red-bg:rgba(226,75,74,.16);
+      --amber-bg:rgba(186,117,23,.2);
+      --grid:rgba(235,242,238,.07); --axis:rgba(235,242,238,.28);
+      --shadow:0 1px 0 rgba(255,255,255,.03) inset,0 18px 40px -20px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    color-scheme:dark;
+    --bg:#090D0B; --card:#111714; --card2:#0D1210; --ink:#EBF2EE; --muted:#94A29B; --faint:#66746D; --line:#1D2723; --line2:#2A3731;
+    --accent:#1D9E75; --accent-ink:#5DCAA5; --accent-bg:rgba(29,158,117,.16);
+    --red-ink:#F09595; --red-bg:rgba(226,75,74,.16);
+    --amber-bg:rgba(186,117,23,.2);
+    --grid:rgba(235,242,238,.07); --axis:rgba(235,242,238,.28);
+    --shadow:0 1px 0 rgba(255,255,255,.03) inset,0 18px 40px -20px rgba(0,0,0,.7);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(900px 420px at 88% -8%,rgba(7,229,117,.09),transparent 62%);background-repeat:no-repeat}
+  .app{max-width:1120px;margin:0 auto;padding:22px 20px 60px}
+
+  /* ---------- header + nav ---------- */
+  header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px}
+  .brand{display:flex;align-items:baseline;gap:6px 12px;min-width:0;flex-wrap:wrap}
+  .brand .logo{font-size:20px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;line-height:1.2}
+  .brand .logo .sp{color:var(--faint);font-weight:600}
+  .brand .logo b{color:#07E575}
+  .brand .tag{font-size:11px;color:var(--faint);letter-spacing:1.4px;text-transform:uppercase}
+  .backup{display:flex;gap:8px;align-items:center;margin-left:auto}
+  .btn{font:inherit;font-size:13px;background:var(--card);color:var(--ink);border:1px solid var(--line);
+    border-radius:10px;padding:8px 13px;cursor:pointer;font-weight:500;transition:border-color .15s,background .15s}
+  .btn:hover{border-color:var(--muted)}
+  .btn.accent{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+  .btn.accent:hover{filter:brightness(1.07)}
+  .btn.mini{padding:6px 11px;font-size:12px}
+  .btn.danger{color:var(--red-ink);border-color:transparent;background:transparent;padding:4px 7px}
+  .btn.danger:hover{background:var(--red-bg)}
+
+  .tabs{display:flex;gap:4px;margin:18px 0 24px;background:var(--card);padding:5px;border-radius:14px;border:1px solid var(--line);width:fit-content;box-shadow:var(--shadow)}
+  .tab{font:inherit;font-size:14px;font-weight:500;border:none;background:transparent;color:var(--muted);
+    padding:9px 18px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .15s,color .15s}
+  .tab .ti{width:17px;height:17px;flex:none}
+  .tab:hover{color:var(--ink)}
+  .tab.active{background:var(--accent-bg);color:var(--accent-ink);font-weight:600}
+  .panel{display:none} .panel.active{display:block;animation:fadeIn .25s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.panel.active{animation:none}}
+
+  h2{font-size:16px;font-weight:600;margin:28px 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  h2:first-child{margin-top:0}
+  h2 .hint{font-size:12px;font-weight:400;color:var(--faint)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);min-width:0}
+  .sub{font-size:13px;color:var(--muted)}
+
+  /* ---------- forms ---------- */
+  .form{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;align-items:end}
+  .field{display:flex;flex-direction:column;gap:5px;min-width:0}
+  .field label{font-size:12px;color:var(--muted);font-weight:500}
+  .field input,.field select{font:inherit;font-size:14px;padding:10px 11px;border:1px solid var(--line);
+    border-radius:10px;background:var(--card2);color:var(--ink);width:100%;min-width:0}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-bg)}
+  .err{color:var(--red-ink);font-size:12px;margin-top:8px;display:none}
+
+  /* ---------- tables ---------- */
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-weight:500;color:var(--muted);font-size:12px;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:10px;border-bottom:1px solid var(--line)}
+  tr:last-child td{border-bottom:none}
+  .r{text-align:right}
+  .pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600}
+  .pill.emp{background:var(--card2);color:var(--muted);border:1px solid var(--line)}
+  .empty{color:var(--faint);font-size:13px;padding:14px;text-align:center}
+  .num{font-variant-numeric:tabular-nums}
+  td input.tin{font:inherit;font-size:13px;padding:4px 6px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--ink);width:100%;font-variant-numeric:tabular-nums}
+  td input.tin:hover{border-color:var(--line)} td input.tin:focus{outline:none;border-color:var(--accent);background:var(--card2)}
+  .pos{color:var(--accent-ink)} .neg{color:var(--red-ink)}
+
+  /* ---------- lote cards ---------- */
+  .lote{border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px;background:var(--card)}
+  .lote .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+  .lote .meta{font-size:13px;color:var(--muted);margin-top:4px}
+  .lote .fond{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+  .lote .fond input{width:70px;font:inherit;font-size:14px;padding:7px 9px;border:1px solid var(--line);border-radius:9px;background:var(--card2);color:var(--ink)}
+  .lote .fond input:focus{outline:none;border-color:var(--accent)}
+  .accts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .acct{display:flex;align-items:center;gap:5px;background:var(--card2);border:1px solid var(--line);border-radius:9px;padding:5px 9px;font-size:12px}
+  .acct input{width:90px;font:inherit;font-size:12px;border:none;background:transparent;color:var(--ink);border-bottom:1px dashed var(--line)}
+  .acct input:focus{outline:none;border-color:var(--accent)}
+  .rate{font-size:12px;font-weight:600;color:var(--accent-ink)}
+
+  /* ---------- dashboard ---------- */
+  .hero-grid{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;margin-bottom:14px}
+  .hero{grid-row:span 2;position:relative;overflow:hidden;border-radius:22px;padding:26px 28px 0;color:#fff;
+    background:linear-gradient(135deg,#17936B 0%,#0A4F3B 100%);box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:262px}
+  .hero.loss{background:linear-gradient(135deg,#C24544 0%,#7E2727 100%)}
+  .hero::after{content:"";position:absolute;right:-90px;bottom:-150px;width:440px;height:440px;background:radial-gradient(circle,rgba(7,229,117,.32),transparent 65%);pointer-events:none}
+  .hero>*{position:relative;z-index:1}
+  .hero .hk{font-size:12px;font-weight:600;letter-spacing:.9px;text-transform:uppercase;opacity:.9}
+  .hero .hv{font-size:clamp(46px,7.2vw,70px);font-weight:800;line-height:1;margin-top:10px;letter-spacing:-.03em}
+  .hero .hs{font-size:14px;opacity:.92;margin-top:12px}
+  .hero .spark{margin:auto -28px 0;height:84px}
+  .hero .spark svg{display:block}
+
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);min-width:0;display:flex;flex-direction:column}
+  .kpi .k{font-size:12px;color:var(--muted);font-weight:500;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .kpi .ic{width:28px;height:28px;border-radius:9px;background:var(--accent-bg);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;flex:none}
+  .kpi .v{font-size:clamp(21px,2.3vw + 8px,30px);font-weight:700;margin-top:8px;letter-spacing:-.02em;line-height:1.1;overflow-wrap:anywhere}
+  .kpi .v.neg{color:var(--red-ink)}
+  .kpi .s{font-size:12px;color:var(--faint);margin-top:6px;line-height:1.4}
+  .grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:14px}
+  .chartcard{margin-top:14px}
+  .chartcard h3{font-size:15px;font-weight:600;margin-bottom:2px}
+  .ch-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .legend{display:flex;gap:16px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+  .legend .d{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+  .legend .d.p{background:var(--pos)} .legend .d.n{background:var(--neg)}
+  .chart{position:relative;width:100%}
+  .chart svg{display:block;max-width:100%;overflow:visible}
+  .chart .hit{touch-action:pan-y;cursor:crosshair}
+
+  /* svg del gráfico */
+  .gl{stroke:var(--grid);stroke-width:1} .gl.mv{opacity:.7}
+  .zero{stroke:var(--axis);stroke-width:1}
+  .axt{fill:var(--muted);font-size:11.5px;font-weight:500}
+  .axy{fill:var(--faint);font-size:10.5px}
+  .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+  .ar{opacity:.10;stroke:none}
+  .pos-f{fill:var(--pos)} .neg-f{fill:var(--neg)} .pos-s{stroke:var(--pos)} .neg-s{stroke:var(--neg)}
+  .dt,.hm{stroke:var(--card);stroke-width:2}
+  .xh{stroke:var(--axis);stroke-width:1;pointer-events:none}
+  .hm{pointer-events:none}
+  .bar{transition:filter .12s} .bar.on{filter:brightness(1.2)}
+
+  /* barras horizontales (por empresa) */
+  .hb{display:grid;grid-template-columns:minmax(120px,36%) 1fr auto;gap:8px 14px;align-items:center;padding:9px 0}
+  .hb+.hb{border-top:1px solid var(--line)}
+  .hb-n{font-size:15px;font-weight:600;min-width:0;overflow-wrap:anywhere}
+  .hb-t{position:relative;height:12px;background:var(--card2);border-radius:6px}
+  .hb-z{position:absolute;top:-3px;bottom:-3px;width:1px;background:var(--axis)}
+  .hb-f{position:absolute;top:0;bottom:0;border-radius:4px;background:var(--pos)} .hb-f.neg{background:var(--neg)}
+  .hb-v{font-size:15px;font-weight:700;min-width:58px;text-align:right;font-variant-numeric:tabular-nums}
+
+  /* tabla gemela de los gráficos */
+  .twin{margin-top:14px}
+  .twin summary{cursor:pointer;color:var(--muted);font-size:12px;user-select:none}
+  .tw-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .twin table{margin-top:8px;font-size:13px}
+  .twin th{white-space:normal}
+  .twin td,.twin th{padding:8px 8px}
+  .foot{font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6}
+
+  /* tooltip */
+  .tip{position:fixed;z-index:90;pointer-events:none;background:var(--card);color:var(--ink);border:1px solid var(--line2);border-radius:12px;
+    padding:10px 12px;box-shadow:0 14px 34px rgba(0,0,0,.30);font-size:12px;min-width:170px;max-width:270px;opacity:0;transition:opacity .12s;left:0;top:0}
+  .tip.on{opacity:1}
+  .tip .tt{font-weight:600;color:var(--muted);font-size:11.5px;margin-bottom:6px}
+  .tip .tr{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:4px}
+  .tip .tk{display:flex;align-items:center;gap:7px;color:var(--muted)}
+  .tip .key{display:inline-block;width:12px;height:3px;border-radius:2px;flex:none}
+  .tip .key.pos{background:var(--pos)} .tip .key.neg{background:var(--neg)}
+  .tip .tv{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .tip .tv.big{font-size:17px}
+  .tip .tn{margin-top:8px;padding-top:7px;border-top:1px solid var(--line);color:var(--faint);font-size:11px;line-height:1.4}
+
+  /* ---------- playbook (calendario) ---------- */
+  .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .cal-nav .mes{font-size:16px;font-weight:600;text-transform:capitalize}
+  .cal-today{border-radius:20px;padding:22px 24px;margin-bottom:20px;border:1px solid var(--line)}
+  .cal-today .fecha{font-size:14px;font-weight:500;opacity:.85;text-transform:capitalize}
+  .cal-today .accion{font-size:clamp(28px,7vw,42px);font-weight:800;line-height:1.1}
+  .cal-today .nota{font-size:14px;font-weight:500}
+  .cal-today.compra{background:var(--accent-bg)} .cal-today.compra .accion,.cal-today.compra .nota{color:var(--accent-ink)}
+  .cal-today.venta{background:var(--red-bg)} .cal-today.venta .accion,.cal-today.venta .nota{color:var(--red-ink)}
+  .cal-today.gris{background:var(--card2)} .cal-today.gris .accion,.cal-today.gris .nota{color:var(--faint)}
+  .cal-today.feriado{background:#FFFFFF;border:1px solid #C9C7BD} .cal-today.feriado .fecha,.cal-today.feriado .accion,.cal-today.feriado .nota{color:#6B6A63}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+  .dow{font-size:12px;color:var(--muted);text-align:center;text-transform:lowercase}
+  .cell{aspect-ratio:1/.82;border-radius:10px;border:1px solid transparent;padding:7px 8px;display:flex;flex-direction:column;justify-content:space-between;min-height:54px;min-width:0}
+  .cell .n{font-size:15px;font-weight:600}
+  .cell .tag{font-size:11px;font-weight:600;line-height:1.2;white-space:nowrap}
+  .cell.empty{background:transparent}
+  .cell.compra{background:var(--accent-bg)} .cell.compra .n,.cell.compra .tag{color:var(--accent-ink)}
+  .cell.venta{background:var(--red-bg)} .cell.venta .n,.cell.venta .tag{color:var(--red-ink)}
+  .cell.finde{background:var(--card2)} .cell.finde .n{color:var(--faint)}
+  .cell.libre{background:var(--card2);opacity:.6} .cell.libre .n{color:var(--faint)}
+  .cell.feriado{background:#FFFFFF;border:1px solid #C9C7BD} .cell.feriado .n,.cell.feriado .tag{color:#8A897F}
+  .cell.hoy{outline:3px solid var(--ink);outline-offset:1px}
+  .leg{display:flex;flex-wrap:wrap;gap:12px 18px;margin-top:16px;font-size:13px;color:var(--muted)}
+  .leg .it{display:flex;align-items:center;gap:7px}
+  .leg .sw{width:15px;height:15px;border-radius:4px;flex:none;border:1px solid var(--line)}
+
+  /* ---------- nube: estado + compuerta ---------- */
+  .sync{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--muted);padding:6px 11px;border:1px solid var(--line);border-radius:20px;background:var(--card)}
+  .sync .dot{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+  .sync.ok .dot{background:var(--pos);box-shadow:0 0 0 3px rgba(34,168,127,.18)} .sync.saving .dot{background:var(--amber)}
+  .sync.err .dot,.sync.off .dot{background:var(--neg)}
+  .gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:none;align-items:center;justify-content:center;padding:20px}
+  .gate.show{display:flex}
+  .gate .box{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:34px 28px;max-width:380px;width:100%;text-align:center;box-shadow:var(--shadow)}
+  .gate .gname{font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .gate .logo{font-size:24px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
+  .gate .logo b{color:#07E575}
+  .gate p{color:var(--muted);font-size:14px;margin:12px 0 22px}
+  .gate .btn{width:100%;padding:13px;font-size:15px}
+  .gate .gerr{color:var(--red-ink);font-size:12px;margin-top:12px;display:none;line-height:1.5}
+  svg text{font-family:inherit}
+
+
+  /* ---------- filtro de periodo ---------- */
+  .fbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:0 0 16px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font:inherit;font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+  .chip:hover{color:var(--ink);border-color:var(--line2)}
+  .chip.on{background:var(--accent-bg);color:var(--accent-ink);border-color:transparent;font-weight:600}
+  .btn.warn{border-color:var(--amber)}
+  .chip:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .frange{display:flex;gap:10px;flex-wrap:wrap}
+  .frange label{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+  .frange input{font:inherit;font-size:13px;padding:6px 9px;border:1px solid var(--line);border-radius:9px;background:var(--card2);color:var(--ink);min-width:0}
+  .frange input:focus{outline:none;border-color:var(--accent)}
+  .fsum{flex:1 1 100%;font-size:12px;color:var(--muted)}
+  .fsum b{color:var(--ink);font-weight:600}
+  .hero .hs2{font-size:12px;opacity:.72;margin-top:5px}
+  .hero .hdates{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:500;opacity:.92;margin-top:8px}
+  .hero .hdates svg{width:14px;height:14px;flex:none}
+
+  /* ---------- papelera / versiones / aviso ---------- */
+  .bdg{display:inline-block;min-width:17px;padding:0 5px;margin-left:5px;border-radius:9px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;line-height:17px;text-align:center}
+  .btn svg{width:14px;height:14px;vertical-align:-2px;margin-right:5px}
+  .modal{position:fixed;inset:0;z-index:95;background:rgba(0,0,0,.58);display:none;align-items:center;justify-content:center;padding:16px}
+  .modal.show{display:flex}
+  .mbox{background:var(--card);border:1px solid var(--line2);border-radius:20px;width:100%;max-width:660px;max-height:min(86vh,760px);display:flex;flex-direction:column;box-shadow:0 30px 70px rgba(0,0,0,.45)}
+  .mh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px 6px}
+  .mh h3{font-size:17px;font-weight:700}
+  .mtabs{display:flex;gap:6px;padding:8px 20px 12px;flex-wrap:wrap}
+  .mb{overflow:auto;padding:0 20px 20px;-webkit-overflow-scrolling:touch}
+  .hrow-top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 6px}
+  .hrow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 0;border-top:1px solid var(--line)}
+  .hmain{min-width:0;flex:1 1 240px}
+  .hmain .ht{font-size:14px;font-weight:600;overflow-wrap:anywhere}
+  .hmain .hd{font-size:13px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+  .hmain .hs3{font-size:12px;color:var(--faint);margin-top:3px}
+  .hact{display:flex;gap:6px;flex:none}
+  .hnote{font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.55}
+  pre.rules{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:12px;line-height:1.5;overflow:auto;margin-bottom:10px;white-space:pre;color:var(--ink);user-select:all}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,16px);z-index:96;display:flex;align-items:center;gap:14px;max-width:min(92vw,460px);
+    background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:14px;font-size:13px;font-weight:500;box-shadow:0 14px 34px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
+  .toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+  .toast button{font:inherit;font-size:13px;font-weight:700;background:none;border:none;color:#1D9E75;cursor:pointer;padding:2px 4px;white-space:nowrap}
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .toast button{color:#0F6E56} }
+  :root[data-theme="dark"] .toast button{color:#0F6E56}
+
+  /* ---------- menú superior + tema ---------- */
+  .menuwrap{position:relative}
+  .btn.menubtn{display:inline-flex;align-items:center;gap:7px;padding:7px 12px}
+  .btn.menubtn svg{margin:0;width:16px;height:16px}
+  .menu{position:absolute;right:0;top:calc(100% + 8px);z-index:70;width:274px;background:var(--card);border:1px solid var(--line2);border-radius:16px;padding:6px;box-shadow:0 22px 50px -12px rgba(0,0,0,.45)}
+  .menu[hidden]{display:none}
+  .mi{display:flex;align-items:center;gap:10px;width:100%;font:inherit;font-size:14px;font-weight:500;color:var(--ink);background:none;border:0;border-radius:10px;padding:10px 12px;cursor:pointer;text-align:left}
+  .mi:hover{background:var(--card2)}
+  .mi:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;background:var(--card2)}
+  .mi svg{width:16px;height:16px;flex:none;color:var(--muted);margin:0}
+  .mi .bdg{margin-left:auto}
+  .mi.warn{color:var(--amber)}
+  .mi.out{color:var(--red-ink)} .mi.out svg{color:var(--red-ink)}
+  .msep{height:1px;background:var(--line);margin:6px 4px}
+  .mtheme{padding:8px 10px 10px}
+  .mtheme .mlab{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-bottom:7px}
+  .seg{display:flex;background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+  .seg button{flex:1;font:inherit;font-size:13px;font-weight:500;padding:7px 6px;border:0;border-radius:8px;background:none;color:var(--muted);cursor:pointer}
+  .seg button:hover{color:var(--ink)}
+  .seg button.on{background:var(--card);color:var(--ink);font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,.14)}
+  .seg button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+  /* ---------- ticker EN VIVO (retiros recientes) ---------- */
+  .ticker{display:flex;align-items:stretch;margin:16px 0 0;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden;min-height:44px}
+  .ticker[hidden]{display:none}
+  .tk-live{flex:none;display:flex;align-items:center;gap:8px;padding:0 14px;font-size:11px;font-weight:800;letter-spacing:1.2px;color:var(--accent-ink);border-right:1px solid var(--line);background:var(--card2);white-space:nowrap}
+  .tk-dot{width:8px;height:8px;border-radius:50%;background:#07E575;animation:tkpulse 1.8s infinite}
+  @keyframes tkpulse{0%{box-shadow:0 0 0 0 rgba(7,229,117,.55)}70%{box-shadow:0 0 0 7px rgba(7,229,117,0)}100%{box-shadow:0 0 0 0 rgba(7,229,117,0)}}
+  .ticker.st-off .tk-live{color:var(--red-ink)} .ticker.st-off .tk-dot{background:var(--neg);animation:none}
+  .ticker.st-local .tk-live{color:var(--muted)} .ticker.st-local .tk-dot{background:var(--faint);animation:none}
+  .tk-view{flex:1;min-width:0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent);mask-image:linear-gradient(90deg,transparent,#000 22px,#000 calc(100% - 22px),transparent)}
+  .tk-track{display:flex;width:max-content;animation:tkscroll var(--tk-dur,40s) linear infinite}
+  @keyframes tkscroll{to{transform:translateX(-50%)}}
+  .ticker:hover .tk-track,.ticker.paused .tk-track{animation-play-state:paused}
+  .tk-set{display:flex;flex:none;align-items:center}
+  .tk-i{display:inline-flex;align-items:center;gap:9px;padding-left:26px;height:44px;white-space:nowrap;font-size:13px}
+  .tk-i::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--line2);margin-right:17px}
+  .tk-e{font-weight:700}
+  .tk-m{color:var(--pos);font-weight:800;font-variant-numeric:tabular-nums}
+  .tk-d{color:var(--muted);font-size:12px}
+  .tk-pause{flex:none;width:40px;border:0;border-left:1px solid var(--line);background:var(--card2);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .tk-pause:hover{color:var(--ink)} .tk-pause svg{width:14px;height:14px}
+  @media (prefers-reduced-motion:reduce){
+    .tk-track{animation:none} .tk-dot{animation:none}
+    .tk-view{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
+    .tk-set[aria-hidden="true"],.tk-i.rp{display:none}
+  }
+
+  /* ---------- compartir / invitado ---------- */
+  a.btn{text-decoration:none;display:inline-block}
+  .urlrow{display:flex;gap:8px;margin:6px 0 12px;flex-wrap:wrap}
+  .urlin{flex:1 1 220px;min-width:0;font:inherit;font-size:13px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card2);color:var(--ink)}
+  .shact{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  body.guest .owner-only,body.guest .editonly,body.guest .tab[data-tab="playbook"],body.guest .btn.danger,body.guest .rhint{display:none !important}
+  body.guest .editonly+h2{margin-top:0}
+  body.guest input:disabled,body.guest select:disabled{opacity:1;-webkit-text-fill-color:currentColor;cursor:default}
+  body.guest td input.tin:disabled{border-color:transparent;background:transparent}
+  body.guest input:disabled::placeholder{color:transparent}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:980px){
+    .grid4{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid3{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid3>.kpi:last-child:nth-child(odd){grid-column:1/-1}
+  }
+  @media (max-width:820px){
+    .hero-grid{grid-template-columns:1fr 1fr}
+    .hero{grid-column:1/-1;grid-row:auto;min-height:230px}
+    .two{grid-template-columns:1fr}
+  }
+  @media (max-width:700px){
+    .app{padding:16px 14px 96px}
+    .brand .tag{display:none}
+    .brand .logo{display:flex;flex-direction:column;gap:1px;font-size:16px;letter-spacing:1.2px;line-height:1.15}
+    .brand .logo .nm{font-size:10.5px;letter-spacing:1.6px;color:var(--muted);font-weight:600}
+    .brand .logo .sp{display:none}
+    .mlbl{display:none}
+    .btn.menubtn{padding:8px 10px}
+    .menu{position:fixed;left:12px;right:12px;top:62px;width:auto}
+    .ticker{margin-top:12px}
+    .tk-live{padding:0 10px}
+    .tk-i{font-size:12.5px;padding-left:20px}
+    header{gap:10px}
+    /* menú inferior tipo app */
+    .tabs{position:fixed;left:0;right:0;bottom:0;z-index:60;margin:0;width:auto;border-radius:18px 18px 0 0;border:0;border-top:1px solid var(--line);
+      padding:6px 8px calc(6px + env(safe-area-inset-bottom));gap:4px;box-shadow:0 -10px 30px rgba(0,0,0,.16)}
+    .tab{flex:1;flex-direction:column;gap:3px;font-size:11px;padding:8px 4px;border-radius:12px}
+    .tab .ti{width:20px;height:20px}
+    .card{padding:16px}
+    .hero{padding:22px 20px 0;border-radius:20px}
+    .hero .spark{margin:auto -20px 0}
+    .field input,.field select{font-size:16px}
+    .lote .fond input{font-size:16px}
+    .cal-today{padding:18px}
+    .cal-grid{gap:4px}
+    .cell{aspect-ratio:auto;min-height:48px;padding:5px 5px}
+    .cell .n{font-size:14px}
+    .cell .tag{font-size:10px}
+    .cell .tw{display:none}
+    .hb{grid-template-columns:1fr auto;grid-template-areas:"n v" "t t"}
+    .hb-n{grid-area:n} .hb-v{grid-area:v} .hb-t{grid-area:t}
+    /* tablas -> tarjetas */
+    .rtable thead{display:none}
+    .rtable,.rtable tbody,.rtable tr,.rtable td{display:block;width:100%}
+    .rtable tr{border:1px solid var(--line);border-radius:14px;padding:8px 12px;margin-bottom:10px;background:var(--card2)}
+    .rtable td{display:flex;justify-content:space-between;align-items:center;gap:12px;border:0;padding:6px 0;text-align:right}
+    .rtable td::before{content:attr(data-l);color:var(--muted);font-size:12px;text-align:left;flex:none}
+    .rtable td.act{justify-content:flex-end} .rtable td.act::before{content:none}
+    .rtable td input.tin{width:auto !important;flex:0 1 160px;text-align:right;font-size:16px}
+    .tip{max-width:230px}
+    .frange{width:100%}
+    .frange label{flex:1 1 150px} .frange input{font-size:16px;flex:1}
+    .toast{bottom:88px}
+    .modal{padding:10px;align-items:flex-end}
+    .mbox{max-height:88vh;border-radius:20px 20px 14px 14px}
+    .hact{width:100%} .hact .btn{flex:1}
+  }
+  @media (max-width:480px){
+    .sync #syncTxt{display:none}
+    .sync{padding:8px 9px}
+  }
+  @media (max-width:380px){
+    .kpi{padding:14px 14px}
+    .kpi .s{font-size:11px}
+    .backup .btn.mini{padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+<!-- Credenciales de Firebase: pega aquí tu firebaseConfig (ver guía). Mientras diga PEGA_AQUI la app funciona en modo local, como antes. -->
+<script>
+window.FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAXFu25kdcBBkCYXpaN2WfFiA_MJiJ8Ak0",
+  authDomain: "institucional-power.firebaseapp.com",
+  projectId: "institucional-power",
+  storageBucket: "institucional-power.firebasestorage.app",
+  messagingSenderId: "633795520532",
+  appId: "1:633795520532:web:880776c40f926b2e349f01"
+};
+</script>
+
+<div class="gate" id="gate">
+  <div class="box">
+    <div class="gname">Andres Laverde</div>
+    <div class="logo">Institutional <b>Power</b></div>
+    <p id="gateMsg">Conectando…</p>
+    <button class="btn accent" id="gateBtn" style="display:none" onclick="IP.login()">Entrar con Google</button>
+    <div class="gerr" id="gateErr"></div>
+  </div>
+</div>
+
+<div class="modal" id="hist" role="dialog" aria-modal="true" aria-labelledby="histT">
+  <div class="mbox">
+    <div class="mh"><h3 id="histT">Papelera y versiones</h3><button class="btn mini" id="histClose" onclick="closeHist()" aria-label="Cerrar">✕</button></div>
+    <div class="mtabs"><button type="button" class="chip on" data-h="pap" aria-pressed="true" onclick="histTab('pap')">Papelera <span id="papN"></span></button><button type="button" class="chip" data-h="ver" aria-pressed="false" onclick="histTab('ver')">Versiones</button></div>
+    <div class="mb" id="histBody"></div>
+  </div>
+</div>
+<div class="modal" id="share" role="dialog" aria-modal="true" aria-labelledby="shareT">
+  <div class="mbox">
+    <div class="mh"><h3 id="shareT">Compartir como invitado</h3><button class="btn mini" id="shareClose" onclick="closeShare()" aria-label="Cerrar">✕</button></div>
+    <div class="mb" id="shareBody" style="padding-top:10px"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<div class="app">
+  <header>
+    <div class="brand">
+      <span class="logo"><span class="nm">Andres Laverde</span><span class="sp"> - </span><span class="ip">Institutional <b>Power</b></span></span>
+      <span class="tag">centro de mando</span>
+    </div>
+    <div class="backup">
+      <span class="sync" id="syncStatus" title=""><span class="dot"></span><span id="syncTxt">Local</span></span>
+      <div class="menuwrap">
+        <button type="button" class="btn mini menubtn" id="btnMenu" aria-haspopup="true" aria-expanded="false" aria-controls="menu" onclick="toggleMenu()" title="Menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg><span class="mlbl">Menú</span></button>
+        <div class="menu" id="menu" hidden>
+          <div class="owner-only">
+            <button type="button" class="mi" id="btnHist" onclick="menuGo(openHist)" title="Papelera y versiones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>Papelera y versiones<span class="bdg" id="papBadge" style="display:none">0</span></button>
+            <button type="button" class="mi" id="btnResp" onclick="menuGo(respaldar)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Respaldar</button>
+            <button type="button" class="mi" id="btnRest" onclick="menuGo(()=>document.getElementById('restoreFile').click())"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Restaurar desde respaldo</button>
+            <button type="button" class="mi" id="btnShare" onclick="menuGo(openShare)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>Compartir como invitado</button>
+            <div class="msep"></div>
+          </div>
+          <div class="mtheme"><span class="mlab" id="themeLab">Tema</span>
+            <div class="seg" role="group" aria-labelledby="themeLab">
+              <button type="button" data-t="auto" aria-pressed="false" onclick="setTema('auto')">Auto</button>
+              <button type="button" data-t="light" aria-pressed="false" onclick="setTema('light')">Claro</button>
+              <button type="button" data-t="dark" aria-pressed="false" onclick="setTema('dark')">Oscuro</button>
+            </div>
+          </div>
+          <div class="owner-only" id="menuOut" style="display:none">
+            <div class="msep"></div>
+            <button type="button" class="mi out" id="btnSalir" onclick="menuGo(()=>IP.logout())"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Salir</button>
+          </div>
+        </div>
+      </div>
+      <input type="file" id="restoreFile" accept="application/json" style="display:none" onchange="restaurar(event)">
+    </div>
+  </header>
+
+  <div class="ticker st-local" id="ticker" role="region" aria-label="Retiros recientes" hidden>
+    <div class="tk-live" id="tkLive"><span class="tk-dot" aria-hidden="true"></span><span id="tkLiveTxt">LOCAL</span></div>
+    <div class="tk-view" id="tkView"><div class="tk-track" id="tkTrack"></div></div>
+    <button type="button" class="tk-pause" id="tkPause" aria-pressed="false" aria-label="Pausar movimiento" onclick="tkTogglePause()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg></button>
+  </div>
+
+  <nav class="tabs" aria-label="Secciones">
+    <button class="tab active" data-tab="dash" onclick="tab('dash')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg><span>Dashboard</span></button>
+    <button class="tab" data-tab="caja" onclick="tab('caja')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span>Flujo de Caja</span></button>
+    <button class="tab" data-tab="playbook" onclick="tab('playbook')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Playbook</span></button>
+  </nav>
+
+  <!-- ===================== PLAYBOOK ===================== -->
+  <section class="panel" id="playbook">
+    <div id="calToday" class="cal-today"></div>
+    <div class="card">
+      <div class="cal-nav">
+        <div style="display:flex;gap:8px"><button class="btn mini" id="calPrev">‹</button><button class="btn mini" id="calHoy">Hoy</button></div>
+        <div class="mes" id="calMes"></div>
+        <button class="btn mini" id="calNext">›</button>
+      </div>
+      <div class="cal-grid" id="calDows"></div>
+      <div class="cal-grid" id="calBody" style="margin-top:6px"></div>
+      <div class="leg">
+        <div class="it"><span class="sw" style="background:var(--accent)"></span>Abrir cuenta · COMPRA</div>
+        <div class="it"><span class="sw" style="background:var(--red)"></span>Abrir cuenta · VENTA</div>
+        <div class="it"><span class="sw" style="background:var(--card2)"></span>Sin apertura / finde / semana 5</div>
+        <div class="it"><span class="sw" style="background:#fff"></span>Feriado</div>
+      </div>
+      <div class="foot">3 cuentas por semana · semana 1 compra · 2 venta · 3 venta · 4 compra · semana 5 sin apertura. Los días mínimos operan cada día hábil en la dirección de la semana.</div>
+    </div>
+  </section>
+
+  <!-- ===================== FLUJO DE CAJA ===================== -->
+  <section class="panel" id="caja">
+    <div class="editonly">
+    <h2>Registrar compra de cuentas <span class="hint">un lote = cuentas de una firma compradas el mismo día al mismo precio</span></h2>
+    <div class="card">
+      <div class="form">
+        <div class="field"><label>Empresa</label>
+          <select id="cEmp"></select></div>
+        <div class="field"><label>Costo por cuenta (USD)</label><input id="cCosto" type="number" min="0" step="0.01" placeholder="150"></div>
+        <div class="field"><label>Cantidad</label><input id="cCant" type="number" min="1" step="1" placeholder="10"></div>
+        <div class="field"><label>Fecha</label><input id="cFecha" type="date"></div>
+        <div class="field"><button class="btn accent" onclick="addLote()">Agregar compra</button></div>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+        <button class="btn mini" onclick="addEmpresa()">➕ Agregar empresa</button>
+        <span class="sub" id="cTotalPrev"></span>
+      </div>
+      <div class="err" id="cErr"></div>
+    </div>
+    </div>
+
+    <h2>Lotes · fondeo · hinchazón <span class="hint">primero cuántas pasaron evaluación (fondeo), luego de esas cuántas hinchaste (día grande)</span></h2>
+    <div id="lotesList"></div>
+
+    <div class="editonly">
+    <h2>Registrar retiro <span class="hint">detallado: por cuenta y número de retiro</span></h2>
+    <div class="card">
+      <div class="form">
+        <div class="field"><label>Lote (cuenta fondeada)</label><select id="rLote" onchange="fillCuentas()"></select></div>
+        <div class="field"><label>Cuenta</label><select id="rCuenta"></select></div>
+        <div class="field"><label>N.º de retiro</label><input id="rNum" type="number" min="1" step="1" placeholder="1"></div>
+        <div class="field"><label>Monto (USD)</label><input id="rMonto" type="number" min="0" step="0.01" placeholder="500"></div>
+        <div class="field"><label>Fecha</label><input id="rFecha" type="date"></div>
+        <div class="field"><button class="btn accent" onclick="addRetiro()">Agregar retiro</button></div>
+      </div>
+      <div class="err" id="rErr"></div>
+    </div>
+    </div>
+
+    <h2>Historial de retiros</h2>
+    <div class="card"><div id="retirosList"></div></div>
+  </section>
+
+  <!-- ===================== DASHBOARD ===================== -->
+  <section class="panel active" id="dash">
+    <div id="dashBody"></div>
+  </section>
+</div>
+
+<script>
+"use strict";
+/* =========================================================
+   ESTADO + PERSISTENCIA
+========================================================= */
+const LS_KEY = "institutional_power_v1";
+/* Modo invitado: enlace  …/#v=TOKEN  -> solo lectura. Nunca toca el localStorage de datos ni escribe en la nube. */
+const GUEST_TOKEN = ((location.hash||"").match(/^#v=([A-Za-z0-9_-]{16,80})$/)||[])[1]||null, GUEST = !!GUEST_TOKEN;
+if(GUEST) document.body.classList.add("guest");
+let data = { empresas:["Lucid Trading","Topstep","Tradeify","My Funded Futures"], lotes:[], retiros:[], papelera:[] };
+let storageOk = true;
+try{
+  const raw = localStorage.getItem(LS_KEY);
+  if(raw&&!GUEST){ const p=JSON.parse(raw); data = Object.assign(data,p); }
+}catch(e){ storageOk=false; }
+// fondeo (pasan evaluacion) != hinchazon (dia grande). cuentas[] = HINCHADAS (las que se retiran).
+const PAP_DIAS=30;
+/* papelera: lista de {id,tipo:"lote"|"retiro",at,item,retiros?,ctx?}; se purga sola pasados PAP_DIAS días */
+function purgar(list){
+  const lim=Date.now()-PAP_DIAS*864e5;
+  return (Array.isArray(list)?list:[]).filter(p=>p&&p.id&&p.item&&!(Date.parse(p.at)<lim));
+}
+function normalizeData(){
+  if(!Array.isArray(data.empresas)) data.empresas=[];
+  if(!Array.isArray(data.lotes)) data.lotes=[];
+  if(!Array.isArray(data.retiros)) data.retiros=[];
+  data.papelera=purgar(data.papelera);
+  data.lotes.forEach(l=>{ if(!l.cuentas) l.cuentas=[]; if(l.fondeadas===undefined) l.fondeadas=l.cuentas.length; });
+}
+normalizeData();
+
+/* persist(): guarda en localStorage (copia local/offline) y, si la nube ya está lista, la sube.
+   save() = persist() + redibujar. */
+let cloudReady=false, cloudPushFn=null;
+const CLOUD_ON = !!(window.FIREBASE_CONFIG && window.FIREBASE_CONFIG.apiKey && !/^PEGA/.test(window.FIREBASE_CONFIG.apiKey));
+const DIRTY_KEY="institutional_power_v1_dirty";   // cambios hechos sin nube lista (para detectar conflictos)
+function persist(){
+  if(GUEST) return;                       // el invitado nunca guarda ni sube nada
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(data)); }
+  catch(e){ storageOk=false; }
+  if(cloudReady && cloudPushFn) cloudPushFn(cleanData(data));
+  else if(CLOUD_ON){ try{ localStorage.setItem(DIRTY_KEY,"1"); }catch(e){} }   // cambio local que la nube aún no vio
+}
+function save(){ persist(); renderAll(); }
+
+/* Copia limpia y normalizada de los datos (sin undefined, sin metadatos) */
+function cleanData(d){
+  const c=JSON.parse(JSON.stringify({empresas:d.empresas||[],lotes:d.lotes||[],retiros:d.retiros||[],papelera:purgar(d.papelera)}));
+  c.lotes.forEach(l=>{ if(!l.cuentas) l.cuentas=[]; if(l.fondeadas===undefined) l.fondeadas=l.cuentas.length; });
+  return c;
+}
+
+/* Puente con la capa de nube (el módulo de Firebase de abajo lo usa) */
+window.IP={
+  getData:()=>cleanData(data),
+  applyRemote(remote){
+    data=Object.assign({empresas:[],lotes:[],retiros:[],papelera:[]},cleanData(remote));
+    normalizeData();
+    if(!GUEST){ try{ localStorage.setItem(LS_KEY, JSON.stringify(data)); }catch(e){} }
+    renderAll();
+  },
+  setPush(fn){ cloudPushFn=fn; },
+  setReady(v){ cloudReady=v; },
+  clean:cleanData,
+  gate(state,msg){            // state: null | "loading" | "login"
+    const g=document.getElementById("gate"), app=document.querySelector(".app");
+    g.classList.toggle("show",!!state); app.style.display=state?"none":"";
+    document.getElementById("gateBtn").style.display=state==="login"?"":"none";
+    document.getElementById("gateMsg").textContent=msg||(state==="login"?"Tus datos están protegidos. Entra con tu cuenta de Google.":"Conectando…");
+  },
+  gateErr(msg){ const e=document.getElementById("gateErr"); e.textContent=msg||""; e.style.display=msg?"block":"none"; },
+  status(kind,txt,title){
+    const s=document.getElementById("syncStatus"); s.className="sync "+kind;
+    document.getElementById("syncTxt").textContent=txt; s.title=title||"";
+    tkLive(kind);
+  },
+  showLogout(v){ document.getElementById("menuOut").style.display=v?"":"none"; },
+  guest:GUEST_TOKEN, share:null,
+  snapshot:null, versions:null,   // los define el módulo de Firebase (copias de seguridad en la nube)
+  login(){}, logout(){}       // los define el módulo de Firebase
+};
+if(GUEST) IP.gate("loading",CLOUD_ON?"Cargando datos compartidos…":"El modo invitado no está disponible en esta copia de la app.");
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+const fmtUSD = n => (n<0?"-$":"$")+Math.abs(n).toLocaleString("en-US",{maximumFractionDigits:2});
+const fmtPct = n => (n>=0?"+":"")+n.toFixed(1)+"%";
+function parseFecha(s){ const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); }
+
+/* =========================================================
+   TABS
+========================================================= */
+function tab(id){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===id));
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));
+  if(id==="dash") renderDash();
+  window.scrollTo({top:0});
+}
+
+/* =========================================================
+   FLUJO DE CAJA
+========================================================= */
+function fillEmpresaSelects(){
+  const opts = data.empresas.map(e=>`<option>${e}</option>`).join("");
+  document.getElementById("cEmp").innerHTML = opts;
+}
+function addEmpresa(){
+  const nombre = prompt("Nombre de la empresa de fondeo:");
+  if(!nombre) return;
+  const n = nombre.trim();
+  if(!n) return;
+  if(!data.empresas.includes(n)) data.empresas.push(n);
+  save();
+  document.getElementById("cEmp").value = n;
+}
+function showErr(id,msg){ const e=document.getElementById(id); e.textContent=msg; e.style.display="block"; setTimeout(()=>e.style.display="none",4000); }
+
+function addLote(){
+  const empresa=document.getElementById("cEmp").value;
+  const costo=parseFloat(document.getElementById("cCosto").value);
+  const cant=parseInt(document.getElementById("cCant").value);
+  const fecha=document.getElementById("cFecha").value;
+  if(!empresa) return showErr("cErr","Elige una empresa.");
+  if(!(costo>=0)) return showErr("cErr","Ingresa el costo por cuenta.");
+  if(!(cant>=1)) return showErr("cErr","Ingresa la cantidad de cuentas.");
+  if(!fecha) return showErr("cErr","Ingresa la fecha.");
+  data.lotes.push({ id:uid(), empresa, costoUnidad:costo, cantidad:cant, fecha, cuentas:[] });
+  document.getElementById("cCosto").value=""; document.getElementById("cCant").value="";
+  save();
+}
+function delLote(id){
+  const l=data.lotes.find(x=>x.id===id); if(!l) return;
+  const rets=data.retiros.filter(r=>r.loteId===id), pid=uid();
+  data.papelera.push({id:pid,tipo:"lote",at:new Date().toISOString(),item:l,retiros:rets});
+  data.lotes=data.lotes.filter(x=>x.id!==id);
+  data.retiros=data.retiros.filter(r=>r.loteId!==id);
+  save();
+  toast("Lote de "+l.empresa+" enviado a la papelera"+(rets.length?" con "+rets.length+" retiro"+(rets.length===1?"":"s"):""),"Deshacer",()=>trashRestore(pid));
+}
+function setFondeadasCount(id,val){
+  const l=data.lotes.find(x=>x.id===id);
+  let n=parseInt(val); if(isNaN(n)||n<0) n=0; if(n>l.cantidad) n=l.cantidad;
+  l.fondeadas=n;
+  if(l.cuentas.length>n) l.cuentas=l.cuentas.slice(0,n);   // no puede haber mas hinchadas que fondeadas
+  save();
+}
+function setHinchadas(id,val){
+  const l=data.lotes.find(x=>x.id===id);
+  const maxH=l.fondeadas||0;
+  let n=parseInt(val); if(isNaN(n)||n<0) n=0; if(n>maxH) n=maxH;
+  const prev=l.cuentas; l.cuentas=[];
+  for(let i=1;i<=n;i++){ const old=prev.find(c=>c.num===i); l.cuentas.push({num:i, alias:old?old.alias:""}); }
+  save();
+}
+function setAlias(id,num,val){
+  const l=data.lotes.find(x=>x.id===id);
+  const c=l.cuentas.find(c=>c.num===num); if(c){ c.alias=val; }
+  persist();   // sin redibujar, para no perder el foco del input
+}
+function loteLabel(l){ return `${l.empresa} · ${l.fecha}`; }
+
+function renderLotes(){
+  const box=document.getElementById("lotesList");
+  if(!data.lotes.length){ box.innerHTML='<div class="card"><div class="empty">Aún no hay compras registradas.</div></div>'; return; }
+  const orden=[...data.lotes].sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  box.innerHTML = orden.map(l=>{
+    const total=l.cantidad*l.costoUnidad;
+    const fondeadas=l.fondeadas||0;
+    const hinch=l.cuentas.length;
+    const fondeoRate=l.cantidad?(100*fondeadas/l.cantidad):0;
+    const hinchRate=fondeadas?(100*hinch/fondeadas):0;
+    const retirosLote=data.retiros.filter(r=>r.loteId===l.id);
+    const accts=l.cuentas.map(c=>{
+      const rc=retirosLote.filter(r=>r.cuentaNum===c.num);
+      const suma=rc.reduce((s,r)=>s+r.monto,0);
+      return `<div class="acct">#${c.num}
+        <input placeholder="alias" value="${c.alias||""}" onchange="setAlias('${l.id}',${c.num},this.value)">
+        ${rc.length?`<span class="rate">${fmtUSD(suma)} · ${rc.length} ret</span>`:""}
+      </div>`;
+    }).join("");
+    return `<div class="lote">
+      <div class="top">
+        <div>
+          <span class="pill emp">${l.empresa}</span>
+          <div class="meta">${l.fecha} · ${l.cantidad} cuentas × ${fmtUSD(l.costoUnidad)} = <b>${fmtUSD(total)}</b></div>
+        </div>
+        <button class="btn danger" onclick="delLote('${l.id}')">✕ eliminar</button>
+      </div>
+      <div class="fond">
+        <label class="sub">Fondeadas <span style="color:var(--faint)">(pasan evaluación)</span>:</label>
+        <input type="number" min="0" max="${l.cantidad}" value="${fondeadas}" onchange="setFondeadasCount('${l.id}',this.value)">
+        <span class="rate">fondeo ${fondeoRate.toFixed(0)}% (${fondeadas}/${l.cantidad})</span>
+      </div>
+      <div class="fond">
+        <label class="sub">Hinchadas <span style="color:var(--faint)">(día grande logrado)</span>:</label>
+        <input type="number" min="0" max="${fondeadas}" value="${hinch}" onchange="setHinchadas('${l.id}',this.value)">
+        <span class="rate">hinchazón ${hinchRate.toFixed(0)}% (${hinch}/${fondeadas})</span>
+      </div>
+      ${hinch?`<div class="accts">${accts}</div>`:""}
+    </div>`;
+  }).join("");
+}
+
+function fillRetiroLotes(){
+  const sel=document.getElementById("rLote");
+  const con=data.lotes.filter(l=>l.cuentas.length>0).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  sel.innerHTML = con.length? con.map(l=>`<option value="${l.id}">${loteLabel(l)} (${l.cuentas.length} fondeadas)</option>`).join("")
+                            : `<option value="">— registra fondeos primero —</option>`;
+  fillCuentas();
+}
+function fillCuentas(){
+  const loteId=document.getElementById("rLote").value;
+  const l=data.lotes.find(x=>x.id===loteId);
+  const sel=document.getElementById("rCuenta");
+  if(!l){ sel.innerHTML=""; return; }
+  sel.innerHTML=l.cuentas.map(c=>`<option value="${c.num}">#${c.num}${c.alias?" · "+c.alias:""}</option>`).join("");
+}
+function addRetiro(){
+  const loteId=document.getElementById("rLote").value;
+  const cuentaNum=parseInt(document.getElementById("rCuenta").value);
+  const num=parseInt(document.getElementById("rNum").value);
+  const monto=parseFloat(document.getElementById("rMonto").value);
+  const fecha=document.getElementById("rFecha").value;
+  if(!loteId) return showErr("rErr","Elige un lote con cuentas fondeadas.");
+  if(!(cuentaNum>=1)) return showErr("rErr","Elige la cuenta.");
+  if(!(num>=1)) return showErr("rErr","Ingresa el número de retiro.");
+  if(!(monto>=0)) return showErr("rErr","Ingresa el monto.");
+  if(!fecha) return showErr("rErr","Ingresa la fecha.");
+  data.retiros.push({ id:uid(), loteId, cuentaNum, retiroNum:num, monto, fecha });
+  document.getElementById("rNum").value=""; document.getElementById("rMonto").value="";
+  save();
+}
+function delRetiro(id){
+  const r=data.retiros.find(x=>x.id===id); if(!r) return;
+  const l=data.lotes.find(x=>x.id===r.loteId)||{}, pid=uid();
+  data.papelera.push({id:pid,tipo:"retiro",at:new Date().toISOString(),item:r,ctx:{empresa:l.empresa||"?",loteFecha:l.fecha||""}});
+  data.retiros=data.retiros.filter(x=>x.id!==id);
+  save();
+  toast("Retiro enviado a la papelera","Deshacer",()=>trashRestore(pid));
+}
+function editRetiro(id,campo,val){
+  const r=data.retiros.find(x=>x.id===id); if(!r) return;
+  if(campo==="monto"){ const v=parseFloat(val); if(isNaN(v)||v<0) return; r.monto=v; }
+  else if(campo==="retiroNum"){ const v=parseInt(val); if(isNaN(v)||v<1) return; r.retiroNum=v; }
+  else if(campo==="fecha"){ if(!val) return; r.fecha=val; }
+  save();
+}
+
+function renderRetiros(){
+  const box=document.getElementById("retirosList");
+  if(!data.retiros.length){ box.innerHTML='<div class="empty">Aún no hay retiros registrados.</div>'; return; }
+  const orden=[...data.retiros].sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  box.innerHTML = `<div class="sub rhint" style="margin-bottom:10px">✎ Toca la fecha, el n.º de retiro o el monto para editarlos directamente.</div>`+
+    `<table class="rtable"><thead><tr><th>Fecha</th><th>Empresa</th><th>Lote</th><th>Cuenta</th><th>Retiro</th><th style="text-align:right">Monto</th><th></th></tr></thead><tbody>`+
+    orden.map(r=>{
+      const l=data.lotes.find(x=>x.id===r.loteId)||{empresa:"?",fecha:"?"};
+      const c=(l.cuentas||[]).find(c=>c.num===r.cuentaNum);
+      return `<tr>
+        <td data-l="Fecha"><input class="tin" type="date" value="${r.fecha}" onchange="editRetiro('${r.id}','fecha',this.value)"></td>
+        <td data-l="Empresa"><span class="pill emp">${l.empresa}</span></td><td data-l="Lote">${l.fecha}</td>
+        <td data-l="Cuenta">#${r.cuentaNum}${c&&c.alias?" · "+c.alias:""}</td>
+        <td data-l="Retiro"><input class="tin" type="number" min="1" value="${r.retiroNum}" onchange="editRetiro('${r.id}','retiroNum',this.value)" style="width:52px"></td>
+        <td data-l="Monto" style="text-align:right"><input class="tin pos" type="number" min="0" step="0.01" value="${r.monto}" onchange="editRetiro('${r.id}','monto',this.value)" style="width:104px;text-align:right;color:var(--accent-ink)"></td>
+        <td class="act"><button class="btn danger" onclick="delRetiro('${r.id}')">✕</button></td>
+      </tr>`;
+    }).join("")+`</tbody></table>`;
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const MES_C=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+const fmtFecha=t=>{ const d=new Date(t); return d.getDate()+" "+MES_C[d.getMonth()]+" "+d.getFullYear(); };
+const fechaLarga=f=>{ const [y,m,d]=f.split("-").map(Number); return d+" "+MES_C[m-1]+" "+y; };
+const monthStart=t=>{ const d=new Date(t); return new Date(d.getFullYear(),d.getMonth(),1).getTime(); };
+const nextMonth=t=>{ const d=new Date(t); return new Date(d.getFullYear(),d.getMonth()+1,1).getTime(); };
+const fmtAxis=v=>{ const a=Math.abs(v); const s=a>=1000?(Math.round(a/100)/10).toString().replace(/\.0$/,"")+"k":String(Math.round(a)); return (v<0?"−":"")+"$"+s; };
+const sgnUSD=n=>(n<0?"−$":"+$")+Math.abs(n).toLocaleString("en-US",{maximumFractionDigits:2});
+const mesLargo=k=>{ const [y,m]=k.split("-").map(Number); return MESES[m-1]+" "+y; };
+const ICO=(()=>{
+  const w=p=>`<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+  return {
+    net:w('<rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/>'),
+    mult:w('<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'),
+    cal:w('<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'),
+    up:w('<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>'),
+    tag:w('<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>'),
+    layers:w('<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>'),
+    check:w('<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>'),
+    zap:w('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>'),
+    bars:w('<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>')
+  };
+})();
+
+/* ---------- Filtro de periodo (un solo filtro arriba; todo el dashboard se recalcula) ---------- */
+const PER_KEY="institutional_power_v1_periodo";
+const PERIODOS=[["todo","Todo"],["mes","Este mes"],["pasado","Mes pasado"],["90d","90 días"],["anio","Este año"],["custom","Personalizado"]];
+let periodo={k:"todo",d:"",h:""};
+try{ const p=JSON.parse(localStorage.getItem(PER_KEY)||"null"); if(p&&PERIODOS.some(x=>x[0]===p.k)) periodo={k:p.k,d:String(p.d||""),h:String(p.h||"")}; }catch(e){}
+const savePeriodo=()=>{ try{ localStorage.setItem(PER_KEY,JSON.stringify(periodo)); }catch(e){} };
+function isoHoy(){ const n=new Date(); return keyF(n.getFullYear(),n.getMonth(),n.getDate()); }
+/* rango(): {from,to,label}. Fechas ISO "YYYY-MM-DD" (se comparan como texto); null = sin límite */
+function rango(p){
+  const n=new Date(), y=n.getFullYear(), mo=n.getMonth(), hoy=keyF(y,mo,n.getDate());
+  const ult=(yy,mm)=>new Date(yy,mm+1,0).getDate();
+  if(p.k==="mes") return {from:keyF(y,mo,1),to:keyF(y,mo,ult(y,mo)),label:MESES[mo]+" "+y};
+  if(p.k==="pasado"){ const d=new Date(y,mo-1,1), yy=d.getFullYear(), mm=d.getMonth(); return {from:keyF(yy,mm,1),to:keyF(yy,mm,ult(yy,mm)),label:MESES[mm]+" "+yy}; }
+  if(p.k==="90d"){ const d=new Date(y,mo,n.getDate()-89); return {from:keyF(d.getFullYear(),d.getMonth(),d.getDate()),to:hoy,label:"últimos 90 días"}; }
+  if(p.k==="anio") return {from:y+"-01-01",to:y+"-12-31",label:String(y)};
+  if(p.k==="custom"){
+    let a=p.d||null, b=p.h||null; if(a&&b&&a>b){ const t=a; a=b; b=t; }
+    return {from:a,to:b,label:a&&b?fechaLarga(a)+" → "+fechaLarga(b):a?"desde el "+fechaLarga(a):b?"hasta el "+fechaLarga(b):"todo el historial"};
+  }
+  return {from:null,to:null,label:"todo el historial"};
+}
+function setPeriodo(k){
+  periodo.k=k;
+  if(k==="custom"&&!periodo.d&&!periodo.h){ const n=new Date(); periodo.d=keyF(n.getFullYear(),n.getMonth(),1); periodo.h=isoHoy(); }
+  savePeriodo(); renderDash();
+  const b=document.querySelector("#dashBody .chip.on"); if(b) b.focus({preventScroll:true});
+}
+function setRango(){
+  const d=$("pDesde"), h=$("pHasta");
+  periodo.d=d?d.value:""; periodo.h=h?h.value:"";
+  savePeriodo(); renderDash();
+}
+function periodBar(R,m){
+  const chips=PERIODOS.map(([k,t])=>`<button type="button" class="chip${periodo.k===k?" on":""}" data-p="${k}" aria-pressed="${periodo.k===k}" onclick="setPeriodo('${k}')">${t}</button>`).join("");
+  const cust=periodo.k==="custom"?`<div class="frange"><label>Desde <input type="date" id="pDesde" value="${esc(periodo.d)}" onchange="setRango()"></label><label>Hasta <input type="date" id="pHasta" value="${esc(periodo.h)}" onchange="setRango()"></label></div>`:"";
+  const rng=(periodo.k==="custom"&&R.from&&R.to)?"":` · ${fechaLarga(m.desde)} → ${fechaLarga(m.hasta)}`;
+  return `<div class="fbar"><div class="chips" role="group" aria-label="Periodo del dashboard">${chips}</div>${cust}
+    <div class="fsum" id="fsum">Mostrando <b>${esc(R.label)}</b>${rng}</div></div>`;
+}
+
+/* metrics(R): todo el dashboard sale de aquí.
+   · Flujo (invertido, retirado, neto, curva, barras): por FECHA del movimiento dentro del periodo.
+   · Embudo (compradas, fondeo, hinchazón): las cuentas de los lotes COMPRADOS dentro del periodo.
+   · ROI del periodo = neto del periodo ÷ capital invertido acumulado hasta el cierre del periodo. */
+function metrics(R){
+  R=R||rango(periodo);
+  const todo=!R.from&&!R.to, hoy=isoHoy(), hoyT=parseFecha(hoy).getTime();
+  const inR=f=>(!R.from||f>=R.from)&&(!R.to||f<=R.to);
+  const costo=l=>l.cantidad*l.costoUnidad;
+  const L=data.lotes.filter(l=>inR(l.fecha)), T=data.retiros.filter(r=>inR(r.fecha));
+  const capL=data.lotes.filter(l=>!R.to||l.fecha<=R.to);
+  const invertido=L.reduce((s,l)=>s+costo(l),0), retirado=T.reduce((s,r)=>s+r.monto,0), neto=retirado-invertido;
+  const capital=capL.reduce((s,l)=>s+costo(l),0);
+  const roi=capital>0?100*neto/capital:0;
+  const compradas=L.reduce((s,l)=>s+l.cantidad,0);
+  const fondeadas=L.reduce((s,l)=>s+(l.fondeadas||0),0);
+  const hinchadas=L.reduce((s,l)=>s+l.cuentas.length,0);
+  const hinchCap=capL.reduce((s,l)=>s+l.cuentas.length,0);
+  const tasaFondeo=compradas>0?100*fondeadas/compradas:0;
+  const tasaHinch=fondeadas>0?100*hinchadas/fondeadas:0;
+  const costoPorHinch=hinchadas>0?invertido/hinchadas:null;
+  const multiplo=invertido>0?retirado/invertido:null;
+  const retMedio=hinchCap>0?retirado/hinchCap:null;                 // generado en promedio por cuenta hinchada (suma de todos sus retiros)
+  const retProm=T.length>0?retirado/T.length:null;                  // promedio por retiro individual
+  const retPorCta=hinchCap>0?T.length/hinchCap:null;                // cuántos retiros lleva cada cuenta, en promedio
+  const porCta={};
+  T.forEach(r=>{ const k=r.loteId+"|"+r.cuentaNum; const c=porCta[k]=porCta[k]||{loteId:r.loteId,num:r.cuentaNum,tot:0,n:0}; c.tot+=r.monto; c.n++; });
+  const mejorCta=Object.values(porCta).sort((a,b)=>b.tot-a.tot)[0]||null;
+  if(mejorCta){ const l=data.lotes.find(x=>x.id===mejorCta.loteId), c=l&&(l.cuentas||[]).find(x=>x.num===mejorCta.num); mejorCta.emp=l?l.empresa:"?"; mejorCta.alias=(c&&c.alias)||""; }
+  // por mes (solo lo del periodo) -> mejor mes
+  const meses={};
+  L.forEach(l=>{ const k=l.fecha.slice(0,7); (meses[k]=meses[k]||{g:0,i:0}).g+=costo(l); });
+  T.forEach(r=>{ const k=r.fecha.slice(0,7); (meses[k]=meses[k]||{g:0,i:0}).i+=r.monto; });
+  const mesesArr=Object.keys(meses).sort().map(k=>({mes:k,g:meses[k].g,i:meses[k].i,neto:meses[k].i-meses[k].g}));
+  const mejorMes=mesesArr.slice().sort((a,b)=>b.neto-a.neto)[0];
+  // referencia fija: mes actual y año actual (independientes del filtro; se muestran con el filtro en "Todo")
+  const now=new Date(), Y=now.getFullYear(), M=now.getMonth();
+  const flujo=(a,b)=>{ let g=0,i=0; data.lotes.forEach(l=>{ if(l.fecha>=a&&l.fecha<=b) g+=costo(l); }); data.retiros.forEach(r=>{ if(r.fecha>=a&&r.fecha<=b) i+=r.monto; }); return {g,i,n:i-g}; };
+  const fm=flujo(keyF(Y,M,1),keyF(Y,M,31)), fa=flujo(Y+"-01-01",Y+"-12-31");
+  // fechas extremas de TODA la data (para acotar dominios)
+  const fechas=[...data.lotes.map(l=>l.fecha),...data.retiros.map(r=>r.fecha)].sort();
+  const firstF=fechas[0]||null, lastF=fechas[fechas.length-1]||null;
+  // anualizado
+  let dias=0, anualizado=null;
+  if(firstF){
+    const a=R.from&&R.from>firstF?R.from:firstF, startT=parseFecha(a).getTime();
+    const endT=(!R.to||R.to>=hoy)?Date.now():parseFecha(R.to).getTime()+864e5;
+    dias=Math.max(1,Math.round((endT-startT)/864e5));
+    if(todo) anualizado=invertido>0?roi*365/dias:0;
+    else if(capital>0&&dias>=30) anualizado=roi*365/dias;
+  }
+  const mesesOp=Math.max(1,dias/30.4375), netoMensual=neto/mesesOp;      // ganancia neta ÷ meses transcurridos (mínimo 1 mes)
+  // por empresa
+  const E={}, ge=e=>E[e]=E[e]||{cap:0,inv:0,ret:0,comp:0,fond:0,hin:0};
+  data.empresas.forEach(ge);
+  capL.forEach(l=>{ ge(l.empresa).cap+=costo(l); });
+  L.forEach(l=>{ const e=ge(l.empresa); e.inv+=costo(l); e.comp+=l.cantidad; e.fond+=(l.fondeadas||0); e.hin+=l.cuentas.length; });
+  T.forEach(r=>{ const l=data.lotes.find(x=>x.id===r.loteId); if(l) ge(l.empresa).ret+=r.monto; });
+  const empArr=Object.keys(E).filter(e=>E[e].cap>0&&(todo||E[e].inv>0||E[e].ret>0)).map(e=>{ const x=E[e], n=x.ret-x.inv;
+    return {emp:e,...x,neto:n,roi:100*n/x.cap,fondeoRate:x.comp>0?100*x.fond/x.comp:null,hinchRate:x.fond>0?100*x.hin/x.fond:null}; });
+  // curva de capital (ganancia neta acumulada DENTRO del periodo, en escala de tiempo real)
+  const byDay={};
+  L.forEach(l=>{ (byDay[l.fecha]=byDay[l.fecha]||{c:0,r:0}).c+=costo(l); });
+  T.forEach(r=>{ (byDay[r.fecha]=byDay[r.fecha]||{c:0,r:0}).r+=r.monto; });
+  let acc=0;
+  const eq=Object.keys(byDay).sort().map(f=>{ const d=byDay[f]; acc+=d.r-d.c; return {f,t:parseFecha(f).getTime(),v:acc,c:d.c,r:d.r}; });
+  const incHoy=(!R.from||R.from<=hoy)&&(!R.to||R.to>=hoy);
+  if(eq.length&&incHoy&&eq[eq.length-1].t<hoyT) eq.push({f:"hoy",t:hoyT,v:acc,c:0,r:0,hoy:true});
+  // barras: por mes (3+ meses) o por semana (1-2 meses)
+  let filas=[], gran="mes", recortado=false;
+  if(firstF){
+    const a=R.from&&R.from>firstF?R.from:firstF;
+    let b=lastF>hoy?lastF:hoy; if(R.to&&R.to<b) b=R.to;
+    if(a<=b){
+      const [ya,ma]=a.split("-").map(Number), [yb,mb]=b.split("-").map(Number);
+      if((yb-ya)*12+(mb-ma)+1>2){
+        const idx={}; let y=ya, mo=ma;
+        while(y<yb||(y===yb&&mo<=mb)){
+          const k=y+"-"+String(mo).padStart(2,"0"); idx[k]=filas.length;
+          filas.push({k,lbl:MES_C[mo-1],yr:String(y),jan:mo===1,title:MESES[mo-1]+" "+y,i:0,g:0});
+          mo++; if(mo>12){ mo=1; y++; }
+        }
+        L.forEach(l=>{ const r=filas[idx[l.fecha.slice(0,7)]]; if(r) r.g+=costo(l); });
+        T.forEach(t=>{ const r=filas[idx[t.fecha.slice(0,7)]]; if(r) r.i+=t.monto; });
+        if(filas.length>12){ recortado=true; filas=filas.slice(-12); }
+      }else{
+        gran="sem";
+        const a0=parseFecha(a), b0=parseFecha(b), s0=new Date(a0.getFullYear(),a0.getMonth(),a0.getDate()-((a0.getDay()+6)%7));
+        const fx=d=>d.getDate()+" "+MES_C[d.getMonth()];
+        for(let s=new Date(s0);s<=b0;s=new Date(s.getFullYear(),s.getMonth(),s.getDate()+7)){
+          const e=new Date(s.getFullYear(),s.getMonth(),s.getDate()+6);
+          const d1=s<a0?a0:s, d2=e>b0?b0:e;
+          const t=d1.getTime()===d2.getTime()?fx(d1):(d1.getMonth()===d2.getMonth()?d1.getDate():fx(d1))+" – "+fx(d2);
+          filas.push({k:"w"+filas.length,lbl:fx(d1),yr:String(d1.getFullYear()),jan:d1.getMonth()===0&&d1.getDate()<=7,title:t+" "+d2.getFullYear(),i:0,g:0});
+        }
+        const put=(f,key,v)=>{ const r=filas[Math.floor(Math.round((parseFecha(f).getTime()-s0.getTime())/864e5)/7)]; if(r) r[key]+=v; };
+        L.forEach(l=>put(l.fecha,"g",costo(l))); T.forEach(t=>put(t.fecha,"i",t.monto));
+      }
+      filas.forEach((r,i)=>{ r.neto=r.i-r.g; r.yrShow=i===0||r.jan; });
+    }
+  }
+  const desde=R.from||firstF, hasta=R.to||(lastF&&lastF>hoy?lastF:hoy);      // fechas que se muestran como «tiempo de esta contabilidad»
+  return {R,desde,hasta,todo,invertido,retirado,neto,capital,roi,compradas,fondeadas,hinchadas,hinchCap,tasaFondeo,tasaHinch,costoPorHinch,multiplo,retMedio,retProm,retPorCta,mejorCta,
+    nLotes:L.length,nRet:T.length,mesesArr,mejorMes,
+    netoMes:fm.n,gMes:fm.g,iMes:fm.i,netoAnio:fa.n,gAnio:fa.g,iAnio:fa.i,anio:String(Y),mesNombre:MESES[M],
+    anualizado,dias,mesesOp,netoMensual,empArr,eq,filas,gran,recortado};
+}
+
+function kpi(icon,label,val,sub,opts){
+  opts=opts||{};
+  return `<div class="kpi"${opts.title?` title="${esc(opts.title)}"`:""}><div class="k"><span>${label}</span><span class="ic">${ICO[icon]}</span></div><div class="v${opts.neg?" neg":""}">${val}</div><div class="s">${sub}</div></div>`;
+}
+
+function renderDash(){
+  const R=rango(periodo), m=metrics(R); window.__m=m;
+  const box=$("dashBody");
+  if(!data.lotes.length){ box.innerHTML='<div class="card"><div class="empty">Registra tu primera compra en «Flujo de Caja» para ver tu rentabilidad aquí.</div></div>'; return; }
+  const bar=periodBar(R,m);
+  if(!m.nLotes&&!m.nRet){
+    box.innerHTML=bar+`<div class="card"><div class="empty">No hay compras ni retiros en este periodo. Prueba con otro rango.</div></div>`;
+    return;
+  }
+  const todo=m.todo, per=R.label;
+  box.innerHTML=bar+`
+    <div class="hero-grid">
+      <div class="hero ${m.neto<0?"loss":""}">
+        <div class="hk">${todo?"Rendimiento total":"Rendimiento del periodo"}</div>
+        <div class="hv">${fmtPct(m.roi)}</div>
+        <div class="hs">Invertido ${fmtUSD(m.invertido)} → Retirado ${fmtUSD(m.retirado)}</div>
+        <div class="hdates" id="heroDates">${ICO.cal}<span>Del ${fechaLarga(m.desde)} al ${fechaLarga(m.hasta)}</span></div>
+        ${todo?"":`<div class="hs2">Neto del periodo ÷ capital acumulado ${fmtUSD(m.capital)}</div>`}
+        <div class="spark" id="spark" aria-hidden="true"></div>
+      </div>
+      ${kpi("net",todo?"Ganancia neta total":"Ganancia neta del periodo",fmtUSD(m.neto),"Retiros − compras · "+(todo?"todo el tiempo":esc(per)),{neg:m.neto<0,title:"Retiros menos lo invertido en cuentas"+(todo?", todo el tiempo":" dentro del periodo")})}
+      ${kpi("mult","Múltiplo de ganancia",m.multiplo==null?"—":m.multiplo.toFixed(2)+"x",
+        m.multiplo==null?"Sin compras en este periodo":todo?"Por cada $1 invertido has retirado $"+m.multiplo.toFixed(2):"Por cada $1 invertido en el periodo retiraste $"+m.multiplo.toFixed(2),{title:"Retirado ÷ invertido"+(todo?"":" (ambos dentro del periodo)")})}
+    </div>
+
+    <div class="grid4">
+      ${todo?
+        kpi("cal","Ganancia neta de "+m.mesNombre,fmtUSD(m.netoMes),"Retiros "+fmtUSD(m.iMes)+" − compras "+fmtUSD(m.gMes),{neg:m.netoMes<0,title:"Ganancia neta del mes = retiros del mes menos lo gastado en compras de cuentas ese mismo mes (ya descuenta costos)"})+
+        kpi("cal","Ganancia neta de "+m.anio,fmtUSD(m.netoAnio),"Retiros "+fmtUSD(m.iAnio)+" − compras "+fmtUSD(m.gAnio),{neg:m.netoAnio<0,title:"Ganancia neta del año = retiros del año menos lo gastado en compras de cuentas ese año (ya descuenta costos)"})
+      :
+        kpi("up","Retiros del periodo",fmtUSD(m.retirado),m.nRet+(m.nRet===1?" retiro":" retiros"),{title:"Suma de retiros con fecha dentro del periodo"})+
+        kpi("tag","Compras del periodo",fmtUSD(m.invertido),m.nLotes+(m.nLotes===1?" lote · ":" lotes · ")+m.compradas+" cuentas",{title:"Lo invertido en cuentas con fecha de compra dentro del periodo"})}
+      ${kpi("cal","Ganancia neta mensual aprox.",fmtUSD(m.netoMensual),
+        m.dias<30?"Menos de 1 mes de historial · se toma como 1 mes":"Neto ÷ "+m.mesesOp.toFixed(1)+" meses"+(todo?" desde el "+fechaLarga(m.desde):" del periodo"),
+        {neg:m.netoMensual<0,title:(todo?"Ganancia neta total":"Ganancia neta del periodo")+" ÷ meses transcurridos"+(todo?" desde tu primer movimiento":"")+" (1 mes = 30.4 días; mínimo 1 mes). Es lo que te queda de ingreso por mes, ya descontando las compras."})}
+      ${kpi("up","Rendimiento anual proyectado",m.anualizado==null?"—":fmtPct(m.anualizado),
+        m.anualizado==null?"Muy poco tiempo para proyectar":"Proyección lineal · "+m.dias+(todo?" días operando":" días del periodo"),{neg:m.anualizado!=null&&m.anualizado<0,title:"El ROI del periodo proyectado a 365 días de forma lineal"})}
+    </div>
+
+    <div class="grid4">
+      ${kpi("layers","Compradas",String(m.compradas),m.nLotes+(m.nLotes===1?" lote":" lotes"),todo?{}:{title:"Cuentas de los lotes comprados dentro del periodo"})}
+      ${kpi("check","Fondeadas",m.compradas>0?m.tasaFondeo.toFixed(0)+"%":"—",m.fondeadas+" de "+m.compradas+" compradas")}
+      ${kpi("zap","Hinchadas",m.fondeadas>0?m.tasaHinch.toFixed(0)+"%":"—",m.hinchadas+" de "+m.fondeadas+" fondeadas")}
+      ${kpi("tag","Costo / cuenta hinchada",m.costoPorHinch==null?"—":fmtUSD(m.costoPorHinch),(todo?"Total invertido":"Invertido en el periodo")+" ÷ hinchadas")}
+    </div>
+
+    <div class="grid4">
+      ${kpi("bars","Generado por cuenta hinchada",m.retMedio==null?"—":fmtUSD(m.retMedio),
+        m.hinchCap>0?(todo?"Total retirado ÷ "+m.hinchCap+" hinchadas":"Retirado ÷ "+m.hinchCap+" hinchadas acumuladas"):"Aún no hay cuentas hinchadas",
+        {title:"Lo que en promedio genera cada cuenta hinchada sumando TODOS sus retiros (total retirado ÷ cuentas hinchadas)"})}
+      ${kpi("net","Retiro promedio",m.retProm==null?"—":fmtUSD(m.retProm),"Total retirado ÷ "+m.nRet+(m.nRet===1?" retiro":" retiros"),
+        {title:"Promedio de cada retiro individual (total retirado ÷ número de retiros)"})}
+      ${kpi("mult","Retiros por cuenta hinchada",m.retPorCta==null?"—":m.retPorCta.toFixed(2),m.nRet+(m.nRet===1?" retiro en ":" retiros en ")+m.hinchCap+(m.hinchCap===1?" hinchada":" hinchadas"),
+        {title:"Cuántos retiros lleva cada cuenta hinchada en promedio"})}
+      ${kpi("up","Mejor cuenta",m.mejorCta?fmtUSD(m.mejorCta.tot):"—",
+        m.mejorCta?"#"+m.mejorCta.num+(m.mejorCta.alias?" "+esc(m.mejorCta.alias):"")+" · "+esc(m.mejorCta.emp)+" · "+m.mejorCta.n+(m.mejorCta.n===1?" retiro":" retiros"):"Sin retiros en este periodo",
+        {title:"La cuenta que más ha retirado en total (suma de todos sus retiros)"})}
+    </div>
+
+    <div class="card chartcard">
+      <div class="ch-h"><div><h3>Curva de capital del negocio</h3>
+        <div class="sub">${todo?"Ganancia neta acumulada mes a mes (retiros − compras).":"Ganancia neta acumulada dentro del periodo, empezando en $0 (retiros − compras)."} Pasa el cursor o toca un punto para ver el detalle.</div></div></div>
+      <div class="chart" id="chEq"></div>
+      <details class="twin"><summary>Ver datos de la curva</summary>
+        <div class="tw-scroll"><table><thead><tr><th>Fecha</th><th class="r">Compras</th><th class="r">Retiros</th><th class="r">Ganancia acumulada</th></tr></thead><tbody>
+        ${m.eq.filter(p=>!p.hoy).map(p=>`<tr><td>${fmtFecha(p.t)}</td><td class="r num">${p.c?fmtUSD(p.c):"—"}</td><td class="r num">${p.r?fmtUSD(p.r):"—"}</td><td class="r num">${fmtUSD(p.v)}</td></tr>`).join("")}
+        </tbody></table></div></details>
+    </div>
+
+    <div class="card chartcard">
+      <div class="ch-h"><div><h3>Ingresos vs gastos por ${m.gran==="sem"?"semana":"mes"}</h3>
+        <div class="sub">Retiros (ingresos) contra compras de cuentas (gastos)${m.recortado?" · últimos 12 meses":""}. Pasa el cursor o toca una barra para ver el valor.</div></div>
+        <div class="legend"><span><span class="d p"></span>Retiros</span><span><span class="d n"></span>Compras</span></div></div>
+      <div class="chart" id="chMo"></div>
+      <details class="twin"><summary>Ver tabla ${m.gran==="sem"?"semanal":"mensual"}</summary>
+        <div class="tw-scroll"><table><thead><tr><th>${m.gran==="sem"?"Semana":"Mes"}</th><th class="r">Retiros</th><th class="r">Compras</th><th class="r">Neto</th></tr></thead><tbody>
+        ${m.filas.map(r=>`<tr><td style="text-transform:capitalize">${esc(r.title)}</td><td class="r num">${fmtUSD(r.i)}</td><td class="r num">${fmtUSD(r.g)}</td><td class="r num">${fmtUSD(r.neto)}</td></tr>`).join("")}
+        </tbody></table></div></details>
+    </div>
+
+    <div class="two">
+      <div class="card chartcard">
+        <div class="ch-h"><div><h3>ROI por empresa</h3><div class="sub">${todo?"Dónde rinde mejor tu capital":"Neto del periodo ÷ capital acumulado de cada empresa"}</div></div></div>
+        ${hBars(m.empArr.slice().sort((a,b)=>b.roi-a.roi).map(e=>({label:e.emp,val:e.roi})),v=>fmtPct(v))}
+      </div>
+      <div class="card chartcard">
+        <div class="ch-h"><div><h3>Hinchazón por empresa</h3><div class="sub">% de las fondeadas que lograste hinchar</div></div></div>
+        ${hBars(m.empArr.filter(e=>e.hinchRate!=null).sort((a,b)=>b.hinchRate-a.hinchRate).map(e=>({label:e.emp,val:e.hinchRate})),v=>v.toFixed(0)+"%")}
+      </div>
+    </div>
+
+    <div class="card chartcard">
+      <div class="ch-h"><div><h3>Detalle por empresa</h3><div class="sub">Ordenado por ROI</div></div></div>
+      <table class="rtable"><thead><tr><th>Empresa</th><th class="r">ROI</th><th class="r">Neto</th><th class="r">Retirado</th><th class="r">Invertido</th><th class="r">Fondeo</th><th class="r">Hinchazón</th></tr></thead><tbody>
+      ${m.empArr.slice().sort((a,b)=>b.roi-a.roi).map(e=>`<tr><td data-l="Empresa"><span class="pill emp">${esc(e.emp)}</span></td>
+        <td data-l="ROI" class="num r" style="font-weight:700">${fmtPct(e.roi)}</td>
+        <td data-l="Neto" class="num r ${e.neto>=0?"":"neg"}">${fmtUSD(e.neto)}</td>
+        <td data-l="Retirado" class="num r">${fmtUSD(e.ret)}</td>
+        <td data-l="Invertido" class="num r">${fmtUSD(e.inv)}</td>
+        <td data-l="Fondeo" class="num r" title="${e.fond} de ${e.comp} compradas">${e.fondeoRate==null?"—":e.fondeoRate.toFixed(0)+"%"}</td>
+        <td data-l="Hinchazón" class="num r" title="${e.hin} de ${e.fond} fondeadas">${e.hinchRate==null?"—":e.hinchRate.toFixed(0)+"%"}</td></tr>`).join("")}
+      </tbody></table>
+    </div>
+
+    ${todo?(m.mejorMes?`<div class="foot">💡 Tu mejor mes fue <b>${mesLargo(m.mejorMes.mes)}</b> con ${fmtUSD(m.mejorMes.neto)} netos. Llevas <b>${m.dias}</b> días operando el negocio. El rendimiento anual proyectado es una proyección lineal de tu ROI actual sobre el tiempo transcurrido.</div>`:"")
+    :`<div class="foot">Con un periodo elegido: compras, retiros, neto, curva y barras cuentan cada movimiento por su fecha. Compradas, fondeo e hinchazón cuentan las cuentas de los lotes comprados dentro del periodo. El ROI divide el neto entre el capital invertido acumulado hasta el cierre del periodo.${m.mejorMes&&m.mesesArr.length>1?` Mejor mes del periodo: <b>${mesLargo(m.mejorMes.mes)}</b> (${fmtUSD(m.mejorMes.neto)}).`:""}</div>`}
+  `;
+  drawCharts();
+}
+
+/* ---------- Tooltip (usa textContent: los textos nunca se interpretan como HTML) ---------- */
+const tipEl=document.createElement("div"); tipEl.className="tip"; tipEl.setAttribute("role","status");
+document.body.appendChild(tipEl);
+function tipShow(cx,cy,spec){
+  tipEl.textContent="";
+  const mk=(cls,txt)=>{ const d=document.createElement("div"); d.className=cls; if(txt!=null) d.textContent=txt; return d; };
+  tipEl.appendChild(mk("tt",spec.title));
+  (spec.rows||[]).forEach(r=>{
+    const row=mk("tr"), k=mk("tk");
+    if(r.key){ const i=document.createElement("i"); i.className="key "+r.key; k.appendChild(i); }
+    const s=document.createElement("span"); s.textContent=r.k; k.appendChild(s);
+    row.appendChild(k); row.appendChild(mk("tv"+(r.big?" big":""),r.v)); tipEl.appendChild(row);
+  });
+  if(spec.note) tipEl.appendChild(mk("tn",spec.note));
+  tipEl.classList.add("on");
+  const pad=8, w=tipEl.offsetWidth, h=tipEl.offsetHeight, vw=document.documentElement.clientWidth, vh=window.innerHeight;
+  let x=cx+14, y=cy-h-10;
+  if(x+w>vw-pad) x=cx-w-14;
+  if(x<pad) x=Math.max(pad,Math.min(vw-w-pad,cx-w/2));
+  if(y<pad) y=cy+16;
+  if(y+h>vh-pad) y=Math.max(pad,vh-h-pad);
+  tipEl.style.left=x+"px"; tipEl.style.top=y+"px";
+}
+function tipHide(){ tipEl.classList.remove("on"); }
+document.addEventListener("pointerdown",ev=>{ if(!ev.target.closest||!ev.target.closest(".chart")) tipHide(); });
+window.addEventListener("scroll",tipHide,{passive:true});
+
+/* ---------- Escala "bonita" para ejes ---------- */
+function niceScale(mn,mx,n){
+  if(mx===mn) mx=mn+1;
+  const raw=(mx-mn)/n, p=Math.pow(10,Math.floor(Math.log10(raw))), f=raw/p;
+  const step=(f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p;
+  const lo=Math.floor(mn/step+1e-9)*step, hi=Math.ceil(mx/step-1e-9)*step;
+  const ticks=[]; for(let v=lo;v<=hi+step/2;v+=step) ticks.push(Math.round(v*1e6)/1e6);
+  return {min:ticks[0],max:ticks[ticks.length-1],ticks};
+}
+
+/* ---------- Gráficos SVG (offline, se redibujan al ancho real del contenedor) ---------- */
+function drawCharts(){
+  const m=window.__m; if(!m||!$("chEq")) return;
+  drawEquity($("chEq"),m); drawMonthly($("chMo"),m); drawSpark($("spark"),m);
+}
+(function(){
+  let lastW=-1;
+  const target=$("dashBody");
+  const redraw=()=>{ const w=target.clientWidth; if(w!==lastW){ lastW=w; if(w>0) drawCharts(); } };
+  if(window.ResizeObserver) new ResizeObserver(redraw).observe(target); else window.addEventListener("resize",redraw);
+})();
+
+function drawEquity(el,m){
+  const pts=m.eq, w=Math.floor(el.clientWidth);
+  if(w<80) return;
+  if(pts.length<2){ el.innerHTML='<div class="empty">Se necesitan al menos 2 movimientos'+(m.todo?"":" en el periodo")+' para la curva.</div>'; return; }
+  const small=w<520, H=small?238:298, pl=small?46:54, pr=small?12:18, pt=14, pb=small?46:50;
+  const pw=w-pl-pr, ph=H-pt-pb;
+  const vals=pts.map(p=>p.v), sc=niceScale(Math.min(0,...vals),Math.max(0,...vals),4);
+  const t0=monthStart(pts[0].t), t1=nextMonth(pts[pts.length-1].t);
+  const X=t=>pl+pw*(t-t0)/(t1-t0), Y=v=>pt+ph*(sc.max-v)/(sc.max-sc.min);
+  const last=pts[pts.length-1], col=last.v>=0?"pos":"neg";
+  let g="";
+  sc.ticks.forEach(v=>{ const y=Y(v).toFixed(1);
+    g+=`<line class="${v===0?"zero":"gl"}" x1="${pl}" x2="${w-pr}" y1="${y}" y2="${y}"/><text class="axy" x="${pl-8}" y="${(+y+3.5).toFixed(1)}" text-anchor="end">${fmtAxis(v)}</text>`; });
+  const bands=[]; for(let s=t0;s<t1;s=nextMonth(s)) bands.push(s);
+  const bwid=pw/bands.length, every=Math.max(1,Math.ceil((small?26:34)/bwid));
+  bands.forEach((s,i)=>{
+    const x0=X(s), x1=X(nextMonth(s)), d=new Date(s), cxm=((x0+x1)/2).toFixed(1);
+    g+=`<line class="gl mv" x1="${x0.toFixed(1)}" x2="${x0.toFixed(1)}" y1="${pt}" y2="${pt+ph+6}"/>`;
+    if(i%every===0){
+      g+=`<text class="axt" x="${cxm}" y="${H-pb+22}" text-anchor="middle">${MES_C[d.getMonth()]}</text>`;
+      if(i===0||d.getMonth()===0) g+=`<text class="axy" x="${cxm}" y="${H-pb+37}" text-anchor="middle">${d.getFullYear()}</text>`;
+    }
+  });
+  g+=`<line class="gl mv" x1="${(w-pr).toFixed(1)}" x2="${(w-pr).toFixed(1)}" y1="${pt}" y2="${pt+ph+6}"/>`;
+  const zy=Y(0).toFixed(1);
+  const line=pts.map((p,i)=>(i?"L":"M")+X(p.t).toFixed(1)+" "+Y(p.v).toFixed(1)).join(" ");
+  g+=`<path class="ar ${col}-f" d="${line} L${X(last.t).toFixed(1)} ${zy} L${X(pts[0].t).toFixed(1)} ${zy} Z"/><path class="ln ${col}-s" d="${line}"/>`;
+  const dots=pts.length<=24;
+  pts.forEach((p,i)=>{ if(dots||i===pts.length-1) g+=`<circle class="dt ${col}-f" cx="${X(p.t).toFixed(1)}" cy="${Y(p.v).toFixed(1)}" r="4"/>`; });
+  el.innerHTML=`<svg width="${w}" height="${H}" viewBox="0 0 ${w} ${H}" role="img" aria-label="Curva de capital: ganancia neta acumulada. Actualmente ${fmtUSD(last.v)}. Los datos están en la tabla de abajo.">${g}
+    <line class="xh" x1="0" x2="0" y1="${pt}" y2="${pt+ph}" style="opacity:0"/><circle class="hm ${col}-f" r="6" cx="0" cy="0" style="opacity:0"/>
+    <rect class="hit" x="${pl}" y="${pt}" width="${pw}" height="${ph+6}" fill="transparent"/></svg>`;
+  const svg=el.querySelector("svg"), xh=svg.querySelector(".xh"), hm=svg.querySelector(".hm"), hit=svg.querySelector(".hit");
+  const show=e=>{
+    const r=svg.getBoundingClientRect(), px=e.clientX-r.left;
+    let b=0,bd=Infinity; pts.forEach((p,i)=>{ const d=Math.abs(X(p.t)-px); if(d<bd){ bd=d; b=i; } });
+    const p=pts[b], cx=X(p.t), cy=Y(p.v);
+    xh.setAttribute("x1",cx); xh.setAttribute("x2",cx); xh.style.opacity=1;
+    hm.setAttribute("cx",cx); hm.setAttribute("cy",cy); hm.style.opacity=1;
+    const rows=[{k:"Ganancia después de inversión",v:fmtUSD(p.v),big:true,key:col}];
+    if(p.r>0) rows.push({k:"Retiros del día",v:sgnUSD(p.r)});
+    if(p.c>0) rows.push({k:"Compras del día",v:sgnUSD(-p.c)});
+    tipShow(r.left+cx,r.top+cy,{
+      title:(p.hoy?"Hoy · ":"")+fmtFecha(p.t), rows,
+      note:p.hoy?"Sin movimientos nuevos desde el "+fmtFecha(pts[pts.length-2].t):(m.todo?"Retiros − compras acumulados hasta esta fecha":"Retiros − compras acumulados dentro del periodo")});
+  };
+  hit.addEventListener("pointermove",show); hit.addEventListener("pointerdown",show);
+  hit.addEventListener("pointerleave",e=>{ if(e.pointerType==="touch") return; xh.style.opacity=0; hm.style.opacity=0; tipHide(); });
+}
+
+function barPath(x,y,bw,y0,cls,tag){
+  const h=y0-y; if(h<0.5) return "";
+  const r=Math.min(4,h,bw/2), f=n=>n.toFixed(1);
+  return `<path class="bar ${cls}-f" data-b="${tag}" d="M${f(x)} ${f(y0)} V${f(y+r)} Q${f(x)} ${f(y)} ${f(x+r)} ${f(y)} H${f(x+bw-r)} Q${f(x+bw)} ${f(y)} ${f(x+bw)} ${f(y+r)} V${f(y0)} Z"/>`;
+}
+function drawMonthly(el,m){
+  const w=Math.floor(el.clientWidth); if(w<80) return;
+  const rows=m.filas;
+  if(!rows.length){ el.innerHTML='<div class="empty">Sin datos para este periodo.</div>'; return; }
+  const small=w<520, H=small?232:284, pl=small?46:54, pr=small?8:14, pt=14, pb=small?46:50;
+  const pw=w-pl-pr, ph=H-pt-pb;
+  const sc=niceScale(0,Math.max(1,...rows.map(r=>Math.max(r.g,r.i))),4);
+  const Y=v=>pt+ph*(sc.max-v)/(sc.max-sc.min), y0=Y(0);
+  const band=pw/rows.length, bw=Math.max(5,Math.min(24,(band-10)/2)), gap=2;
+  const lw=m.gran==="sem"?(small?46:52):(small?24:34), every=Math.max(1,Math.ceil(lw/band));
+  let g="";
+  sc.ticks.forEach(v=>{ const y=Y(v).toFixed(1);
+    g+=`<line class="${v===0?"zero":"gl"}" x1="${pl}" x2="${w-pr}" y1="${y}" y2="${y}"/><text class="axy" x="${pl-8}" y="${(+y+3.5).toFixed(1)}" text-anchor="end">${fmtAxis(v)}</text>`; });
+  let hits="";
+  rows.forEach((r,i)=>{
+    const cx=pl+band*i+band/2, xi=cx-bw-gap/2, xg=cx+gap/2;
+    g+=barPath(xi,Y(r.i),bw,y0,"pos",i+"i")+barPath(xg,Y(r.g),bw,y0,"neg",i+"g");
+    if(i%every===0){
+      g+=`<text class="axt" x="${cx.toFixed(1)}" y="${H-pb+22}" text-anchor="middle">${esc(r.lbl)}</text>`;
+      if(r.yrShow) g+=`<text class="axy" x="${cx.toFixed(1)}" y="${H-pb+37}" text-anchor="middle">${r.yr}</text>`;
+    }
+    hits+=`<rect class="hit" data-i="${i}" data-s="i" x="${(pl+band*i).toFixed(1)}" y="${pt}" width="${(band/2).toFixed(1)}" height="${ph+6}" fill="transparent"/>`+
+          `<rect class="hit" data-i="${i}" data-s="g" x="${(pl+band*i+band/2).toFixed(1)}" y="${pt}" width="${(band/2).toFixed(1)}" height="${ph+6}" fill="transparent"/>`;
+  });
+  el.innerHTML=`<svg width="${w}" height="${H}" viewBox="0 0 ${w} ${H}" role="img" aria-label="Retiros y compras por ${m.gran==="sem"?"semana":"mes"}. Los datos están en la tabla de abajo.">${g}${hits}</svg>`;
+  const svg=el.querySelector("svg");
+  let cur=null;
+  const off=()=>{ if(cur){ cur.classList.remove("on"); cur=null; } };
+  const show=e=>{
+    const t=e.currentTarget, i=+t.dataset.i, s=t.dataset.s, r=rows[i];
+    off(); cur=svg.querySelector(`[data-b="${i}${s}"]`); if(cur) cur.classList.add("on");
+    const val=s==="i"?r.i:r.g, other=s==="i"?r.g:r.i, bb=svg.getBoundingClientRect();
+    const cx=pl+band*i+band/2+(s==="i"?-bw/2:bw/2);
+    tipShow(bb.left+cx,bb.top+Y(val),{
+      title:r.title,
+      rows:[{k:s==="i"?"Retiros":"Compras",v:fmtUSD(val),big:true,key:s==="i"?"pos":"neg"},
+            {k:s==="i"?"Compras":"Retiros",v:fmtUSD(other)},
+            {k:m.gran==="sem"?"Neto de la semana":"Neto del mes",v:sgnUSD(r.neto)}]});
+  };
+  svg.querySelectorAll(".hit").forEach(h=>{
+    h.addEventListener("pointermove",show); h.addEventListener("pointerdown",show);
+    h.addEventListener("pointerleave",e=>{ if(e.pointerType==="touch") return; off(); tipHide(); });
+  });
+}
+
+function drawSpark(el,m){
+  if(!el) return;
+  const w=Math.floor(el.clientWidth), pts=m.eq; if(w<80) return;
+  if(pts.length<2){ el.innerHTML=""; return; }
+  const H=84, top=8, bot=H-6;
+  const t0=pts[0].t, span=(pts[pts.length-1].t-t0)||1;
+  const vals=pts.map(p=>p.v), mn=Math.min(...vals), mx=Math.max(...vals), sp=(mx-mn)||1;
+  const X=t=>(w-16)*(t-t0)/span, Y=v=>top+(bot-top)*(mx-v)/sp;
+  const line=pts.map((p,i)=>(i?"L":"M")+X(p.t).toFixed(1)+" "+Y(p.v).toFixed(1)).join(" ");
+  const lp=pts[pts.length-1];
+  el.innerHTML=`<svg width="${w}" height="${H}" viewBox="0 0 ${w} ${H}"><path d="${line} L${X(lp.t).toFixed(1)} ${H} L0 ${H} Z" fill="#fff" opacity=".16"/>
+    <path d="${line}" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${X(lp.t).toFixed(1)}" cy="${Y(lp.v).toFixed(1)}" r="4" fill="#fff"/></svg>`;
+}
+
+/* ---------- Barras horizontales (HTML/CSS: nombres grandes y legibles en cualquier pantalla) ---------- */
+function hBars(items,fmt){
+  if(!items.length) return `<div class="empty">Sin datos.</div>`;
+  const vals=items.map(i=>i.val), vmin=Math.min(0,...vals), vmax=Math.max(0,...vals), span=(vmax-vmin)||1;
+  const zero=(0-vmin)/span*100;
+  return items.map(it=>{
+    const left=(Math.min(0,it.val)-vmin)/span*100, wid=Math.max(0.8,Math.abs(it.val)/span*100);
+    return `<div class="hb"><div class="hb-n">${esc(it.label)}</div>
+      <div class="hb-t"><i class="hb-z" style="left:${zero.toFixed(2)}%"></i><i class="hb-f${it.val<0?" neg":""}" style="left:${left.toFixed(2)}%;width:${wid.toFixed(2)}%"></i></div>
+      <div class="hb-v">${esc(fmt(it.val))}</div></div>`;
+  }).join("");
+}
+
+/* =========================================================
+   PLAYBOOK (calendario institucional)
+========================================================= */
+const CUENTAS_SEM=3;
+const FERIADOS=new Set(["2025-01-01","2025-01-20","2025-02-17","2025-04-18","2025-05-26","2025-06-19","2025-07-04","2025-09-01","2025-11-27","2025-12-25","2026-01-01","2026-01-19","2026-02-16","2026-04-03","2026-05-25","2026-06-19","2026-07-03","2026-09-07","2026-11-26","2026-12-25","2027-01-01","2027-01-18","2027-02-15","2027-03-26","2027-05-31","2027-06-18","2027-07-05","2027-09-06","2027-11-25","2027-12-24"]);
+const MESES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const DOW=["dom","lun","mar","mié","jue","vie","sáb"];
+function keyF(y,m,d){return y+"-"+String(m+1).padStart(2,"0")+"-"+String(d).padStart(2,"0");}
+function operable(y,m,d){const wd=new Date(y,m,d).getDay();return !(wd===0||wd===6||FERIADOS.has(keyF(y,m,d)));}
+function bandaCompra(b){return b===0||b===3;}
+function simularMes(y,m){
+  const dias=new Date(y,m+1,0).getDate(); const map={}; let dc=0,ub=-1;
+  for(let d=1;d<=dias;d++){ if(!operable(y,m,d))continue;
+    const b=Math.min(3,Math.floor((d-1)/7)); let abre=false;
+    if(dc===0&&b>ub){dc=1;ub=b;abre=true;} else if(dc>0&&dc<CUENTAS_SEM){dc++;abre=true;} else if(dc>=CUENTAS_SEM){dc=0;}
+    if(abre)map[d]={cta:dc,tipo:bandaCompra(b)?"compra":"venta",semana:b+1};
+  } return map;
+}
+let calCursor=new Date(); calCursor=new Date(calCursor.getFullYear(),calCursor.getMonth(),1);
+function calToday(){
+  const t=new Date(),y=t.getFullYear(),m=t.getMonth(),d=t.getDate(),map=simularMes(y,m);
+  const box=document.getElementById("calToday");
+  const f=DOW[t.getDay()]+" "+d+" de "+MESES[m]+" "+y;
+  let cls,accion,nota;
+  if(map[d]){ const s=map[d]; cls=s.tipo; accion=s.tipo==="compra"?"COMPRAR":"VENDER"; nota="Abre la cuenta "+s.cta+" de "+CUENTAS_SEM+" · semana "+s.semana; }
+  else{ accion="SIN APERTURA"; const wd=t.getDay();
+    if(FERIADOS.has(keyF(y,m,d))){cls="feriado";nota="Feriado · mercado cerrado";}
+    else if(wd===0||wd===6){cls="gris";nota="Fin de semana · mercado cerrado";}
+    else if(d>=29){cls="gris";nota="Semana 5 · la hinchazón no abre cuentas";}
+    else{cls="gris";nota="La tanda de la semana ya está completa";} }
+  box.className="cal-today "+cls;
+  box.innerHTML=`<div class="fecha">${f}</div><div class="accion">${accion}</div><div class="nota">${nota}</div>`;
+}
+function calMes(){
+  const y=calCursor.getFullYear(),m=calCursor.getMonth();
+  document.getElementById("calMes").textContent=MESES[m]+" "+y;
+  document.getElementById("calDows").innerHTML=DOW.map(d=>`<div class="dow">${d}</div>`).join("");
+  const map=simularMes(y,m), body=document.getElementById("calBody");
+  const primero=new Date(y,m,1).getDay(), dias=new Date(y,m+1,0).getDate(), hoy=new Date();
+  let html=""; for(let i=0;i<primero;i++)html+='<div class="cell empty"></div>';
+  for(let d=1;d<=dias;d++){
+    let cls,tag;
+    if(map[d]){cls=map[d].tipo;tag=(map[d].tipo==="compra"?"▲":"▼")+' <span class="tw">'+map[d].tipo+" · cta</span>"+map[d].cta;}
+    else{ const wd=new Date(y,m,d).getDay();
+      if(FERIADOS.has(keyF(y,m,d))){cls="feriado";tag="feriado";}
+      else if(wd===0||wd===6){cls="finde";tag="";}
+      else{cls="libre";tag="";} }
+    const isHoy=(y===hoy.getFullYear()&&m===hoy.getMonth()&&d===hoy.getDate())?" hoy":"";
+    html+=`<div class="cell ${cls}${isHoy}"><div class="n">${d}</div><div class="tag">${tag}</div></div>`;
+  }
+  body.innerHTML=html;
+}
+document.getElementById("calPrev").onclick=()=>{calCursor.setMonth(calCursor.getMonth()-1);calMes();};
+document.getElementById("calNext").onclick=()=>{calCursor.setMonth(calCursor.getMonth()+1);calMes();};
+document.getElementById("calHoy").onclick=()=>{const t=new Date();calCursor=new Date(t.getFullYear(),t.getMonth(),1);calMes();};
+
+/* =========================================================
+   RESPALDO
+========================================================= */
+function respaldar(){
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="institutional_power_respaldo_"+new Date().toISOString().slice(0,10)+".json";
+  a.click(); URL.revokeObjectURL(a.href);
+}
+function restaurar(ev){
+  const file=ev.target.files[0]; if(!file) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{ const p=JSON.parse(r.result);
+      if(!p.lotes||!p.empresas) throw new Error("formato");
+      if(!confirm("Esto reemplazará tus datos actuales por los del respaldo. ¿Continuar?")) return;
+      IP.snapshot&&IP.snapshot("Antes de restaurar un respaldo");
+      const pap=data.papelera;
+      data=Object.assign({empresas:[],lotes:[],retiros:[],papelera:pap},p); normalizeData(); save();
+      alert("Datos restaurados correctamente.");
+    }catch(e){ alert("Archivo de respaldo inválido."); } };
+  r.readAsText(file); ev.target.value="";
+}
+
+/* =========================================================
+   PAPELERA + VERSIONES  (red de seguridad: no tener que recapturar datos)
+   · Papelera: lo eliminado (lotes con sus retiros, retiros sueltos) queda guardado 30 días y se restaura con un toque.
+   · Versiones: copias automáticas en la nube (1 al día + antes de acciones destructivas), se guardan las últimas 60.
+========================================================= */
+let toastT=null;
+function toast(msg,act,fn){
+  const t=$("toast"); t.textContent="";
+  const s=document.createElement("span"); s.textContent=msg; t.appendChild(s);
+  if(act){ const b=document.createElement("button"); b.type="button"; b.textContent=act; b.onclick=()=>{ hideToast(); fn(); }; t.appendChild(b); }
+  t.classList.add("on"); clearTimeout(toastT); toastT=setTimeout(hideToast,act?9000:4500);
+}
+function hideToast(){ $("toast").classList.remove("on"); }
+
+function updPap(){ const n=data.papelera.length, b=$("papBadge"); b.textContent=n; b.style.display=n?"":"none"; }
+
+function trashRestore(id){
+  const e=data.papelera.find(x=>x.id===id); if(!e) return;
+  if(e.tipo==="lote"){
+    if(!data.lotes.some(l=>l.id===e.item.id)) data.lotes.push(e.item);
+    if(!data.empresas.includes(e.item.empresa)) data.empresas.push(e.item.empresa);
+    (e.retiros||[]).forEach(r=>{ if(!data.retiros.some(x=>x.id===r.id)) data.retiros.push(r); });
+  }else{
+    if(!data.lotes.some(l=>l.id===e.item.loteId)){ toast("El lote de este retiro no está activo. Restaura primero el lote desde la papelera."); return; }
+    if(!data.retiros.some(x=>x.id===e.item.id)) data.retiros.push(e.item);
+  }
+  data.papelera=data.papelera.filter(x=>x.id!==id);
+  save(); if(histOpen()) renderHist();
+  toast(e.tipo==="lote"?"Lote restaurado":"Retiro restaurado");
+}
+function trashPurge(id){
+  const e=data.papelera.find(x=>x.id===id); if(!e) return;
+  if(!confirm("¿Eliminar DEFINITIVAMENTE este elemento? Ya no se podrá restaurar desde la papelera.")) return;
+  IP.snapshot&&IP.snapshot("Antes de eliminar definitivamente");
+  data.papelera=data.papelera.filter(x=>x.id!==id); save(); renderHist();
+}
+function trashEmpty(){
+  if(!data.papelera.length) return;
+  if(!confirm("¿Vaciar la papelera? Se eliminarán definitivamente "+data.papelera.length+" elemento(s).")) return;
+  IP.snapshot&&IP.snapshot("Antes de vaciar la papelera");
+  data.papelera=[]; save(); renderHist();
+}
+
+/* ---------- ventana "Papelera y versiones" ---------- */
+let histCur="pap", verTok=0, histOpener=null;
+const histOpen=()=>$("hist").classList.contains("show");
+function openHist(tabName){
+  histOpener=document.activeElement;
+  $("hist").classList.add("show"); document.body.style.overflow="hidden";
+  histTab(tabName||"pap"); $("histClose").focus();
+}
+function closeHist(){
+  $("hist").classList.remove("show"); document.body.style.overflow=""; verTok++;
+  if(histOpener&&histOpener.focus) histOpener.focus();
+}
+function histTab(t){
+  histCur=t;
+  document.querySelectorAll("#hist .chip").forEach(c=>{ const on=c.dataset.h===t; c.classList.toggle("on",on); c.setAttribute("aria-pressed",on); });
+  renderHist();
+}
+function renderHist(){ if(histCur==="ver") renderVer(); else renderPap(); }
+document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"&&histOpen()) closeHist(); });
+document.addEventListener("click",ev=>{ if(ev.target&&ev.target.id==="hist") closeHist(); });
+
+function fmtAgo(iso){
+  const ms=Date.now()-Date.parse(iso); if(isNaN(ms)) return "";
+  const m=Math.floor(ms/6e4); if(m<1) return "hace instantes"; if(m<60) return "hace "+m+" min";
+  const h=Math.floor(m/60); if(h<24) return "hace "+h+" h";
+  const d=Math.floor(h/24); return "hace "+d+(d===1?" día":" días");
+}
+function fmtDT(iso){
+  const d=new Date(iso); if(isNaN(d)) return "";
+  return d.getDate()+" "+MES_C[d.getMonth()]+" "+d.getFullYear()+", "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
+}
+
+function renderPap(){
+  const box=$("histBody"), n=data.papelera.length;
+  $("papN").textContent=n?"("+n+")":"";
+  if(!n){ box.innerHTML='<div class="empty">La papelera está vacía. Lo que elimines (lotes y retiros) queda aquí '+PAP_DIAS+' días y lo puedes restaurar.</div>'; return; }
+  const list=[...data.papelera].sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+  box.innerHTML=`<div class="hrow-top"><span class="sub">Lo eliminado se borra solo pasados ${PAP_DIAS} días.</span><button class="btn mini danger" onclick="trashEmpty()">Vaciar papelera</button></div>`+
+    list.map(e=>{
+      const left=Math.max(0,Math.ceil(PAP_DIAS-(Date.now()-Date.parse(e.at))/864e5));
+      let tt,desc;
+      if(e.tipo==="lote"){
+        const l=e.item, nr=(e.retiros||[]).length, tot=(e.retiros||[]).reduce((s,r)=>s+r.monto,0);
+        tt=`Lote · ${esc(l.empresa)}`;
+        desc=`${esc(l.fecha)} · ${l.cantidad} cuentas × ${fmtUSD(l.costoUnidad)} = ${fmtUSD(l.cantidad*l.costoUnidad)}`+(nr?` · incluye ${nr} retiro${nr===1?"":"s"} (${fmtUSD(tot)})`:"");
+      }else{
+        const r=e.item, c=e.ctx||{};
+        tt=`Retiro · ${esc(c.empresa||"?")}`;
+        desc=`${esc(r.fecha)} · retiro #${r.retiroNum} de la cuenta #${r.cuentaNum} · ${fmtUSD(r.monto)}`+(c.loteFecha?` · lote del ${esc(c.loteFecha)}`:"");
+      }
+      return `<div class="hrow"><div class="hmain"><div class="ht">${tt}</div><div class="hd">${desc}</div>
+        <div class="hs3">Eliminado ${fmtAgo(e.at)} · se borra en ${left} ${left===1?"día":"días"}</div></div>
+        <div class="hact"><button class="btn mini accent" onclick="trashRestore('${esc(e.id)}')">Restaurar</button>
+        <button class="btn mini danger" onclick="trashPurge('${esc(e.id)}')">Eliminar</button></div></div>`;
+    }).join("");
+}
+
+async function renderVer(){
+  const box=$("histBody"), my=++verTok;
+  $("papN").textContent=data.papelera.length?"("+data.papelera.length+")":"";
+  if(!IP.versions){ box.innerHTML='<div class="empty">Las versiones automáticas se guardan en la nube. Estarán disponibles cuando la app esté conectada a Firebase y hayas iniciado sesión.</div>'; return; }
+  box.innerHTML='<div class="empty">Cargando versiones…</div>';
+  try{
+    const list=await IP.versions.list();
+    if(my!==verTok||!histOpen()||histCur!=="ver") return;
+    const head=`<div class="hrow-top"><span class="sub">Copia automática 1 vez al día y antes de restaurar o eliminar definitivamente. Se guardan las últimas ${IP.versions.max}.</span><button class="btn mini" onclick="saveVerNow()">Guardar versión ahora</button></div>`;
+    if(!list.length){ box.innerHTML=head+'<div class="empty">Aún no hay versiones. Se guarda una automáticamente cada día que abres la app.</div>'; return; }
+    box.innerHTML=head+list.map(v=>`<div class="hrow"><div class="hmain"><div class="ht">${esc(fmtDT(v.at))} <span class="sub">· ${esc(v.motivo||"Copia")}</span></div>
+      <div class="hd">${v.lotes} lotes · ${v.retiros} retiros · neto ${fmtUSD(v.neto)}</div></div>
+      <div class="hact"><button class="btn mini accent" onclick="restoreVer('${esc(v.id)}')">Restaurar</button></div></div>`).join("");
+  }catch(e){
+    if(my!==verTok||!histOpen()||histCur!=="ver") return;
+    if(e&&e.code==="permission-denied"){
+      box.innerHTML=`<div class="hnote"><b>Falta un permiso en Firestore.</b> Para activar las versiones, en Firebase → Firestore → pestaña «Reglas», reemplaza todo por este texto y pulsa «Publicar»:</div>
+        <pre class="rules" id="rulesTxt"></pre><button class="btn mini accent" onclick="copyRules()">Copiar reglas</button>`;
+      $("rulesTxt").textContent=IP.versions.rules();
+    }else box.innerHTML='<div class="empty">No se pudieron cargar las versiones ('+esc((e&&(e.code||e.message))||"error")+'). Revisa tu conexión.</div>';
+  }
+}
+function copyRules(id){
+  id=id||"rulesTxt"; const t=$(id).textContent;
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast("Reglas copiadas"),()=>{
+    const r=document.createRange(); r.selectNodeContents($(id)); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast("Selecciónalas y cópialas"); });
+}
+async function saveVerNow(){
+  const ok=IP.snapshot&&await Promise.race([IP.snapshot("Copia manual"),new Promise(r=>setTimeout(()=>r("t"),4000))]);
+  toast(ok===true?"Versión guardada":ok==="t"?"Guardando… se sube cuando haya conexión":"No se pudo guardar la versión");
+  renderVer();
+}
+async function restoreVer(id){
+  if(!confirm("Vas a reemplazar TODOS tus datos actuales por esta versión.\nAntes se guarda una copia de lo actual, así que puedes volver atrás.\n\n¿Restaurar?")) return;
+  try{
+    const v=await IP.versions.get(id); if(!v) throw new Error("La versión ya no existe");
+    IP.snapshot("Antes de restaurar una versión");          // captura los datos actuales de forma síncrona
+    data=Object.assign({empresas:[],lotes:[],retiros:[],papelera:[]},v); normalizeData(); save();
+    closeHist(); toast("Versión restaurada");
+  }catch(e){ toast("No se pudo restaurar: "+((e&&(e.code||e.message))||"error")); }
+}
+
+/* =========================================================
+   MENÚ · TEMA · TICKER EN VIVO · COMPARTIR
+========================================================= */
+const menuOpen=()=>!$("menu").hidden;
+function openMenu(){ $("menu").hidden=false; $("btnMenu").setAttribute("aria-expanded","true"); }
+function closeMenu(focus){ if(!menuOpen()) return; $("menu").hidden=true; $("btnMenu").setAttribute("aria-expanded","false"); if(focus) $("btnMenu").focus(); }
+function toggleMenu(){ menuOpen()?closeMenu(true):openMenu(); }
+function menuGo(fn){ closeMenu(true); fn(); }
+document.addEventListener("click",ev=>{ if(menuOpen()&&!ev.target.closest(".menuwrap")) closeMenu(); });
+document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"&&menuOpen()) closeMenu(true); });
+
+function temaUI(){
+  const t=window.__tema?window.__tema.get():"auto";
+  document.querySelectorAll("#menu .seg button").forEach(b=>{ const on=b.dataset.t===t; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on); });
+}
+function setTema(t){ if(window.__tema) window.__tema.set(t); temaUI(); }
+temaUI();
+
+/* ---- ticker de retiros recientes (se mueve solo; el punto EN VIVO refleja el estado real de la sincronización) ---- */
+const TK_MAX=12, TK_SPEED=45;      // retiros mostrados · píxeles por segundo
+let tkHtml="", tkHtmlRp="", tkSig="", tkW=0;
+const ICO_PAUSE='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>', ICO_PLAY='<polygon points="6 4 20 12 6 20 6 4"/>';
+function tkLive(kind){
+  const t=$("ticker"); if(!t) return;
+  const st=(kind==="ok"||kind==="saving")?"live":(kind==="off"||kind==="err")?"off":"local";
+  t.classList.toggle("st-off",st==="off"); t.classList.toggle("st-local",st==="local");
+  $("tkLiveTxt").textContent=st==="live"?"EN VIVO":kind==="err"?"ERROR":st==="off"?"SIN CONEXIÓN":"LOCAL";
+}
+function renderTicker(){
+  const t=$("ticker"); if(!t) return;
+  const list=[...data.retiros].sort((a,b)=>b.fecha.localeCompare(a.fecha)||String(b.id).localeCompare(String(a.id))).slice(0,TK_MAX);
+  if(!list.length){ t.hidden=true; tkHtml=tkHtmlRp=tkSig=""; return; }
+  const hoyT=parseFecha(isoHoy()).getTime();
+  const rel=f=>{ const d=Math.round((hoyT-parseFecha(f).getTime())/864e5); return d<=0?"hoy":d===1?"ayer":d<=30?"hace "+d+" días":fechaLarga(f); };
+  const item=(r,rp)=>{ const l=data.lotes.find(x=>x.id===r.loteId)||{};
+    return `<span class="tk-i${rp?" rp":""}"${rp?' aria-hidden="true"':""}><b class="tk-e">${esc(l.empresa||"?")}</b><span class="tk-m">${sgnUSD(r.monto)}</span><span class="tk-d">cuenta #${r.cuentaNum} · retiro #${r.retiroNum} · ${rel(r.fecha)}</span></span>`; };
+  const html=list.map(r=>item(r,false)).join("");
+  t.hidden=false;
+  if(html===tkSig) return;                       // sin cambios: no reinicia la animación
+  tkSig=html; tkHtml=html; tkHtmlRp=list.map(r=>item(r,true)).join("");
+  tkFit(true);
+}
+function tkFit(force){
+  const view=$("tkView"), track=$("tkTrack"); if(!tkHtml||!view) return;
+  const vw=view.clientWidth; if(!vw) return;     // oculto (compuerta): el ResizeObserver lo reintenta al mostrarse
+  if(!force&&vw===tkW&&track.childElementCount) return;
+  tkW=vw;
+  track.innerHTML='<div class="tk-set">'+tkHtml+'</div>';
+  const set=track.firstChild, w1=set.offsetWidth; if(!w1) return;
+  const rep=Math.max(1,Math.ceil(vw/w1));        // se repite lo necesario para llenar el ancho y que el bucle no tenga huecos
+  set.innerHTML=tkHtml+tkHtmlRp.repeat(rep-1);
+  const clone=set.cloneNode(true); clone.setAttribute("aria-hidden","true"); track.appendChild(clone);
+  track.style.setProperty("--tk-dur",Math.max(14,set.offsetWidth/TK_SPEED).toFixed(1)+"s");
+}
+function tkTogglePause(){
+  const t=$("ticker"), p=t.classList.toggle("paused"), b=$("tkPause");
+  b.setAttribute("aria-pressed",p); b.setAttribute("aria-label",p?"Reanudar movimiento":"Pausar movimiento");
+  b.firstElementChild.innerHTML=p?ICO_PLAY:ICO_PAUSE;
+}
+if(window.ResizeObserver) new ResizeObserver(()=>tkFit(false)).observe($("tkView"));
+
+/* ---- invitado: todo lo que sea edición queda inutilizado (la garantía real son las reglas de Firestore) ---- */
+function lockGuest(){
+  if(!GUEST) return;
+  document.querySelectorAll("#lotesList input,#lotesList select,#retirosList input,#retirosList select").forEach(e=>{ e.disabled=true; });
+}
+
+/* ---- ventana «Compartir como invitado» ---- */
+let shTok=0, shOpener=null;
+const shOpen=()=>$("share").classList.contains("show");
+const shareUrl=t=>location.href.split("#")[0].split("?")[0]+"#v="+t;
+function openShare(){
+  shOpener=document.activeElement;
+  $("share").classList.add("show"); document.body.style.overflow="hidden"; $("shareClose").focus();
+  renderShare();
+}
+function closeShare(){
+  $("share").classList.remove("show"); document.body.style.overflow=""; shTok++;
+  if(shOpener&&shOpener.focus) shOpener.focus();
+}
+document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"&&shOpen()) closeShare(); });
+document.addEventListener("click",ev=>{ if(ev.target&&ev.target.id==="share") closeShare(); });
+async function renderShare(){
+  const box=$("shareBody"), my=++shTok;
+  if(!IP.share){ box.innerHTML='<div class="empty">Para compartir necesitas la nube activa: entra con tu cuenta de Google (la app debe estar conectada a Firebase).</div>'; return; }
+  box.innerHTML='<div class="empty">Cargando…</div>';
+  try{ const s=await IP.share.get(); if(my!==shTok||!shOpen()) return; shView(s); }
+  catch(e){ if(my!==shTok||!shOpen()) return; shErr(e); }
+}
+function shView(s){
+  const intro='<div class="hnote">Un enlace de <b>solo lectura</b>: quien lo abra ve tu dashboard y tus compras y retiros, actualizados en vivo. No puede editar nada y no ve la papelera, las versiones ni el playbook.</div>';
+  if(!s){ $("shareBody").innerHTML=intro+'<button class="btn accent" id="shCreate" onclick="shareCreate()">Crear enlace de invitado</button>'; return; }
+  const url=shareUrl(s.token);
+  $("shareBody").innerHTML=intro+
+    '<label class="sub" for="shUrl">Enlace de invitado</label>'+
+    '<div class="urlrow"><input id="shUrl" class="urlin" readonly value="'+esc(url)+'"><button class="btn accent mini" id="shCopy" onclick="shareCopy()">Copiar enlace</button></div>'+
+    '<div class="shact"><a class="btn mini" id="shOpen" href="'+esc(url)+'" target="_blank" rel="noopener">Ver como invitado</a>'+
+    '<button class="btn mini" id="shRegen" onclick="shareRegen()">Generar enlace nuevo</button>'+
+    '<button class="btn mini danger" id="shRevoke" onclick="shareRevoke()">Desactivar enlace</button></div>'+
+    '<div class="hnote" style="margin-top:14px">Cualquiera que tenga este enlace puede ver tus datos: compártelo solo con personas de confianza. «Generar enlace nuevo» invalida el anterior y «Desactivar» lo apaga para todos al instante.</div>';
+}
+function shErr(e){
+  const box=$("shareBody");
+  if(e&&e.code==="permission-denied"){
+    box.innerHTML='<div class="hnote"><b>Falta publicar las reglas nuevas de Firestore.</b> En Firebase → Firestore → pestaña «Reglas», reemplaza todo por este texto y pulsa «Publicar». Después vuelve a abrir esta ventana:</div><pre class="rules" id="shRulesTxt"></pre><button class="btn mini accent" onclick="copyRules(\'shRulesTxt\')">Copiar reglas</button>';
+    $("shRulesTxt").textContent=IP.share.rules();
+  }else box.innerHTML='<div class="empty">No se pudo completar ('+esc((e&&(e.code||e.message))||"error")+'). Revisa tu conexión e inténtalo de nuevo.</div>';
+}
+async function shareCreate(){ try{ await IP.share.create(); toast("Enlace de invitado creado"); renderShare(); }catch(e){ shErr(e); } }
+async function shareRegen(){
+  if(!confirm("El enlace actual dejará de funcionar y se creará uno nuevo. ¿Continuar?")) return;
+  try{ await IP.share.create(); toast("Enlace nuevo creado"); renderShare(); }catch(e){ shErr(e); }
+}
+async function shareRevoke(){
+  if(!confirm("¿Desactivar el enlace? Quien lo tenga ya no podrá ver tus datos.")) return;
+  try{ await IP.share.revoke(); toast("Enlace desactivado"); renderShare(); }catch(e){ shErr(e); }
+}
+function shareCopy(){
+  const inp=$("shUrl");
+  (navigator.clipboard?navigator.clipboard.writeText(inp.value):Promise.reject()).then(()=>toast("Enlace copiado"),()=>{ inp.select(); toast("Selecciónalo y cópialo"); });
+}
+
+/* =========================================================
+   RENDER GLOBAL
+========================================================= */
+function renderAll(){
+  fillEmpresaSelects();
+  renderLotes();
+  fillRetiroLotes();
+  renderRetiros();
+  calToday(); calMes(); updPap(); renderTicker(); lockGuest();
+  if(document.getElementById("dash").classList.contains("active")) renderDash();
+  if(histOpen()) renderHist();
+}
+document.getElementById("cFecha").value=new Date().toISOString().slice(0,10);
+document.getElementById("rFecha").value=new Date().toISOString().slice(0,10);
+if(!storageOk){ const h=document.querySelector("header"); const w=document.createElement("div"); w.style.cssText="width:100%;font-size:12px;color:var(--red-ink);background:var(--red-bg);padding:8px 12px;border-radius:9px"; w.textContent="⚠ Tu navegador no permite guardado automático en archivo local. Usa «Respaldar» seguido, o abre este archivo en Chrome/Edge."; h.after(w); }
+renderAll();
+</script>
+
+<!-- =========================================================
+     NUBE: Firebase Auth (Google) + Firestore. Documento único: users/{uid}
+     Si Firebase no está configurado o no carga, la app sigue en modo local.
+========================================================= -->
+<script type="module">
+(async()=>{
+  const cfg=window.FIREBASE_CONFIG;
+  if(!(cfg&&cfg.apiKey&&!/^PEGA/.test(cfg.apiKey))){ IP.status("",("Local"),"Firebase sin configurar: datos solo en este dispositivo"); return; }
+
+  const V="12.19.0", B="https://www.gstatic.com/firebasejs/"+V+"/";
+  if(IP.guest){                      // ---------- vista de invitado: solo lectura, sin sesión ni escritura ----------
+    let GA,GF;
+    try{ [GA,GF]=await Promise.all([import(B+"firebase-app.js"),import(B+"firebase-firestore.js")]); }
+    catch(e){ IP.gate("loading","No se pudo cargar. Revisa tu conexión y recarga la página."); IP.status("off","Sin conexión"); return; }
+    const gdb=GF.getFirestore(GA.initializeApp(cfg));
+    const gone=m=>{ IP.gate("loading",m||"Este enlace no es válido o ya fue desactivado. Pídele uno nuevo a Andrés."); IP.status("off","Enlace inactivo"); };
+    GF.onSnapshot(GF.doc(gdb,"shared",IP.guest),{},snap=>{
+      if(!snap.exists()){ if(snap.metadata&&snap.metadata.fromCache) return; gone(); return; }
+      IP.applyRemote(snap.data()); IP.gate(null);
+      IP.status("ok","Invitado · solo lectura","Estás viendo los datos en vivo. No puedes editar nada.");
+    },err=>{
+      console.warn("Firestore invitado:",err&&err.code||err);
+      gone(err&&err.code==="permission-denied"?null:"No se pudieron cargar los datos ("+((err&&err.code)||"error")+"). Recarga la página.");
+    });
+    return;
+  }
+  IP.gate("loading","Conectando…");
+  let A,S,F;
+  try{ [A,S,F]=await Promise.all([import(B+"firebase-app.js"),import(B+"firebase-auth.js"),import(B+"firebase-firestore.js")]); }
+  catch(e){ IP.gate(null); IP.status("off","Sin conexión · modo local","No se pudo cargar Firebase. Tus cambios se guardan aquí y se reconcilian al volver a entrar."); return; }
+
+  const LS_LINK="institutional_power_v1_linked", LS_DIRTY="institutional_power_v1_dirty", LS_STASH="institutional_power_v1_conflict_backup";
+  const lsGet=k=>{ try{return localStorage.getItem(k);}catch(e){return null;} };
+  const lsSet=(k,v)=>{ try{localStorage.setItem(k,v);}catch(e){} };
+  const canon=o=>JSON.stringify(o,(k,v)=>v&&typeof v==="object"&&!Array.isArray(v)?Object.keys(v).sort().reduce((a,x)=>(a[x]=v[x],a),{}):v);
+  const hasContent=d=>(d.lotes&&d.lotes.length)||(d.retiros&&d.retiros.length);
+
+  const app=A.initializeApp(cfg);
+  const auth=S.getAuth(app);
+  let db;
+  try{ db=F.initializeFirestore(app,{localCache:F.persistentLocalCache({tabManager:F.persistentMultipleTabManager()})}); }
+  catch(e){ db=F.getFirestore(app); }
+
+  let unsub=null, ref=null, user=null;
+
+  /* ---------- Versiones automáticas: users/{uid}/versions/{id} (últimas 60) ---------- */
+  const VER_MAX=60, LS_DAILY="institutional_power_v1_lastdaily";
+  const pad2=n=>String(n).padStart(2,"0");
+  const dayKey=d=>d.getFullYear()+"-"+pad2(d.getMonth()+1)+"-"+pad2(d.getDate());
+  const vcol=()=>F.collection(db,"users",user.uid,"versions");
+  const btnHist=()=>document.getElementById("btnHist");
+  function verFail(e){                       // p. ej. reglas de Firestore sin publicar -> permission-denied
+    const b=btnHist(), mb=document.getElementById("btnMenu"); if(!b) return;
+    const bad=e&&e.code==="permission-denied";
+    b.classList.toggle("warn",bad); if(mb) mb.classList.toggle("warn",bad);
+    b.title=bad?"Papelera y versiones · falta publicar las reglas nuevas de Firestore (ábrela para ver cómo)":"Papelera y versiones";
+  }
+  async function addVersion(payload,motivo){
+    if(!user) return false;
+    const uid=user.uid, at=new Date().toISOString();
+    const body=Object.assign({},IP.clean(payload),{at,motivo});          // copia tomada YA, antes de cualquier await
+    const id=at.replace(/\D/g,"")+Math.random().toString(36).slice(2,5);
+    try{ await F.setDoc(F.doc(db,"users",uid,"versions",id),body); verFail(null); prune(); return true; }
+    catch(e){ verFail(e); console.warn("Firestore versiones:",e&&e.code||e); return false; }
+  }
+  async function prune(){
+    try{
+      const q=await F.getDocs(F.query(vcol(),F.orderBy("at","desc"),F.limit(VER_MAX+40)));
+      await Promise.all(q.docs.slice(VER_MAX).map(d=>F.deleteDoc(d.ref)));
+    }catch(e){}
+  }
+  async function ensureDaily(){
+    const day=dayKey(new Date());
+    if(lsGet(LS_DAILY)===day||!hasContent(IP.getData())) return;
+    try{
+      const q=await F.getDocs(F.query(vcol(),F.orderBy("at","desc"),F.limit(1)));
+      const last=q.docs[0]&&q.docs[0].data().at;
+      if(last&&dayKey(new Date(last))===day){ lsSet(LS_DAILY,day); verFail(null); return; }
+      if(await addVersion(IP.getData(),"Copia diaria")) lsSet(LS_DAILY,day);
+    }catch(e){ verFail(e); console.warn("Firestore versiones:",e&&e.code||e); }
+  }
+  function rulesText(){
+    const em=(user&&user.email||"TU_CORREO").toLowerCase();
+    return "rules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n"+
+      "    function ok(uid){ return request.auth != null && request.auth.uid == uid && request.auth.token.email == \""+em+"\"; }\n"+
+      "    match /users/{uid} {\n      allow read, write: if ok(uid);\n      match /{sub=**} { allow read, write: if ok(uid); }\n    }\n"+
+      "    match /shared/{token} {\n      allow get: if resource.data.active == true;\n      allow create: if ok(request.resource.data.ownerUid);\n"+
+      "      allow update: if ok(resource.data.ownerUid) && request.resource.data.ownerUid == resource.data.ownerUid;\n      allow delete: if ok(resource.data.ownerUid);\n    }\n  }\n}";
+  }
+  const sumNeto=d=>(d.retiros||[]).reduce((s,r)=>s+(+r.monto||0),0)-(d.lotes||[]).reduce((s,l)=>s+l.cantidad*l.costoUnidad,0);
+  function versionsApi(){
+    return {
+      max:VER_MAX,
+      async list(){
+        try{
+          const q=await F.getDocs(F.query(vcol(),F.orderBy("at","desc"),F.limit(VER_MAX)));
+          verFail(null);
+          return q.docs.map(d=>{ const x=d.data(); return {id:d.id,at:x.at,motivo:x.motivo||"",lotes:(x.lotes||[]).length,retiros:(x.retiros||[]).length,neto:sumNeto(x)}; });
+        }catch(e){ verFail(e); throw e; }
+      },
+      async get(id){ const d=await F.getDoc(F.doc(db,"users",user.uid,"versions",id)); return d.exists()?IP.clean(d.data()):null; },
+      rules:rulesText
+    };
+  }
+
+  /* ---------- Invitados (solo lectura): shared/{token} = espejo de tus datos · users/{uid}/meta/share guarda el token ---------- */
+  let share=null, mirrorT=null;
+  const shareRef=()=>F.doc(db,"users",user.uid,"meta","share");
+  const sharedRef=t=>F.doc(db,"shared",t);
+  const newToken=()=>{ const a=new Uint8Array(20); crypto.getRandomValues(a); return Array.from(a,b=>b.toString(16).padStart(2,"0")).join(""); };
+  const sharedBody=d=>{ const c=IP.clean(d); return {empresas:c.empresas,lotes:c.lotes,retiros:c.retiros,ownerUid:user.uid,active:true,updatedAt:new Date().toISOString()}; };
+  function mirror(payload){                    // copia los cambios al documento del invitado (con un pequeño retraso para no escribir en cada tecla)
+    if(!share||!user) return;
+    const body=sharedBody(payload), t=share.token;
+    clearTimeout(mirrorT);
+    mirrorT=setTimeout(()=>{ if(share&&share.token===t) F.setDoc(sharedRef(t),body).catch(e=>console.warn("Firestore invitado:",e&&e.code||e)); },700);
+  }
+  async function loadShare(){
+    const d=await F.getDoc(shareRef());
+    share=d.exists()?{token:d.data().token,at:d.data().at}:null;
+    return share;
+  }
+  function shareApi(){
+    return {
+      get:loadShare,
+      async create(){
+        const old=share&&share.token, token=newToken(), at=new Date().toISOString();
+        clearTimeout(mirrorT);
+        await F.setDoc(sharedRef(token),sharedBody(IP.getData()));
+        await F.setDoc(shareRef(),{token,at});
+        share={token,at};
+        if(old){ try{ await F.deleteDoc(sharedRef(old)); }catch(e){} }
+        return share;
+      },
+      async revoke(){
+        if(!share) return;
+        clearTimeout(mirrorT);
+        await F.deleteDoc(sharedRef(share.token));      // primero se corta el acceso
+        await F.deleteDoc(shareRef()); share=null;
+      },
+      rules:rulesText
+    };
+  }
+
+  function push(payload){
+    IP.status("saving","Guardando…");
+    F.setDoc(ref,Object.assign({},payload,{updatedAt:new Date().toISOString()})).catch(e=>{
+      IP.status("err","Error al guardar",(e.code||"")+" "+(e.message||""));
+      console.error("Firestore setDoc:",e);
+    });
+    mirror(payload);
+  }
+
+  function reconcile(snap){
+    const local=IP.getData();
+    const linked=lsGet(LS_LINK)==="1", dirty=lsGet(LS_DIRTY)==="1";
+    IP.status("ok","Sincronizado",(user&&user.email)||"");     // si push() escribe, pasa a «Guardando…» y vuelve a «Sincronizado»
+    if(!snap.exists()){
+      // Primera vez en la nube: subimos lo que hay en este dispositivo (migración).
+      push(local);
+    }else{
+      const remote=IP.clean(snap.data());
+      if(hasContent(local)&&canon(local)!==canon(remote)&&(dirty||!linked)){
+        lsSet(LS_STASH,JSON.stringify({at:new Date().toISOString(),local,remote}));   // red de seguridad: se guardan ambas versiones
+        addVersion(remote,"Nube antes de resolver un conflicto"); addVersion(local,"Este dispositivo antes de resolver un conflicto");
+        const useCloud=confirm("Los datos de ESTE dispositivo son distintos a los de la NUBE.\n\nAceptar = usar los de la NUBE (recomendado).\nCancelar = subir los de ESTE dispositivo y reemplazar la nube.");
+        if(useCloud) IP.applyRemote(remote); else push(local);
+      }else{
+        IP.applyRemote(remote);
+      }
+    }
+    lsSet(LS_LINK,"1"); lsSet(LS_DIRTY,"0");
+    IP.setPush(push); IP.setReady(true);
+    IP.gate(null); IP.showLogout(true);
+    ensureDaily();
+    loadShare().then(()=>mirror(IP.getData())).catch(e=>console.warn("Firestore invitado:",e&&e.code||e));   // si hay enlace activo, lo deja al día
+  }
+
+  function start(u){
+    user=u; ref=F.doc(db,"users",u.uid);
+    IP.snapshot=motivo=>addVersion(IP.getData(),motivo); IP.versions=versionsApi(); IP.share=shareApi();
+    let reconciled=false;
+    IP.gate("loading","Sincronizando tus datos…"); IP.gateErr("");
+    unsub=F.onSnapshot(ref,{includeMetadataChanges:true},snap=>{
+      const m=snap.metadata;
+      if(!reconciled){
+        if(!snap.exists()&&m.fromCache) return;     // aún no sabemos si la nube tiene datos: NO subir nada todavía
+        reconciled=true; reconcile(snap); return;
+      }
+      if(m.hasPendingWrites){ IP.status("saving","Guardando…"); return; }
+      if(snap.exists()){
+        const remote=IP.clean(snap.data());
+        if(canon(remote)!==canon(IP.getData())) IP.applyRemote(remote);    // cambio hecho desde otro dispositivo
+      }
+      if(m.fromCache&&!navigator.onLine) IP.status("off","Sin conexión","Se sincroniza automáticamente al volver internet");
+      else IP.status("ok","Sincronizado",u.email||"");
+    },err=>{
+      console.error("Firestore onSnapshot:",err);
+      IP.status("err","Error de nube",(err.code||"")+" "+(err.message||""));
+      if(!reconciled){ IP.gate("login","No se pudo leer la nube."); IP.gateErr("Error: "+(err.code||err.message)+(err.code==="permission-denied"?" — revisa las reglas de Firestore y que entraste con el correo autorizado.":"")); }
+    });
+  }
+
+  function stop(){
+    if(unsub){ unsub(); unsub=null; }
+    IP.setReady(false); IP.setPush(null); IP.showLogout(false); IP.snapshot=null; IP.versions=null; IP.share=null; share=null; clearTimeout(mirrorT);
+  }
+
+  IP.login=async()=>{
+    IP.gateErr("");
+    try{ await S.signInWithPopup(auth,new S.GoogleAuthProvider()); }
+    catch(e){
+      const c=e.code||"";
+      IP.gateErr(c==="auth/unauthorized-domain"?"Dominio no autorizado: agrégalo en Firebase → Authentication → Settings → Authorized domains.":
+                 c==="auth/popup-blocked"?"El navegador bloqueó la ventana. Permite popups para este sitio e inténtalo de nuevo.":
+                 c==="auth/popup-closed-by-user"||c==="auth/cancelled-popup-request"?"":
+                 "No se pudo iniciar sesión ("+(c||e.message)+").");
+    }
+  };
+  IP.logout=async()=>{
+    if(!confirm("¿Cerrar sesión en este dispositivo?")) return;
+    stop(); try{ await S.signOut(auth); }catch(e){}
+  };
+
+  window.addEventListener("online",()=>IP.status("saving","Reconectando…"));
+  window.addEventListener("offline",()=>IP.status("off","Sin conexión","Se sincroniza automáticamente al volver internet"));
+
+  S.onAuthStateChanged(auth,u=>{
+    if(u){ if(!user||user.uid!==u.uid||!unsub) start(u); }
+    else{ user=null; stop(); IP.status("","Sin sesión"); IP.gate("login"); }
+  });
+})();
+</script>
+</body>
+</html>
