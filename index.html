@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Andres Laverde - Centro de mando</title>
-<meta name="theme-color" content="#F1F4F2">
+<meta name="theme-color" content="#070a0f">
 <meta name="robots" content="noindex,nofollow">
 <script>
 /* Tema (auto | claro | oscuro): se aplica antes de pintar para que no haya parpadeo */
@@ -14,7 +14,7 @@
   function apply(t){
     if(t==="light"||t==="dark") root.setAttribute("data-theme",t); else root.removeAttribute("data-theme");
     var dark=t==="dark"||(t!=="light"&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);
-    var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content",dark?"#090D0B":"#F1F4F2");
+    var m=document.querySelector('meta[name="theme-color"]'); if(m) m.setAttribute("content","#070a0f");
   }
   window.__tema={get:get,apply:apply,set:function(t){ try{ if(t==="auto") localStorage.removeItem(K); else localStorage.setItem(K,t); }catch(e){} apply(t); }};
   apply(get());
@@ -24,47 +24,37 @@
 <meta name="apple-mobile-web-app-title" content="A. Laverde">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='b' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2313221B'/%3E%3Cstop offset='1' stop-color='%23070C0A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='15' fill='url%28%23b%29'/%3E%3Crect x='12' y='35' width='7' height='18' rx='3.5' fill='%23fff' opacity='.55'/%3E%3Crect x='28.5' y='24' width='7' height='29' rx='3.5' fill='%23fff' opacity='.8'/%3E%3Crect x='45' y='11' width='7' height='42' rx='3.5' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    color-scheme:light;
-    --bg:#F1F4F2; --card:#FFFFFF; --card2:#F5F7F6; --ink:#0E1A14; --muted:#5A6861; --faint:#87938D; --line:#E1E7E3; --line2:#CFD8D3;
-    --accent:#1D9E75; --accent-ink:#0F6E56; --accent-bg:#E1F5EE;
-    --pos:#22A87F; --neg:#E05B46;
-    --red:#E24B4A; --red-ink:#A32D2D; --red-bg:#FCEBEB;
-    --amber:#BA7517; --amber-bg:#FAEEDA;
-    --blue:#2E6FD9; --blue-ink:#1D4ED8; --blue-bg:#E4EEFC;
-    --grid:rgba(14,26,20,.08); --axis:rgba(14,26,20,.30);
-    --shadow:0 1px 2px rgba(14,26,20,.04),0 14px 34px -16px rgba(14,26,20,.16);
-    --radius:18px;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      color-scheme:dark;
-      --bg:#090D0B; --card:#111714; --card2:#0D1210; --ink:#EBF2EE; --muted:#94A29B; --faint:#66746D; --line:#1D2723; --line2:#2A3731;
-      --accent:#1D9E75; --accent-ink:#5DCAA5; --accent-bg:rgba(29,158,117,.16);
-      --red-ink:#F09595; --red-bg:rgba(226,75,74,.16);
-      --amber-bg:rgba(186,117,23,.2);
-      --blue-ink:#8FB8F5; --blue-bg:rgba(46,111,217,.2);
-      --grid:rgba(235,242,238,.07); --axis:rgba(235,242,238,.28);
-      --shadow:0 1px 0 rgba(255,255,255,.03) inset,0 18px 40px -20px rgba(0,0,0,.7);
-    }
-  }
-  :root[data-theme="dark"]{
+  /* Estilo único "aurora": oscuro, neón verde, glass. Todas las variables se re-apuntan aquí
+     para que toda la app herede el estilo nuevo. El selector de tema queda fijo en oscuro. */
+  :root, :root[data-theme="light"], :root[data-theme="dark"]{
     color-scheme:dark;
-    --bg:#090D0B; --card:#111714; --card2:#0D1210; --ink:#EBF2EE; --muted:#94A29B; --faint:#66746D; --line:#1D2723; --line2:#2A3731;
-    --accent:#1D9E75; --accent-ink:#5DCAA5; --accent-bg:rgba(29,158,117,.16);
-    --red-ink:#F09595; --red-bg:rgba(226,75,74,.16);
-    --amber-bg:rgba(186,117,23,.2);
-    --blue-ink:#8FB8F5; --blue-bg:rgba(46,111,217,.2);
-    --grid:rgba(235,242,238,.07); --axis:rgba(235,242,238,.28);
-    --shadow:0 1px 0 rgba(255,255,255,.03) inset,0 18px 40px -20px rgba(0,0,0,.7);
+    --bg:#070a0f; --card:#0f1621; --card2:#141d2a; --ink:#eef2f7; --muted:#8e9bb0; --faint:#5f6b7e;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.16);
+    --accent:#22e07f; --accent-ink:#4dffa0; --accent-bg:rgba(34,224,127,.12); --accent2:#19c9ff;
+    --pos:#22e07f; --neg:#ff6a56;
+    --red:#ff5a46; --red-ink:#ff8f80; --red-bg:rgba(255,90,70,.14);
+    --amber:#f5b73d; --amber-bg:rgba(245,183,61,.16);
+    --blue:#19c9ff; --blue-ink:#7fdcff; --blue-bg:rgba(25,201,255,.14);
+    --grid:rgba(255,255,255,.06); --axis:rgba(255,255,255,.26);
+    --shadow:0 1px 0 rgba(255,255,255,.04) inset,0 24px 50px -24px rgba(0,0,0,.85);
+    --radius:18px; --glow:rgba(34,224,127,.35);
+    --font-display:'Space Grotesk',Inter,system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;
-    background-image:radial-gradient(900px 420px at 88% -8%,rgba(7,229,117,.09),transparent 62%);background-repeat:no-repeat}
-  .app{max-width:1120px;margin:0 auto;padding:22px 20px 60px}
+    background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased;position:relative;min-height:100vh}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;background:
+    radial-gradient(60vw 52vw at 86% -12%,rgba(34,224,127,.16),transparent 60%),
+    radial-gradient(55vw 46vw at -12% 6%,rgba(25,201,255,.11),transparent 60%),
+    radial-gradient(50vw 50vw at 50% 118%,rgba(34,224,127,.07),transparent 60%),var(--bg)}
+  body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.55;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:66px 66px;-webkit-mask-image:radial-gradient(ellipse 92% 62% at 50% 0,#000 28%,transparent 80%);mask-image:radial-gradient(ellipse 92% 62% at 50% 0,#000 28%,transparent 80%)}
+  .app{max-width:1120px;margin:0 auto;padding:22px 20px 60px;position:relative;z-index:1}
+  .logo,.hv,.kpi .v,.chartcard h3,.cal-today .accion,.hb-v,.hero .hk,.gate .logo,.stat .k,.cert .amt,.gi-amt{font-family:var(--font-display)}
 
   /* ---------- header + nav ---------- */
   header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:6px}
@@ -88,7 +78,7 @@
     padding:9px 18px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .15s,color .15s}
   .tab .ti{width:17px;height:17px;flex:none}
   .tab:hover{color:var(--ink)}
-  .tab.active{background:var(--accent-bg);color:var(--accent-ink);font-weight:600}
+  .tab.active{background:var(--accent-bg);color:var(--accent-ink);font-weight:600;box-shadow:0 0 0 1px rgba(34,224,127,.25),0 8px 24px -12px var(--glow)}
   .panel{display:none} .panel.active{display:block;animation:fadeIn .25s ease}
   @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){.panel.active{animation:none}}
@@ -96,7 +86,7 @@
   h2{font-size:16px;font-weight:600;margin:28px 0 12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   h2:first-child{margin-top:0}
   h2 .hint{font-size:12px;font-weight:400;color:var(--faint)}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);min-width:0}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,.025),transparent),var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);min-width:0}
   .sub{font-size:13px;color:var(--muted)}
 
   /* ---------- forms ---------- */
@@ -141,10 +131,11 @@
 
   /* ---------- dashboard ---------- */
   .hero-grid{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;margin-bottom:14px}
-  .hero{grid-row:span 2;position:relative;overflow:hidden;border-radius:22px;padding:26px 28px 0;color:#fff;
-    background:linear-gradient(135deg,#17936B 0%,#0A4F3B 100%);box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:262px}
-  .hero.loss{background:linear-gradient(135deg,#C24544 0%,#7E2727 100%)}
-  .hero::after{content:"";position:absolute;right:-90px;bottom:-150px;width:440px;height:440px;background:radial-gradient(circle,rgba(7,229,117,.32),transparent 65%);pointer-events:none}
+  .hero{grid-row:span 2;position:relative;overflow:hidden;border-radius:22px;padding:26px 28px 0;color:#eafff4;
+    background:linear-gradient(145deg,#0e3f2e 0%,#0a1512 58%,#0a1a14 100%);border:1px solid rgba(34,224,127,.22);
+    box-shadow:0 30px 60px -30px rgba(0,0,0,.8);display:flex;flex-direction:column;min-height:262px}
+  .hero.loss{background:linear-gradient(145deg,#3e1613 0%,#160a0a 70%);border-color:rgba(255,90,70,.28)}
+  .hero::after{content:"";position:absolute;right:-90px;bottom:-150px;width:440px;height:440px;background:radial-gradient(circle,rgba(34,224,127,.34),transparent 65%);pointer-events:none}
   .hero>*{position:relative;z-index:1}
   .hero .hk{font-size:12px;font-weight:600;letter-spacing:.9px;text-transform:uppercase;opacity:.9}
   .hero .hv{font-size:clamp(46px,7.2vw,70px);font-weight:800;line-height:1;margin-top:10px;letter-spacing:-.03em}
@@ -229,7 +220,7 @@
   .cal-today.venta{background:var(--red-bg)} .cal-today.venta .accion,.cal-today.venta .nota,.cal-today.venta .ins,.cal-today.venta .hora{color:var(--red-ink)}
   .cal-today.gris{background:var(--card2)} .cal-today.gris .accion,.cal-today.gris .nota,.cal-today.gris .ins,.cal-today.gris .hora{color:var(--faint)}
   .cal-today.minimos{background:var(--card2)} .cal-today.minimos .accion,.cal-today.minimos .nota,.cal-today.minimos .ins,.cal-today.minimos .hora{color:var(--muted)}
-  .cal-today.feriado{background:#FFFFFF;border:1px solid #C9C7BD} .cal-today.feriado .fecha,.cal-today.feriado .accion,.cal-today.feriado .nota,.cal-today.feriado .ins,.cal-today.feriado .hora{color:#6B6A63}
+  .cal-today.feriado{background:var(--blue-bg);border:1px solid rgba(25,201,255,.25)} .cal-today.feriado .fecha,.cal-today.feriado .accion,.cal-today.feriado .nota,.cal-today.feriado .ins,.cal-today.feriado .hora{color:var(--blue-ink)}
   .cal-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
   .dow{font-size:12px;color:var(--muted);text-align:center;text-transform:lowercase}
   .cell{aspect-ratio:1/1.15;border-radius:10px;border:1px solid transparent;padding:7px 8px;display:flex;flex-direction:column;justify-content:flex-start;gap:2px;min-height:82px;min-width:0;overflow:hidden}
@@ -245,7 +236,7 @@
   .cell.finde{background:var(--card2)} .cell.finde .n{color:var(--faint)}
   .cell.minimos{background:var(--card2)} .cell.minimos .n{color:var(--faint)} .cell.minimos .time{color:var(--muted)}
   .cell.evaluacion{background:var(--amber-bg)} .cell.evaluacion .n,.cell.evaluacion .tag,.cell.evaluacion .time{color:var(--amber)}
-  .cell.feriado{background:#FFFFFF;border:1px solid #C9C7BD} .cell.feriado .n,.cell.feriado .tag{color:#8A897F}
+  .cell.feriado{background:var(--blue-bg);border:1px solid rgba(25,201,255,.22)} .cell.feriado .n,.cell.feriado .tag{color:var(--blue-ink)}
   .cell.outmonth .n{color:var(--faint);font-weight:500}
   .cell.hoy{outline:3px solid var(--ink);outline-offset:1px}
   #calBody .cell{cursor:pointer}
@@ -379,7 +370,7 @@
   .urlrow{display:flex;gap:8px;margin:6px 0 12px;flex-wrap:wrap}
   .urlin{flex:1 1 220px;min-width:0;font:inherit;font-size:13px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card2);color:var(--ink)}
   .shact{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  body.guest .owner-only,body.guest .editonly,body.guest .tab[data-tab="disciplina"],body.guest .btn.danger,body.guest .rhint{display:none !important}
+  body.guest .owner-only,body.guest .editonly,body.guest .btn.danger,body.guest .rhint{display:none !important}
   body.guest .editonly+h2{margin-top:0}
   body.guest input:disabled,body.guest select:disabled{opacity:1;-webkit-text-fill-color:currentColor;cursor:default}
   body.guest td input.tin:disabled{border-color:transparent;background:transparent}
@@ -456,6 +447,61 @@
     .kpi .s{font-size:11px}
     .backup .btn.mini{padding:6px 9px}
   }
+
+  /* ---------- resumen (stat cards) ---------- */
+  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 18px}
+  .stat{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:16px;padding:18px 18px;position:relative;overflow:hidden}
+  .stat::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--line2),transparent)}
+  .stat .k{font-size:clamp(20px,3.4vw,30px);font-weight:700;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+  .stat .k.money{color:var(--accent-ink)}
+  .stat .k.neg{color:var(--red-ink)}
+  .stat .l{color:var(--muted);font-size:12px;font-weight:500;margin-top:8px}
+  @media(max-width:640px){ .stats-row{grid-template-columns:repeat(2,1fr)} }
+
+  /* ---------- cabecera de sección con acción ---------- */
+  .sechead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:28px 0 12px}
+  .sechead h2{margin:0}
+  /* formularios colapsables (ocultos hasta que se necesiten) */
+  details.addbox{margin-bottom:14px;border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden}
+  details.addbox>summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:13.5px;font-weight:600;color:var(--accent-ink);display:flex;align-items:center;gap:9px}
+  details.addbox>summary::-webkit-details-marker{display:none}
+  details.addbox>summary .chev{margin-left:auto;transition:transform .2s;color:var(--muted)}
+  details.addbox[open]>summary .chev{transform:rotate(180deg)}
+  details.addbox>summary:hover{background:var(--card2)}
+  details.addbox .addbody{padding:4px 16px 16px;border-top:1px solid var(--line)}
+
+  /* ---------- galería de retiros verificados ---------- */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+  .cert{position:relative;border-radius:16px;overflow:hidden;cursor:pointer;background:#05070a;border:1px solid var(--line);
+    transition:transform .26s cubic-bezier(.2,.7,.3,1),border-color .26s,box-shadow .26s}
+  .cert:hover{transform:translateY(-5px);border-color:var(--line2);box-shadow:0 20px 44px -22px rgba(0,0,0,.85)}
+  .cert .imgwrap{position:relative;aspect-ratio:3/2;overflow:hidden;background:#000}
+  .cert img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+  .cert:hover img{transform:scale(1.05)}
+  .cert .veil{position:absolute;inset:0;background:linear-gradient(180deg,transparent 38%,rgba(5,7,10,.5) 72%,rgba(5,7,10,.94) 100%)}
+  .cert .meta{position:absolute;left:0;right:0;bottom:0;padding:14px 15px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+  .cert .amt{font-weight:700;font-size:23px;letter-spacing:-.02em;line-height:1;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+  .cert .dt{color:#c9d3e0;font-size:12px;font-weight:500;margin-top:5px}
+  .cert .vchip{position:absolute;top:11px;left:11px;display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.05em;
+    text-transform:uppercase;color:var(--accent-ink);background:rgba(5,7,10,.6);border:1px solid rgba(34,224,127,.3);padding:4px 8px;border-radius:999px;backdrop-filter:blur(6px)}
+  .cert .firm{font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:999px;white-space:nowrap;text-transform:uppercase}
+  .cert .firm.tradeify{color:var(--accent-ink);background:rgba(34,224,127,.14);border:1px solid rgba(34,224,127,.3)}
+  .cert .firm.lucid{color:#c3ccff;background:rgba(150,165,255,.14);border:1px solid rgba(150,165,255,.3)}
+  .cert .firm.otra{color:var(--blue-ink);background:var(--blue-bg);border:1px solid rgba(25,201,255,.3)}
+  .certov .certcap{color:#fff;font-size:13px;opacity:.85}
+
+  /* ---------- lista moderna de retiros ---------- */
+  .gi{display:flex;align-items:center;gap:14px;padding:13px 14px;border:1px solid var(--line);border-radius:14px;background:var(--card);margin-bottom:9px;transition:border-color .18s}
+  .gi:hover{border-color:var(--line2)}
+  .gi-date{flex:none;width:54px;text-align:center;line-height:1.05}
+  .gi-date .d{font-size:19px;font-weight:700;font-variant-numeric:tabular-nums}
+  .gi-date .mo{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+  .gi-main{flex:1;min-width:0}
+  .gi-firm{font-size:13.5px;font-weight:600}
+  .gi-sub{font-size:12px;color:var(--faint);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .gi-amt{flex:none;font-size:18px;font-weight:700;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+  .gi-act{flex:none;display:flex;gap:4px;align-items:center}
+  @media(max-width:600px){ .gi-date{width:44px} .gi-date .d{font-size:16px} }
 </style>
 </head>
 <body>
@@ -514,7 +560,7 @@ window.FIREBASE_CONFIG = {
             <button type="button" class="mi" id="btnShare" onclick="menuGo(openShare)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>Compartir como invitado</button>
             <div class="msep"></div>
           </div>
-          <div class="mtheme"><span class="mlab" id="themeLab">Tema</span>
+          <div class="mtheme" style="display:none"><span class="mlab" id="themeLab">Tema</span>
             <div class="seg" role="group" aria-labelledby="themeLab">
               <button type="button" data-t="auto" aria-pressed="false" onclick="setTema('auto')">Auto</button>
               <button type="button" data-t="light" aria-pressed="false" onclick="setTema('light')">Claro</button>
@@ -541,7 +587,6 @@ window.FIREBASE_CONFIG = {
     <button class="tab active" data-tab="dash" onclick="tab('dash')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg><span>Dashboard</span></button>
     <button class="tab" data-tab="caja" onclick="tab('caja')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span>Flujo de Caja</span></button>
     <button class="tab" data-tab="playbook" onclick="tab('playbook')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Playbook</span></button>
-    <button class="tab" data-tab="disciplina" onclick="tab('disciplina')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 12l2 2 4-4"/><path d="M12 3l7 4v5c0 5-3.5 8.5-7 9-3.5-.5-7-4-7-9V7z"/></svg><span>Disciplina</span></button>
   </nav>
 
   <!-- ===================== PLAYBOOK ===================== -->
@@ -558,38 +603,24 @@ window.FIREBASE_CONFIG = {
       <div class="leg">
         <div class="it"><span class="sw" style="background:var(--accent)"></span>Semana en compra (abrir cuenta o día mínimo)</div>
         <div class="it"><span class="sw" style="background:var(--red)"></span>Semana en venta (abrir cuenta o día mínimo)</div>
-        <div class="it"><span class="sw" style="background:var(--card2)"></span>Día mínimo sin dirección · fin de semana</div>
-        <div class="it"><span class="sw" style="background:#fff"></span>Feriado</div>
+        <div class="it"><span class="sw" style="background:var(--card2)"></span>Fin de semana · sin operar</div>
+        <div class="it"><span class="sw" style="background:var(--blue-bg)"></span>Feriado</div>
       </div>
-      <div class="foot">3 cuentas por semana · semana 1 compra · 2 venta · 3 venta · 4 compra. Los días hábiles toman el color de la tanda de su semana (verde compra / rojo venta), aunque ya hayan abierto sus 3 cuentas: esos días solo queda el día mínimo. La 5.ª semana del mes no abre cuentas: esos días quedan en gris, con el día mínimo pero sin dirección. Horarios en tu hora de Winnipeg, Canadá (Hora Central): hinchazón 8:33 am · días mínimos 8:20 am.</div>
-    </div>
-  </section>
-
-  <!-- ===================== DISCIPLINA DE EJECUCIÓN ===================== -->
-  <section class="panel" id="disciplina">
-    <div class="card" id="discResumen"></div>
-    <div class="card">
-      <div class="cal-nav">
-        <div style="display:flex;gap:8px"><button class="btn mini" id="discPrev">‹</button><button class="btn mini" id="discHoy">Hoy</button></div>
-        <div class="mes" id="discMes"></div>
-        <button class="btn mini" id="discNext">›</button>
-      </div>
-      <div class="cal-grid" id="discDows"></div>
-      <div class="cal-grid" id="discBody" style="margin-top:6px"></div>
-      <div class="leg">
-        <div class="it"><span class="sw" style="background:var(--accent)"></span>Día exitoso · seguiste el plan al pie de la letra</div>
-        <div class="it"><span class="sw" style="background:var(--red)"></span>Día fallido · te saliste del plan</div>
-        <div class="it"><span class="sw" style="background:var(--card2)"></span>Sin marcar</div>
-      </div>
-      <div class="foot">Tocá un día hábil (hoy o uno que ya pasó) para marcarlo: primer clic = exitoso, segundo clic = fallido, tercer clic lo deja sin marcar. Lo único que importa acá es si seguiste el plan al pie de la letra o si te dejaste llevar por la emoción o la duda — entre más verde, más disciplina real, y eso es lo que de verdad separa a quien ejecuta de quien solo mira gráficas.</div>
+      <div class="foot">3 cuentas por semana · semana 1 compra · 2 venta · 3 venta · 4 compra. Los días hábiles toman el color de la tanda de su semana (verde compra / rojo venta), aunque ya hayan abierto sus 3 cuentas: esos días solo queda el día mínimo. Los días de transición de fin de mes (semana 4 → semana 1 del mes siguiente) van en compra, porque esos días también se hacen días mínimos en compra. Horarios en tu hora de Winnipeg, Canadá (Hora Central): hinchazón 8:33 am · días mínimos 8:20 am.</div>
     </div>
   </section>
 
   <!-- ===================== FLUJO DE CAJA ===================== -->
   <section class="panel" id="caja">
+    <div class="stats-row" id="cajaResumen"></div>
+
+    <h2>Retiros verificados <span class="hint">prueba pública · toca un certificado para ampliarlo</span></h2>
+    <div id="galleryBox" style="margin-bottom:6px"></div>
+
     <div class="editonly">
-    <h2>Registrar compra de cuentas <span class="hint">un lote = cuentas de una firma compradas el mismo día al mismo precio</span></h2>
-    <div class="card">
+    <details class="addbox"><summary>＋ Registrar compra de cuentas<span class="chev">▾</span></summary>
+    <div class="addbody">
+      <div class="sub" style="margin:2px 0 12px">Un lote = cuentas de una firma compradas el mismo día al mismo precio.</div>
       <div class="form">
         <div class="field"><label>Empresa</label>
           <select id="cEmp"></select></div>
@@ -604,14 +635,15 @@ window.FIREBASE_CONFIG = {
       </div>
       <div class="err" id="cErr"></div>
     </div>
+    </details>
     </div>
 
     <h2>Lotes · fondeo · hinchazón <span class="hint">primero cuántas pasaron evaluación (fondeo), luego de esas cuántas hinchaste (día grande)</span></h2>
     <div id="lotesList"></div>
 
     <div class="editonly">
-    <h2>Registrar retiro <span class="hint">detallado: por cuenta y número de retiro</span></h2>
-    <div class="card">
+    <details class="addbox"><summary>＋ Registrar retiro<span class="chev">▾</span></summary>
+    <div class="addbody">
       <div class="form">
         <div class="field"><label>Lote (cuenta fondeada)</label><select id="rLote" onchange="fillCuentas()"></select></div>
         <div class="field"><label>Cuenta</label><select id="rCuenta"></select></div>
@@ -622,12 +654,10 @@ window.FIREBASE_CONFIG = {
       </div>
       <div class="err" id="rErr"></div>
     </div>
+    </details>
     </div>
 
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-      <h2 style="margin:0">Historial de retiros</h2>
-      <a class="btn" href="retiros.html" target="_blank" rel="noopener" title="Página pública de retiros verificados" style="text-decoration:none">🌐 Página pública de retiros</a>
-    </div>
+    <h2>Historial de retiros</h2>
     <div class="card"><div id="retirosList"></div></div>
   </section>
 
@@ -733,7 +763,6 @@ function tab(id){
   document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));
   if(id==="dash") renderDash();
   if(id==="playbook"){ const t=new Date(); calCursor=new Date(t.getFullYear(),t.getMonth(),1); calTrimOverride=false; calSel=null; calMes(); calToday(); }
-  if(id==="disciplina") discMes();
   window.scrollTo({top:0});
 }
 
@@ -924,6 +953,45 @@ async function verCertificado(id){
   const img=document.createElement("img"); img.src=src; img.alt="Certificado de retiro";
   const cap=document.createElement("div"); cap.className="certcap"; cap.textContent="Toca para cerrar";
   ov.appendChild(img); ov.appendChild(cap); document.body.appendChild(ov);
+}
+
+/* ---------- Flujo de Caja: tarjetas-resumen ---------- */
+function renderCajaResumen(){
+  const box=document.getElementById("cajaResumen"); if(!box) return;
+  const invertido=data.lotes.reduce((s,l)=>s+(l.cantidad||0)*(l.costoUnidad||0),0);
+  const retirado=data.retiros.reduce((s,r)=>s+(r.monto||0),0);
+  const neto=retirado-invertido;
+  const hinch=data.lotes.reduce((s,l)=>s+(l.cuentas?l.cuentas.length:0),0);
+  const st=(v,l,cls)=>`<div class="stat"><div class="k ${cls||""}">${v}</div><div class="l">${l}</div></div>`;
+  box.innerHTML=
+    st(fmtUSD(retirado),"Total retirado · "+data.retiros.length+(data.retiros.length===1?" retiro":" retiros"),"money")+
+    st(fmtUSD(neto),"Ganancia neta",neto<0?"neg":"money")+
+    st(fmtUSD(invertido),"Invertido en cuentas")+
+    st(String(hinch),hinch===1?"Cuenta hinchada":"Cuentas hinchadas");
+}
+
+/* ---------- Galería pública de certificados (se arma desde los retiros con certFile) ---------- */
+function firmClass(emp){ emp=(emp||"").toLowerCase(); if(emp.indexOf("tradeify")>=0)return"tradeify"; if(emp.indexOf("lucid")>=0)return"lucid"; return"otra"; }
+function firmShort(emp){ if(/tradeify/i.test(emp))return"Tradeify"; if(/lucid/i.test(emp))return"Lucid"; return emp||"—"; }
+function renderGallery(){
+  const box=document.getElementById("galleryBox"); if(!box) return;
+  const con=data.retiros.filter(r=>r.certFile).map(r=>{
+    const l=data.lotes.find(x=>x.id===r.loteId)||{empresa:"?"};
+    return {id:r.id,emp:l.empresa||"?",fecha:r.fecha,monto:(r.montoBruto||r.monto),file:r.certFile};
+  }).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  if(!con.length){ box.innerHTML='<div class="card"><div class="empty">Cuando registres un certificado aparecerá aquí como prueba pública.</div></div>'; return; }
+  box.innerHTML='<div class="gallery">'+con.map(c=>`<article class="cert" onclick="verCertificado('${c.id}')" title="Ver certificado">
+      <div class="imgwrap">
+        <img loading="lazy" src="certificados/${encodeURIComponent(c.file)}" alt="Certificado ${fmtUSD(c.monto)} · ${esc(c.emp)}">
+        <div class="veil"></div>
+        <div class="vchip">✓ Verificado</div>
+        <div class="meta">
+          <div><div class="amt">${fmtUSD(c.monto)}</div><div class="dt">${fechaLarga(c.fecha)}</div></div>
+          <span class="firm ${firmClass(c.emp)}">${firmShort(c.emp)}</span>
+        </div>
+      </div>
+    </article>`).join("")+'</div>'+
+    '<div class="foot">Cada monto es el valor del certificado emitido por la empresa. Algunos certificados (los de Lucid) incluyen código y QR para verificación independiente; no todos los certificados llevan QR.</div>';
 }
 
 /* =========================================================
@@ -1177,6 +1245,12 @@ function renderDash(){
     </div>
 
     <div class="card chartcard">
+      <div class="ch-h"><div><h3>Ingreso neto por ${m.gran==="sem"?"semana":"mes"}</h3>
+        <div class="sub">Lo que ganas en limpio (retiros − compras) en cada ${m.gran==="sem"?"semana":"mes"}. Pasa el cursor o toca un punto.</div></div></div>
+      <div class="chart" id="chNet"></div>
+    </div>
+
+    <div class="card chartcard">
       <div class="ch-h"><div><h3>Ingresos vs gastos por ${m.gran==="sem"?"semana":"mes"}</h3>
         <div class="sub">Retiros (ingresos) contra compras de cuentas (gastos)${m.recortado?" · últimos 12 meses":""}. Pasa el cursor o toca una barra para ver el valor.</div></div>
         <div class="legend"><span><span class="d p"></span>Retiros</span><span><span class="d n"></span>Compras</span></div></div>
@@ -1257,7 +1331,7 @@ function niceScale(mn,mx,n){
 /* ---------- Gráficos SVG (offline, se redibujan al ancho real del contenedor) ---------- */
 function drawCharts(){
   const m=window.__m; if(!m||!$("chEq")) return;
-  drawEquity($("chEq"),m); drawMonthly($("chMo"),m); drawSpark($("spark"),m);
+  drawEquity($("chEq"),m); if($("chNet")) drawNet($("chNet"),m); drawMonthly($("chMo"),m); drawSpark($("spark"),m);
 }
 (function(){
   let lastW=-1;
@@ -1366,6 +1440,43 @@ function drawMonthly(el,m){
   });
 }
 
+/* Curva de ingreso NETO por periodo (retiros − compras de cada mes/semana) */
+function drawNet(el,m){
+  const w=Math.floor(el.clientWidth); if(w<80) return;
+  const rows=m.filas;
+  if(!rows.length){ el.innerHTML='<div class="empty">Sin datos para este periodo.</div>'; return; }
+  if(rows.length<2){ el.innerHTML='<div class="empty">Se necesitan al menos 2 '+(m.gran==="sem"?"semanas":"meses")+' para la curva.</div>'; return; }
+  const small=w<520, H=small?232:284, pl=small?46:54, pr=small?12:16, pt=14, pb=small?46:50;
+  const pw=w-pl-pr, ph=H-pt-pb;
+  const vals=rows.map(r=>r.neto), sc=niceScale(Math.min(0,...vals),Math.max(0,...vals),4);
+  const band=pw/rows.length;
+  const X=i=>pl+band*(i+0.5), Y=v=>pt+ph*(sc.max-v)/(sc.max-sc.min);
+  const lw=m.gran==="sem"?(small?46:52):(small?24:34), every=Math.max(1,Math.ceil(lw/band));
+  let g="";
+  sc.ticks.forEach(v=>{ const y=Y(v).toFixed(1);
+    g+=`<line class="${v===0?"zero":"gl"}" x1="${pl}" x2="${w-pr}" y1="${y}" y2="${y}"/><text class="axy" x="${pl-8}" y="${(+y+3.5).toFixed(1)}" text-anchor="end">${fmtAxis(v)}</text>`; });
+  rows.forEach((r,i)=>{ if(i%every===0){ const cx=X(i).toFixed(1);
+    g+=`<text class="axt" x="${cx}" y="${H-pb+22}" text-anchor="middle">${esc(r.lbl)}</text>`;
+    if(r.yrShow) g+=`<text class="axy" x="${cx}" y="${H-pb+37}" text-anchor="middle">${r.yr}</text>`; } });
+  const zy=Y(0).toFixed(1);
+  const line=rows.map((r,i)=>(i?"L":"M")+X(i).toFixed(1)+" "+Y(r.neto).toFixed(1)).join(" ");
+  g+=`<path class="ar pos-f" d="${line} L${X(rows.length-1).toFixed(1)} ${zy} L${X(0).toFixed(1)} ${zy} Z"/><path class="ln pos-s" d="${line}"/>`;
+  rows.forEach((r,i)=>{ g+=`<circle class="dt ${r.neto>=0?"pos":"neg"}-f" cx="${X(i).toFixed(1)}" cy="${Y(r.neto).toFixed(1)}" r="4"/>`; });
+  el.innerHTML=`<svg width="${w}" height="${H}" viewBox="0 0 ${w} ${H}" role="img" aria-label="Ingreso neto por ${m.gran==="sem"?"semana":"mes"}. Los datos están en la tabla de ingresos vs gastos.">${g}
+    <rect class="hit" x="${pl}" y="${pt}" width="${pw}" height="${ph+6}" fill="transparent"/></svg>`;
+  const svg=el.querySelector("svg"), hit=svg.querySelector(".hit");
+  const show=e=>{
+    const r=svg.getBoundingClientRect(), px=e.clientX-r.left;
+    let b=0,bd=Infinity; rows.forEach((rr,i)=>{ const d=Math.abs(X(i)-px); if(d<bd){ bd=d; b=i; } });
+    const row=rows[b];
+    tipShow(r.left+X(b),r.top+Y(row.neto),{title:row.title,
+      rows:[{k:(m.gran==="sem"?"Neto de la semana":"Neto del mes"),v:sgnUSD(row.neto),big:true,key:row.neto>=0?"pos":"neg"},
+            {k:"Retiros",v:fmtUSD(row.i)},{k:"Compras",v:fmtUSD(row.g)}]});
+  };
+  hit.addEventListener("pointermove",show); hit.addEventListener("pointerdown",show);
+  hit.addEventListener("pointerleave",e=>{ if(e.pointerType==="touch") return; tipHide(); });
+}
+
 function drawSpark(el,m){
   if(!el) return;
   const w=Math.floor(el.clientWidth), pts=m.eq; if(w<80) return;
@@ -1438,9 +1549,10 @@ function diaInfo(y,m,d,map){
     else if(wd===0||wd===6){ cls="finde"; tag=""; }
     else{
       // día hábil sin apertura: toma el color de la tanda de su semana (verde compra / rojo venta).
-      // La 5.ª semana del mes (banda 4+) no tiene tanda: queda gris, con el día mínimo pero sin dirección.
+      // Días de transición (5.ª banda del mes, 29-31): van entre la semana 4 (compra) y la semana 1
+      // del mes siguiente (compra). No se hincha, pero sí se hacen días mínimos en compra → verde.
       const ub=Math.floor((d-1)/7);   // banda real de la semana, SIN tope en 3
-      cls = ub<=3 ? (bandaCompra(ub)?"compra":"venta") : "minimos";
+      cls = ub<=3 ? (bandaCompra(ub)?"compra":"venta") : "compra";
       tag="";
       lineas=[[HORA_MIN+" · Días mínimos",HORA_MIN_S+" Mín."]];
     }
@@ -1475,11 +1587,12 @@ function calToday(){
   } else if(wd===0||wd===6){
     cls="gris"; accion="SIN OPERAR"; nota="Fin de semana · mercado cerrado.";
   } else {
-    // día hábil sin apertura: solo día mínimo, en la dirección de su semana (en la 5.ª semana no hay dirección → compra, pero sin color)
+    // día hábil sin apertura: solo día mínimo, en la dirección de su semana.
+    // Días de transición (5.ª banda): semana 4 → semana 1, ambas en compra → compra (verde).
     const dw=dirSemana(d), dirMin=dw||"COMPRA";
-    cls = dw ? dw.toLowerCase() : "minimos";
+    cls = dw ? dw.toLowerCase() : "compra";
     accion="DÍA MÍNIMO";
-    nota = dw ? "Sin apertura hoy: la tanda de la semana ya está completa." : "5.ª semana del mes · sin tanda. Solo el día mínimo.";
+    nota = dw ? "Sin apertura hoy: la tanda de la semana ya está completa." : "Días de transición (semana 4 → semana 1): ambas en compra. Solo el día mínimo, en compra.";
     lineas=[linCard("Día mínimo",dirMin,MIN_CTR,MIN_SL,MIN_TP,HORA_MIN)];
   }
   box.className="cal-today "+cls;
@@ -1539,63 +1652,6 @@ document.getElementById("calPrev").onclick=()=>{
 };
 document.getElementById("calNext").onclick=()=>{calCursor.setMonth(calCursor.getMonth()+1);calTrimOverride=false;calMes();};
 document.getElementById("calHoy").onclick=()=>{const t=new Date();calCursor=new Date(t.getFullYear(),t.getMonth(),1);calTrimOverride=false;calSel=null;calMes();calToday();};
-
-/* =========================================================
-   DISCIPLINA DE EJECUCIÓN (calendario marcable: exitoso / fallido)
-========================================================= */
-let discCursor=new Date(); discCursor=new Date(discCursor.getFullYear(),discCursor.getMonth(),1);
-function discStats(prefix){
-  let ok=0,fail=0;
-  Object.keys(data.ejecucion).forEach(k=>{
-    if(!prefix||k.indexOf(prefix)===0){ if(data.ejecucion[k]==="ok")ok++; else if(data.ejecucion[k]==="fail")fail++; }
-  });
-  return {ok,fail,total:ok+fail,pct:(ok+fail)?Math.round(ok/(ok+fail)*100):null};
-}
-function discResumen(){
-  const y=discCursor.getFullYear(),m=discCursor.getMonth();
-  const prefix=y+"-"+String(m+1).padStart(2,"0"), mes=discStats(prefix), tot=discStats("");
-  const box=document.getElementById("discResumen");
-  const txt = tot.total===0
-    ? "Todavía no marcaste ningún día. Arranca hoy: seguí el plan al pie de la letra y marcalo en verde."
-    : `Este mes: ${mes.total?mes.pct+"% de ejecución perfecta ("+mes.ok+"/"+mes.total+" días marcados)":"sin marcas todavía"} · Histórico: ${tot.pct}% de ejecución perfecta (${tot.ok}/${tot.total} días marcados)`;
-  box.innerHTML=`<div class="accion" style="font-size:20px">Disciplina de ejecución</div><div class="nota" style="margin-top:6px">${txt}</div>`;
-}
-function discToggle(key){
-  if(GUEST) return;
-  const t=new Date(), hoyKey=keyF(t.getFullYear(),t.getMonth(),t.getDate());
-  if(key>hoyKey) return;
-  const [yy,mm,dd]=key.split("-").map(Number), wd=new Date(yy,mm-1,dd).getDay();
-  if(wd===0||wd===6||FERIADOS.has(key)) return;
-  const cur=data.ejecucion[key];
-  if(cur==="ok") data.ejecucion[key]="fail";
-  else if(cur==="fail") delete data.ejecucion[key];
-  else data.ejecucion[key]="ok";
-  save();
-}
-function discMes(){
-  const y=discCursor.getFullYear(),m=discCursor.getMonth();
-  document.getElementById("discMes").textContent=MESES[m]+" "+y;
-  document.getElementById("discDows").innerHTML=DOW.map(d=>`<div class="dow">${d}</div>`).join("");
-  const body=document.getElementById("discBody");
-  const primero=new Date(y,m,1).getDay(), dias=new Date(y,m+1,0).getDate();
-  const t=new Date(), hoyKey=keyF(t.getFullYear(),t.getMonth(),t.getDate());
-  const pm=m===0?11:m-1, py=m===0?y-1:y, diasPrev=new Date(py,pm+1,0).getDate();
-  const celdas=[];
-  for(let i=0;i<primero;i++){ celdas.push({n:diasPrev-primero+1+i,cls:"outmonth",key:null,clic:false,marcado:null,esHoy:false}); }
-  for(let d=1;d<=dias;d++){
-    const key=keyF(y,m,d), wd=new Date(y,m,d).getDay(), marcado=data.ejecucion[key]||null;
-    const clic=!(key>hoyKey) && wd!==0 && wd!==6 && !FERIADOS.has(key);
-    const base=marcado==="ok"?"ok":marcado==="fail"?"fail":(clic?"pend":"finde");
-    celdas.push({n:d,cls:base+(clic?" clic":""),key,clic,marcado,esHoy:key===hoyKey});
-  }
-  const relleno=(7-(celdas.length%7))%7;
-  for(let i=0;i<relleno;i++){ celdas.push({n:i+1,cls:"outmonth",key:null,clic:false,marcado:null,esHoy:false}); }
-  body.innerHTML=celdas.map(c=>`<div class="cell disc ${c.cls}${c.esHoy?" hoy":""}"${c.clic?` onclick="discToggle('${c.key}')" role="button" tabindex="0"`:""}><div class="n">${c.n}</div>${c.marcado?`<div class="tag">${c.marcado==="ok"?"✔ Exitoso":"✘ Fallido"}</div>`:""}</div>`).join("");
-  discResumen();
-}
-document.getElementById("discPrev").onclick=()=>{discCursor.setMonth(discCursor.getMonth()-1);discMes();};
-document.getElementById("discNext").onclick=()=>{discCursor.setMonth(discCursor.getMonth()+1);discMes();};
-document.getElementById("discHoy").onclick=()=>{const t=new Date();discCursor=new Date(t.getFullYear(),t.getMonth(),1);discMes();};
 
 /* =========================================================
    RESPALDO
@@ -1893,7 +1949,8 @@ function renderAll(){
   renderLotes();
   fillRetiroLotes();
   renderRetiros();
-  calToday(); calMes(); discMes(); updPap(); renderTicker(); lockGuest();
+  renderCajaResumen(); renderGallery();
+  calToday(); calMes(); updPap(); renderTicker(); lockGuest();
   if(document.getElementById("dash").classList.contains("active")) renderDash();
   if(histOpen()) renderHist();
 }
