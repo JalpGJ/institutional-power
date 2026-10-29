@@ -133,6 +133,9 @@
   .acct{display:flex;align-items:center;gap:5px;background:var(--card2);border:1px solid var(--line);border-radius:9px;padding:5px 9px;font-size:12px}
   .acct input{width:90px;font:inherit;font-size:12px;border:none;background:transparent;color:var(--ink);border-bottom:1px dashed var(--line)}
   .acct input.fh{width:124px;color:var(--muted)}
+  .certov{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;cursor:zoom-out;padding:20px}
+  .certov img{max-width:95%;max-height:85%;border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+  .certov .certcap{color:#fff;font-size:13px;opacity:.85}
   .acct input:focus{outline:none;border-color:var(--accent)}
   .rate{font-size:12px;font-weight:600;color:var(--accent-ink)}
 
@@ -901,9 +904,20 @@ function renderRetiros(){
         <td data-l="Cuenta">#${r.cuentaNum}${c&&c.alias?" · "+c.alias:""}</td>
         <td data-l="Retiro"><input class="tin" type="number" min="1" value="${r.retiroNum}" onchange="editRetiro('${r.id}','retiroNum',this.value)" style="width:52px"></td>
         <td data-l="Monto" style="text-align:right"><input class="tin pos" type="number" min="0" step="0.01" value="${r.monto}" onchange="editRetiro('${r.id}','monto',this.value)" style="width:104px;text-align:right;color:var(--accent-ink)"></td>
-        <td class="act"><button class="btn danger" onclick="delRetiro('${r.id}')">✕</button></td>
+        <td class="act">${(!GUEST&&r.cert)?`<button class="btn mini" title="Ver certificado" onclick="verCertificado('${r.id}')">📄</button> `:""}<button class="btn danger" onclick="delRetiro('${r.id}')">✕</button></td>
       </tr>`;
     }).join("")+`</tbody></table>`;
+}
+
+/* Muestra el certificado (imagen guardada en users/{uid}/certificados/{retiroId}) en un overlay */
+async function verCertificado(id){
+  if(!IP.getCert){ toast("El certificado se ve al entrar con tu cuenta."); return; }
+  let c; try{ c=await IP.getCert(id); }catch(e){ c=null; }
+  if(!c||!c.dataUrl){ toast("No se encontró el certificado de este retiro."); return; }
+  const ov=document.createElement("div"); ov.className="certov"; ov.onclick=()=>ov.remove();
+  const img=document.createElement("img"); img.src=c.dataUrl; img.alt="Certificado de retiro";
+  const cap=document.createElement("div"); cap.className="certcap"; cap.textContent="Toca para cerrar";
+  ov.appendChild(img); ov.appendChild(cap); document.body.appendChild(ov);
 }
 
 /* =========================================================
@@ -2064,6 +2078,7 @@ renderAll();
   function start(u){
     user=u; ref=F.doc(db,"users",u.uid);
     IP.snapshot=motivo=>addVersion(IP.getData(),motivo); IP.versions=versionsApi(); IP.share=shareApi();
+    IP.getCert=async id=>{ try{ const d=await F.getDoc(F.doc(db,"users",user.uid,"certificados",id)); return d.exists()?d.data():null; }catch(e){ console.warn("cert:",e&&e.code||e); return null; } };
     let reconciled=false;
     IP.gate("loading","Sincronizando tus datos…"); IP.gateErr("");
     unsub=F.onSnapshot(ref,{includeMetadataChanges:true},snap=>{
@@ -2088,7 +2103,7 @@ renderAll();
 
   function stop(){
     if(unsub){ unsub(); unsub=null; }
-    IP.setReady(false); IP.setPush(null); IP.showLogout(false); IP.snapshot=null; IP.versions=null; IP.share=null; share=null; clearTimeout(mirrorT);
+    IP.setReady(false); IP.setPush(null); IP.showLogout(false); IP.snapshot=null; IP.versions=null; IP.share=null; IP.getCert=null; share=null; clearTimeout(mirrorT);
   }
 
   IP.login=async()=>{

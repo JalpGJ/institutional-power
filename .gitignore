@@ -21,3 +21,11 @@ serviceAccount*.json
 pat.txt
 *token*
 *.token
+
+# Certificados / imágenes (datos financieros privados) — NO publicar
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.gif
+*.bmp
