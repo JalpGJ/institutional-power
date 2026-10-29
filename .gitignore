@@ -6,6 +6,7 @@ Code.txt
 institutional_power_respaldo_*.json
 *respaldo*.json
 *.backup.json
+*.rules
 
 # Llaves / credenciales de Firebase (ADMIN) — NUNCA publicar
 *firebase-adminsdk*.json

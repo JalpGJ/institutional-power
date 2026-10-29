@@ -554,6 +554,12 @@ window.FIREBASE_CONFIG = {
     <div class="mb" id="shareBody" style="padding-top:10px"></div>
   </div>
 </div>
+<div class="modal" id="visitas" role="dialog" aria-modal="true" aria-labelledby="visT">
+  <div class="mbox">
+    <div class="mh"><h3 id="visT">Visitas a tu página</h3><button class="btn mini" id="visClose" onclick="closeVisitas()" aria-label="Cerrar">✕</button></div>
+    <div class="mb" id="visitasBody" style="padding-top:10px"></div>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <div class="app">
@@ -573,6 +579,7 @@ window.FIREBASE_CONFIG = {
             <button type="button" class="mi" id="btnResp" onclick="menuGo(respaldar)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Respaldar</button>
             <button type="button" class="mi" id="btnRest" onclick="menuGo(()=>document.getElementById('restoreFile').click())"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Restaurar desde respaldo</button>
             <button type="button" class="mi" id="btnShare" onclick="menuGo(openShare)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg>Compartir como invitado</button>
+            <button type="button" class="mi" id="btnVisitas" onclick="menuGo(openVisitas)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Visitas</button>
             <div class="msep"></div>
           </div>
           <div class="mtheme" style="display:none"><span class="mlab" id="themeLab">Tema</span>
@@ -1952,6 +1959,41 @@ function closeShare(){
 }
 document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"&&shOpen()) closeShare(); });
 document.addEventListener("click",ev=>{ if(ev.target&&ev.target.id==="share") closeShare(); });
+
+/* ---- Visitas (analítica propia · solo dueño) ---- */
+function openVisitas(){ $("visitas").classList.add("show"); document.body.style.overflow="hidden"; $("visClose").focus(); renderVisitas(); }
+function closeVisitas(){ $("visitas").classList.remove("show"); document.body.style.overflow=""; }
+document.addEventListener("keydown",ev=>{ if(ev.key==="Escape"&&$("visitas").classList.contains("show")) closeVisitas(); });
+document.addEventListener("click",ev=>{ if(ev.target&&ev.target.id==="visitas") closeVisitas(); });
+const _flag=cc=>(cc&&cc.length===2)?String.fromCodePoint(...[...cc.toUpperCase()].map(c=>127397+c.charCodeAt(0))):"🌐";
+async function renderVisitas(){
+  const box=$("visitasBody"); box.innerHTML='<div class="empty">Cargando…</div>';
+  if(!IP.visitas){ box.innerHTML='<div class="empty">Entra con tu cuenta de Google para ver las visitas.</div>'; return; }
+  let rows;
+  try{ rows=await IP.visitas(); }
+  catch(e){ box.innerHTML='<div class="empty">No se pudieron cargar las visitas ('+esc(e.code||e.message||"error")+').</div>'; return; }
+  if(!rows.length){ box.innerHTML='<div class="empty">Aún no hay visitas registradas. En cuanto alguien abra tu página, aparecerán aquí.</div>'; return; }
+  const byTipo={publico:0,invitado:0,dueno:0}, byPais={}, ccByPais={};
+  rows.forEach(r=>{ if(byTipo[r.tipo]!==undefined) byTipo[r.tipo]++; const k=r.pais||"Desconocido"; byPais[k]=(byPais[k]||0)+1; if(r.pais&&r.codPais&&!ccByPais[r.pais]) ccByPais[r.pais]=r.codPais; });
+  const paises=Object.entries(byPais).sort((a,b)=>b[1]-a[1]);
+  const total=rows.length, visitantes=byTipo.publico+byTipo.invitado;
+  const MESv=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+  const fdt=iso=>{ if(!iso) return "—"; const d=new Date(iso); return d.getDate()+" "+MESv[d.getMonth()]+" "+d.getFullYear()+", "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); };
+  const tLbl={publico:"General",invitado:"Invitado",dueno:"Tú (login)"};
+  box.innerHTML=
+    '<div class="stats-row" style="grid-template-columns:repeat(3,1fr);margin-bottom:14px">'+
+      '<div class="stat"><div class="k money">'+visitantes+'</div><div class="l">Visitas (general + invitado)</div></div>'+
+      '<div class="stat"><div class="k">'+byTipo.publico+'</div><div class="l">Enlace general</div></div>'+
+      '<div class="stat"><div class="k">'+byTipo.invitado+'</div><div class="l">Enlace de invitado</div></div>'+
+    '</div>'+
+    '<div class="hnote">Total de registros: '+total+(byTipo.dueno?' · '+byTipo.dueno+' tuyas (login, no cuentan como visita)':'')+'. Una visita = una sesión de navegador.</div>'+
+    '<h3 style="font-size:14px;font-weight:600;margin:16px 0 8px">Por país</h3>'+
+    paises.map(([p,n])=>{ const pct=Math.round(100*n/total); return '<div class="hb"><div class="hb-n">'+_flag(ccByPais[p])+' '+esc(p)+'</div><div class="hb-t"><i class="hb-f" style="left:0;width:'+Math.max(2,pct)+'%"></i></div><div class="hb-v">'+n+'</div></div>'; }).join("")+
+    '<h3 style="font-size:14px;font-weight:600;margin:18px 0 8px">Últimas visitas</h3>'+
+    '<div class="tw-scroll"><table><thead><tr><th>Cuándo</th><th>Origen</th><th>Lugar</th></tr></thead><tbody>'+
+    rows.slice(0,15).map(r=>'<tr><td style="white-space:nowrap">'+fdt(r.at)+'</td><td>'+(tLbl[r.tipo]||esc(r.tipo||"—"))+'</td><td>'+_flag(r.codPais)+' '+esc(r.pais||"—")+(r.ciudad?' · '+esc(r.ciudad):'')+'</td></tr>').join("")+
+    '</tbody></table></div>';
+}
 async function renderShare(){
   const box=$("shareBody"), my=++shTok;
   if(!IP.share){ box.innerHTML='<div class="empty">Para compartir necesitas la nube activa: entra con tu cuenta de Google (la app debe estar conectada a Firebase).</div>'; return; }
@@ -2021,11 +2063,27 @@ renderAll();
   if(!(cfg&&cfg.apiKey&&!/^PEGA/.test(cfg.apiKey))){ IP.status("",("Local"),"Firebase sin configurar: datos solo en este dispositivo"); return; }
 
   const V="12.19.0", B="https://www.gstatic.com/firebasejs/"+V+"/";
+
+  /* ---------- Contador de visitas: 1 registro por sesión en la colección 'visitas' (país vía IP) ---------- */
+  async function logVisita(FS, database, tipo){
+    try{ if(sessionStorage.getItem("ip_visit_logged")==="1") return; }catch(e){}
+    let geo={pais:"Desconocido",codPais:"",ciudad:""};
+    try{
+      const r=await fetch("https://ipwho.is/",{cache:"no-store"}); const j=await r.json();
+      if(j&&j.success!==false){ geo={pais:(j.country||"Desconocido").slice(0,59),codPais:(j.country_code||"").slice(0,5),ciudad:(j.city||"").slice(0,79)}; }
+    }catch(e){}
+    try{
+      await FS.addDoc(FS.collection(database,"visitas"),{ at:FS.serverTimestamp(), tipo:tipo, pais:geo.pais, codPais:geo.codPais, ciudad:geo.ciudad, ref:(document.referrer||"").slice(0,300) });
+      try{ sessionStorage.setItem("ip_visit_logged","1"); }catch(e){}
+    }catch(e){ console.warn("visita:",e&&e.code||e); }
+  }
+
   if(IP.guest){                      // ---------- vista de invitado: solo lectura, sin sesión ni escritura ----------
     let GA,GF;
     try{ [GA,GF]=await Promise.all([import(B+"firebase-app.js"),import(B+"firebase-firestore.js")]); }
     catch(e){ IP.gate("loading","No se pudo cargar. Revisa tu conexión y recarga la página."); IP.status("off","Sin conexión"); return; }
     const gdb=GF.getFirestore(GA.initializeApp(cfg));
+    logVisita(GF, gdb, "invitado");
     const gone=m=>{ IP.gate("loading",m||"Este enlace no es válido o ya fue desactivado. Pídele uno nuevo a Andrés."); IP.status("off","Enlace inactivo"); };
     GF.onSnapshot(GF.doc(gdb,"shared",IP.guest),{},snap=>{
       if(!snap.exists()){ if(snap.metadata&&snap.metadata.fromCache) return; gone(); return; }
@@ -2098,7 +2156,8 @@ renderAll();
       "    function ok(uid){ return request.auth != null && request.auth.uid == uid && request.auth.token.email == \""+em+"\"; }\n"+
       "    match /users/{uid} {\n      allow read, write: if ok(uid);\n      match /{sub=**} { allow read, write: if ok(uid); }\n    }\n"+
       "    match /shared/{token} {\n      allow get: if resource.data.active == true;\n      allow create: if ok(request.resource.data.ownerUid);\n"+
-      "      allow update: if ok(resource.data.ownerUid) && request.resource.data.ownerUid == resource.data.ownerUid;\n      allow delete: if ok(resource.data.ownerUid);\n    }\n  }\n}";
+      "      allow update: if ok(resource.data.ownerUid) && request.resource.data.ownerUid == resource.data.ownerUid;\n      allow delete: if ok(resource.data.ownerUid);\n    }\n"+
+      "    match /visitas/{id} {\n      allow read, delete: if request.auth != null && request.auth.token.email == \""+em+"\";\n      allow update: if false;\n      allow create: if request.resource.data.keys().hasOnly(['at','tipo','pais','codPais','ciudad','ref'])\n        && request.resource.data.at == request.time\n        && request.resource.data.tipo in ['publico','invitado','dueno']\n        && request.resource.data.pais is string && request.resource.data.pais.size() < 60\n        && request.resource.data.codPais is string && request.resource.data.codPais.size() < 6\n        && request.resource.data.ciudad is string && request.resource.data.ciudad.size() < 80\n        && request.resource.data.ref is string && request.resource.data.ref.size() < 300;\n    }\n  }\n}";
   }
   const sumNeto=d=>(d.retiros||[]).reduce((s,r)=>s+(+r.monto||0),0)-(d.lotes||[]).reduce((s,l)=>s+l.cantidad*l.costoUnidad,0);
   function versionsApi(){
@@ -2223,6 +2282,7 @@ renderAll();
     user=u; ref=F.doc(db,"users",u.uid); hidePublic();
     IP.snapshot=motivo=>addVersion(IP.getData(),motivo); IP.versions=versionsApi(); IP.share=shareApi();
     IP.getCert=async id=>{ try{ const d=await F.getDoc(F.doc(db,"users",user.uid,"certificados",id)); return d.exists()?d.data():null; }catch(e){ console.warn("cert:",e&&e.code||e); return null; } };
+    IP.visitas=async()=>{ const q=await F.getDocs(F.query(F.collection(db,"visitas"),F.orderBy("at","desc"),F.limit(5000))); return q.docs.map(d=>{ const x=d.data()||{}; return {tipo:x.tipo,pais:x.pais,codPais:x.codPais,ciudad:x.ciudad,ref:x.ref,at:(x.at&&x.at.toDate)?x.at.toDate().toISOString():(x.at||"")}; }); };
     let reconciled=false;
     IP.gate("loading","Sincronizando tus datos…"); IP.gateErr("");
     unsub=F.onSnapshot(ref,{includeMetadataChanges:true},snap=>{
@@ -2247,7 +2307,7 @@ renderAll();
 
   function stop(){
     if(unsub){ unsub(); unsub=null; }
-    IP.setReady(false); IP.setPush(null); IP.showLogout(false); IP.snapshot=null; IP.versions=null; IP.share=null; IP.getCert=null; share=null; clearTimeout(mirrorT);
+    IP.setReady(false); IP.setPush(null); IP.showLogout(false); IP.snapshot=null; IP.versions=null; IP.share=null; IP.getCert=null; IP.visitas=null; share=null; clearTimeout(mirrorT);
   }
 
   IP.login=async()=>{
@@ -2270,6 +2330,7 @@ renderAll();
   window.addEventListener("offline",()=>IP.status("off","Sin conexión","Se sincroniza automáticamente al volver internet"));
 
   S.onAuthStateChanged(auth,u=>{
+    logVisita(F, db, u?"dueno":"publico");
     if(u){ if(!user||user.uid!==u.uid||!unsub) start(u); }
     else{ user=null; stop(); showPublic(); }
   });
