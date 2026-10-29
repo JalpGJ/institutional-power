@@ -359,11 +359,9 @@
   .tk-d{color:var(--muted);font-size:12px}
   .tk-pause{flex:none;width:40px;border:0;border-left:1px solid var(--line);background:var(--card2);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center}
   .tk-pause:hover{color:var(--ink)} .tk-pause svg{width:14px;height:14px}
-  @media (prefers-reduced-motion:reduce){
-    .tk-track{animation:none} .tk-dot{animation:none}
-    .tk-view{overflow-x:auto;-webkit-mask-image:none;mask-image:none}
-    .tk-set[aria-hidden="true"],.tk-i.rp{display:none}
-  }
+  /* El ticker de retiros se mueve siempre (incluso con "reducir movimiento" del sistema),
+     porque es parte clave de la vista. Solo bajamos el pulso del punto. */
+  @media (prefers-reduced-motion:reduce){ .tk-dot{animation:none} }
 
   /* ---------- compartir / invitado ---------- */
   a.btn{text-decoration:none;display:inline-block}
@@ -371,6 +369,11 @@
   .urlin{flex:1 1 220px;min-width:0;font:inherit;font-size:13px;padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:var(--card2);color:var(--ink)}
   .shact{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
   body.guest .owner-only,body.guest .editonly,body.guest .btn.danger,body.guest .rhint{display:none !important}
+  /* Vista PÚBLICA (sin login ni enlace de invitado): solo Dashboard y Retiros. Flujo de Caja y Playbook ocultos. */
+  body.public .tab[data-tab="caja"],body.public .tab[data-tab="playbook"],body.public #caja,body.public #playbook{display:none !important}
+  body.public .owner-only,body.public .editonly,body.public .btn.danger,body.public .rhint{display:none !important}
+  #btnEntrar{background:var(--accent);color:#04120b;border-color:transparent;font-weight:700}
+  #btnEntrar:hover{filter:brightness(1.08)}
   body.guest .editonly+h2{margin-top:0}
   body.guest input:disabled,body.guest select:disabled{opacity:1;-webkit-text-fill-color:currentColor;cursor:default}
   body.guest td input.tin:disabled{border-color:transparent;background:transparent}
@@ -502,6 +505,16 @@
   .gi-amt{flex:none;font-size:18px;font-weight:700;color:var(--accent-ink);font-variant-numeric:tabular-nums}
   .gi-act{flex:none;display:flex;gap:4px;align-items:center}
   @media(max-width:600px){ .gi-date{width:44px} .gi-date .d{font-size:16px} }
+
+  /* ---------- pestaña Retiros: hero tipo landing ---------- */
+  .rhero{text-align:center;padding:10px 0 4px;margin-bottom:14px}
+  .reyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent-ink);background:var(--accent-bg);border:1px solid rgba(34,224,127,.25);padding:7px 15px;border-radius:999px;margin-bottom:16px}
+  .rlive{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 var(--glow);animation:tkpulse 2s infinite}
+  .rtitle{font-family:var(--font-display);font-size:clamp(28px,6vw,52px);line-height:1.04;font-weight:700;letter-spacing:-.03em;margin-bottom:12px}
+  .rtitle .grad{background:linear-gradient(120deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .rlead{max-width:560px;margin:0 auto;color:var(--muted);font-size:clamp(14px,2.2vw,16px)}
+  .rlead b{color:var(--ink);font-weight:600}
 </style>
 </head>
 <body>
@@ -550,6 +563,7 @@ window.FIREBASE_CONFIG = {
     </div>
     <div class="backup">
       <span class="sync" id="syncStatus" title=""><span class="dot"></span><span id="syncTxt">Local</span></span>
+      <button type="button" class="btn mini" id="btnEntrar" style="display:none" onclick="IP.login&&IP.login()" title="Entrar con Google para editar el Flujo de Caja">🔒 Entrar para editar</button>
       <div class="menuwrap">
         <button type="button" class="btn mini menubtn" id="btnMenu" aria-haspopup="true" aria-expanded="false" aria-controls="menu" onclick="toggleMenu()" title="Menú"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg><span class="mlbl">Menú</span></button>
         <div class="menu" id="menu" hidden>
@@ -585,6 +599,7 @@ window.FIREBASE_CONFIG = {
 
   <nav class="tabs" aria-label="Secciones">
     <button class="tab active" data-tab="dash" onclick="tab('dash')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg><span>Dashboard</span></button>
+    <button class="tab" data-tab="retiros" onclick="tab('retiros')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg><span>Retiros</span></button>
     <button class="tab" data-tab="caja" onclick="tab('caja')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span>Flujo de Caja</span></button>
     <button class="tab" data-tab="playbook" onclick="tab('playbook')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Playbook</span></button>
   </nav>
@@ -613,9 +628,6 @@ window.FIREBASE_CONFIG = {
   <!-- ===================== FLUJO DE CAJA ===================== -->
   <section class="panel" id="caja">
     <div class="stats-row" id="cajaResumen"></div>
-
-    <h2>Retiros verificados <span class="hint">prueba pública · toca un certificado para ampliarlo</span></h2>
-    <div id="galleryBox" style="margin-bottom:6px"></div>
 
     <div class="editonly">
     <details class="addbox"><summary>＋ Registrar compra de cuentas<span class="chev">▾</span></summary>
@@ -664,6 +676,18 @@ window.FIREBASE_CONFIG = {
   <!-- ===================== DASHBOARD ===================== -->
   <section class="panel active" id="dash">
     <div id="dashBody"></div>
+  </section>
+
+  <!-- ===================== RETIROS (certificados · público) ===================== -->
+  <section class="panel" id="retiros">
+    <div class="rhero">
+      <span class="reyebrow"><span class="rlive"></span>Prueba pública · verificable</span>
+      <h1 class="rtitle">Retiros <span class="grad">reales</span>, a la vista de todos.</h1>
+      <p class="rlead">Cada certificado es un <b>pago real</b> recibido de cuentas de fondeo. Toca uno para ampliarlo.</p>
+    </div>
+    <div class="stats-row" id="retStats"></div>
+    <div class="filterbar"><div class="chips" id="retFilters"></div><span class="fsum">Toca un certificado para ampliarlo</span></div>
+    <div id="galleryBox"></div>
   </section>
 </div>
 
@@ -762,6 +786,7 @@ function tab(id){
   document.querySelectorAll(".tab").forEach(t=>t.classList.toggle("active",t.dataset.tab===id));
   document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===id));
   if(id==="dash") renderDash();
+  if(id==="retiros") renderGallery();
   if(id==="playbook"){ const t=new Date(); calCursor=new Date(t.getFullYear(),t.getMonth(),1); calTrimOverride=false; calSel=null; calMes(); calToday(); }
   window.scrollTo({top:0});
 }
@@ -973,14 +998,37 @@ function renderCajaResumen(){
 /* ---------- Galería pública de certificados (se arma desde los retiros con certFile) ---------- */
 function firmClass(emp){ emp=(emp||"").toLowerCase(); if(emp.indexOf("tradeify")>=0)return"tradeify"; if(emp.indexOf("lucid")>=0)return"lucid"; return"otra"; }
 function firmShort(emp){ if(/tradeify/i.test(emp))return"Tradeify"; if(/lucid/i.test(emp))return"Lucid"; return emp||"—"; }
+let galFilter="all";
+function setGalFilter(f){ galFilter=f; renderGallery(); }
+function mesCorto(f){ const[y,m]=f.split("-").map(Number); return MES_C[m-1]+" "+y; }
 function renderGallery(){
   const box=document.getElementById("galleryBox"); if(!box) return;
-  const con=data.retiros.filter(r=>r.certFile).map(r=>{
+  const all=data.retiros.filter(r=>r.certFile).map(r=>{
     const l=data.lotes.find(x=>x.id===r.loteId)||{empresa:"?"};
     return {id:r.id,emp:l.empresa||"?",fecha:r.fecha,monto:(r.montoBruto||r.monto),file:r.certFile};
   }).sort((a,b)=>b.fecha.localeCompare(a.fecha));
-  if(!con.length){ box.innerHTML='<div class="card"><div class="empty">Cuando registres un certificado aparecerá aquí como prueba pública.</div></div>'; return; }
-  box.innerHTML='<div class="gallery">'+con.map(c=>`<article class="cert" onclick="verCertificado('${c.id}')" title="Ver certificado">
+  const firmasArr=[...new Set(all.map(c=>firmShort(c.emp)))];
+  if(galFilter!=="all"&&firmasArr.indexOf(galFilter)<0) galFilter="all";
+  const st=document.getElementById("retStats");
+  if(st){
+    if(!all.length){ st.innerHTML=""; }
+    else{
+      const total=all.reduce((s,c)=>s+(c.monto||0),0), fechas=all.map(c=>c.fecha).sort();
+      const sc=(v,l,cls)=>`<div class="stat"><div class="k ${cls||""}">${v}</div><div class="l">${l}</div></div>`;
+      st.innerHTML=sc(fmtUSD(total),"Total certificado","money")+
+        sc(String(all.length),all.length===1?"Retiro pagado":"Retiros pagados")+
+        sc(String(firmasArr.length),firmasArr.length===1?"Empresa":"Empresas de fondeo")+
+        sc(mesCorto(fechas[0])+" – "+mesCorto(fechas[fechas.length-1]),"Periodo");
+    }
+  }
+  const ff=document.getElementById("retFilters");
+  if(ff){
+    ff.innerHTML=`<button class="chip ${galFilter==="all"?"on":""}" onclick="setGalFilter('all')">Todos <b>${all.length}</b></button>`+
+      firmasArr.map(f=>`<button class="chip ${galFilter===f?"on":""}" onclick="setGalFilter('${esc(f)}')">${esc(f)} <b>${all.filter(c=>firmShort(c.emp)===f).length}</b></button>`).join("");
+  }
+  const list=galFilter==="all"?all:all.filter(c=>firmShort(c.emp)===galFilter);
+  if(!list.length){ box.innerHTML='<div class="card"><div class="empty">Cuando registres un certificado aparecerá aquí como prueba pública.</div></div>'; return; }
+  box.innerHTML='<div class="gallery">'+list.map(c=>`<article class="cert" onclick="verCertificado('${c.id}')" title="Ver certificado">
       <div class="imgwrap">
         <img loading="lazy" src="certificados/${encodeURIComponent(c.file)}" alt="Certificado ${fmtUSD(c.monto)} · ${esc(c.emp)}">
         <div class="veil"></div>
@@ -1838,7 +1886,7 @@ function setTema(t){ if(window.__tema) window.__tema.set(t); temaUI(); }
 temaUI();
 
 /* ---- ticker de retiros recientes (se mueve solo; el punto EN VIVO refleja el estado real de la sincronización) ---- */
-const TK_MAX=12, TK_SPEED=45;      // retiros mostrados · píxeles por segundo
+const TK_MAX=12, TK_SPEED=60;      // retiros mostrados · píxeles por segundo
 let tkHtml="", tkHtmlRp="", tkSig="", tkW=0;
 const ICO_PAUSE='<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>', ICO_PLAY='<polygon points="6 4 20 12 6 20 6 4"/>';
 function tkLive(kind){
@@ -1909,7 +1957,7 @@ async function renderShare(){
   catch(e){ if(my!==shTok||!shOpen()) return; shErr(e); }
 }
 function shView(s){
-  const intro='<div class="hnote">Un enlace de <b>solo lectura</b>: quien lo abra ve tu dashboard y tus compras y retiros, actualizados en vivo. No puede editar nada y no ve la papelera, las versiones ni el playbook.</div>';
+  const intro='<div class="hnote">Un enlace de <b>solo lectura</b>: quien lo abra ve <b>todo</b> tu panel —incluido el Flujo de Caja y el Playbook— actualizado en vivo, pero <b>no puede editar nada</b> ni ve la papelera o las versiones. Sin este enlace, el público solo ve el Dashboard y los Retiros.</div>';
   if(!s){ $("shareBody").innerHTML=intro+'<button class="btn accent" id="shCreate" onclick="shareCreate()">Crear enlace de invitado</button>'; return; }
   const url=shareUrl(s.token);
   $("shareBody").innerHTML=intro+
@@ -2104,13 +2152,42 @@ renderAll();
     };
   }
 
+  /* ---------- Vista PÚBLICA: shared/public = espejo abierto (Dashboard + Retiros, sin login ni enlace) ---------- */
+  const PUBLIC_ID="public";
+  let pubUnsub=null, pubT=null;
+  function mirrorPublic(payload){
+    if(!user) return;
+    const body=sharedBody(payload);
+    clearTimeout(pubT);
+    pubT=setTimeout(()=>{ if(user) F.setDoc(sharedRef(PUBLIC_ID),body).catch(e=>console.warn("público:",e&&e.code||e)); },700);
+  }
+  function hidePublic(){
+    document.body.classList.remove("public");
+    const be=document.getElementById("btnEntrar"); if(be) be.style.display="none";
+    if(pubUnsub){ pubUnsub(); pubUnsub=null; }
+  }
+  function showPublic(){
+    if(user) return;
+    document.body.classList.remove("guest"); document.body.classList.add("public");
+    const be=document.getElementById("btnEntrar"); if(be) be.style.display="";
+    IP.showLogout(false);
+    try{ if(typeof tab==="function") tab("dash"); }catch(e){}
+    if(pubUnsub){ IP.gate(null); return; }
+    pubUnsub=F.onSnapshot(sharedRef(PUBLIC_ID),snap=>{
+      if(user) return;
+      if(snap.exists()){ IP.applyRemote(snap.data()); IP.status("ok","Público","Vista pública (solo lectura). Entra para editar."); }
+      else{ IP.status("","Público","Aún no hay datos públicos publicados."); }
+      IP.gate(null);
+    },err=>{ if(user) return; console.warn("público:",err&&err.code||err); IP.gate(null); IP.status("off","Sin conexión"); });
+  }
+
   function push(payload){
     IP.status("saving","Guardando…");
     F.setDoc(ref,Object.assign({},payload,{updatedAt:new Date().toISOString()})).catch(e=>{
       IP.status("err","Error al guardar",(e.code||"")+" "+(e.message||""));
       console.error("Firestore setDoc:",e);
     });
-    mirror(payload);
+    mirror(payload); mirrorPublic(payload);
   }
 
   function reconcile(snap){
@@ -2136,10 +2213,11 @@ renderAll();
     IP.gate(null); IP.showLogout(true);
     ensureDaily();
     loadShare().then(()=>mirror(IP.getData())).catch(e=>console.warn("Firestore invitado:",e&&e.code||e));   // si hay enlace activo, lo deja al día
+    mirrorPublic(IP.getData());                                                                              // mantiene al día el espejo público
   }
 
   function start(u){
-    user=u; ref=F.doc(db,"users",u.uid);
+    user=u; ref=F.doc(db,"users",u.uid); hidePublic();
     IP.snapshot=motivo=>addVersion(IP.getData(),motivo); IP.versions=versionsApi(); IP.share=shareApi();
     IP.getCert=async id=>{ try{ const d=await F.getDoc(F.doc(db,"users",user.uid,"certificados",id)); return d.exists()?d.data():null; }catch(e){ console.warn("cert:",e&&e.code||e); return null; } };
     let reconciled=false;
@@ -2190,7 +2268,7 @@ renderAll();
 
   S.onAuthStateChanged(auth,u=>{
     if(u){ if(!user||user.uid!==u.uid||!unsub) start(u); }
-    else{ user=null; stop(); IP.status("","Sin sesión"); IP.gate("login"); }
+    else{ user=null; stop(); showPublic(); }
   });
 })();
 </script>
