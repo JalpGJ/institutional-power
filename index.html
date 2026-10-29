@@ -1003,10 +1003,12 @@ function setGalFilter(f){ galFilter=f; renderGallery(); }
 function mesCorto(f){ const[y,m]=f.split("-").map(Number); return MES_C[m-1]+" "+y; }
 function renderGallery(){
   const box=document.getElementById("galleryBox"); if(!box) return;
+  const seen=new Set();
   const all=data.retiros.filter(r=>r.certFile).map(r=>{
     const l=data.lotes.find(x=>x.id===r.loteId)||{empresa:"?"};
     return {id:r.id,emp:l.empresa||"?",fecha:r.fecha,monto:(r.montoBruto||r.monto),file:r.certFile};
-  }).sort((a,b)=>b.fecha.localeCompare(a.fecha));
+  }).sort((a,b)=>b.fecha.localeCompare(a.fecha))
+    .filter(c=>{ if(seen.has(c.file)) return false; seen.add(c.file); return true; });   // un certificado = una tarjeta (evita duplicar el de $3,331 que está en 2 retiros)
   const firmasArr=[...new Set(all.map(c=>firmShort(c.emp)))];
   if(galFilter!=="all"&&firmasArr.indexOf(galFilter)<0) galFilter="all";
   const st=document.getElementById("retStats");
