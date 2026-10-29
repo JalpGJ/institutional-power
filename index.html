@@ -490,6 +490,7 @@
   .cert .firm{font-size:10.5px;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:999px;white-space:nowrap;text-transform:uppercase}
   .cert .firm.tradeify{color:var(--accent-ink);background:rgba(34,224,127,.14);border:1px solid rgba(34,224,127,.3)}
   .cert .firm.lucid{color:#c3ccff;background:rgba(150,165,255,.14);border:1px solid rgba(150,165,255,.3)}
+  .cert .firm.topstep{color:#d7dde6;background:rgba(215,221,230,.12);border:1px solid rgba(215,221,230,.32)}
   .cert .firm.otra{color:var(--blue-ink);background:var(--blue-bg);border:1px solid rgba(25,201,255,.3)}
   .certov .certcap{color:#fff;font-size:13px;opacity:.85}
 
@@ -996,8 +997,8 @@ function renderCajaResumen(){
 }
 
 /* ---------- Galería pública de certificados (se arma desde los retiros con certFile) ---------- */
-function firmClass(emp){ emp=(emp||"").toLowerCase(); if(emp.indexOf("tradeify")>=0)return"tradeify"; if(emp.indexOf("lucid")>=0)return"lucid"; return"otra"; }
-function firmShort(emp){ if(/tradeify/i.test(emp))return"Tradeify"; if(/lucid/i.test(emp))return"Lucid"; return emp||"—"; }
+function firmClass(emp){ emp=(emp||"").toLowerCase(); if(emp.indexOf("tradeify")>=0)return"tradeify"; if(emp.indexOf("lucid")>=0)return"lucid"; if(emp.indexOf("topstep")>=0)return"topstep"; return"otra"; }
+function firmShort(emp){ if(/tradeify/i.test(emp))return"Tradeify"; if(/lucid/i.test(emp))return"Lucid"; if(/topstep/i.test(emp))return"Topstep"; return emp||"—"; }
 let galFilter="all";
 function setGalFilter(f){ galFilter=f; renderGallery(); }
 function mesCorto(f){ const[y,m]=f.split("-").map(Number); return MES_C[m-1]+" "+y; }
