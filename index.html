@@ -132,6 +132,7 @@
   .accts{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
   .acct{display:flex;align-items:center;gap:5px;background:var(--card2);border:1px solid var(--line);border-radius:9px;padding:5px 9px;font-size:12px}
   .acct input{width:90px;font:inherit;font-size:12px;border:none;background:transparent;color:var(--ink);border-bottom:1px dashed var(--line)}
+  .acct input.fh{width:124px;color:var(--muted)}
   .acct input:focus{outline:none;border-color:var(--accent)}
   .rate{font-size:12px;font-weight:600;color:var(--accent-ink)}
 
@@ -782,12 +783,17 @@ function setHinchadas(id,val){
   const maxH=l.fondeadas||0;
   let n=parseInt(val); if(isNaN(n)||n<0) n=0; if(n>maxH) n=maxH;
   const prev=l.cuentas; l.cuentas=[];
-  for(let i=1;i<=n;i++){ const old=prev.find(c=>c.num===i); l.cuentas.push({num:i, alias:old?old.alias:""}); }
+  for(let i=1;i<=n;i++){ const old=prev.find(c=>c.num===i); l.cuentas.push({num:i, alias:old?old.alias:"", fechaHincha:old?(old.fechaHincha||""):""}); }
   save();
 }
 function setAlias(id,num,val){
   const l=data.lotes.find(x=>x.id===id);
   const c=l.cuentas.find(c=>c.num===num); if(c){ c.alias=val; }
+  persist();   // sin redibujar, para no perder el foco del input
+}
+function setFechaHincha(id,num,val){
+  const l=data.lotes.find(x=>x.id===id);
+  const c=l.cuentas.find(c=>c.num===num); if(c){ c.fechaHincha=val; }
   persist();   // sin redibujar, para no perder el foco del input
 }
 function loteLabel(l){ return `${l.empresa} · ${l.fecha}`; }
@@ -807,7 +813,8 @@ function renderLotes(){
       const rc=retirosLote.filter(r=>r.cuentaNum===c.num);
       const suma=rc.reduce((s,r)=>s+r.monto,0);
       return `<div class="acct">#${c.num}
-        <input placeholder="alias" value="${c.alias||""}" onchange="setAlias('${l.id}',${c.num},this.value)">
+        <input placeholder="nombre/ID" value="${c.alias||""}" onchange="setAlias('${l.id}',${c.num},this.value)">
+        <input type="date" class="fh" title="Fecha de hinchazón" value="${c.fechaHincha||""}" onchange="setFechaHincha('${l.id}',${c.num},this.value)">
         ${rc.length?`<span class="rate">${fmtUSD(suma)} · ${rc.length} ret</span>`:""}
       </div>`;
     }).join("");
@@ -846,7 +853,7 @@ function fillCuentas(){
   const l=data.lotes.find(x=>x.id===loteId);
   const sel=document.getElementById("rCuenta");
   if(!l){ sel.innerHTML=""; return; }
-  sel.innerHTML=l.cuentas.map(c=>`<option value="${c.num}">#${c.num}${c.alias?" · "+c.alias:""}</option>`).join("");
+  sel.innerHTML=l.cuentas.map(c=>`<option value="${c.num}">#${c.num}${c.alias?" · "+c.alias:""}${c.fechaHincha?" · hinch "+c.fechaHincha:""}</option>`).join("");
 }
 function addRetiro(){
   const loteId=document.getElementById("rLote").value;

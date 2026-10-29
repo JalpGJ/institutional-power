@@ -1,0 +1,18 @@
+# Estrategia / simulador NinjaTrader — NO publicar (repo público)
+Code.txt
+*.cs
+
+# Respaldos de datos del dashboard (contienen finanzas reales) — NO publicar
+institutional_power_respaldo_*.json
+*respaldo*.json
+*.backup.json
+
+# Llaves / credenciales de Firebase (ADMIN) — NUNCA publicar
+*firebase-adminsdk*.json
+*-adminsdk-*.json
+serviceAccount*.json
+*.key.json
+
+# Documentos de estrategia (privados) — NO publicar
+*.docx
+*.pdf
