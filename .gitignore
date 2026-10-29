@@ -22,10 +22,14 @@ pat.txt
 *token*
 *.token
 
-# Certificados / imágenes (datos financieros privados) — NO publicar
+# Imágenes sueltas (originales sin procesar) — NO publicar
 *.jpg
 *.jpeg
 *.png
 *.webp
 *.gif
 *.bmp
+
+# EXCEPCIÓN: la carpeta certificados/ SÍ es pública (prueba de retiros reales)
+!certificados/
+!certificados/**

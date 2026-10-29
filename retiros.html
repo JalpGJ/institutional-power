@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retiros Verificados · Institutional Power</title>
+<meta name="description" content="Prueba pública y verificable de retiros reales de cuentas de fondeo (Tradeify y Lucid Trading).">
+<meta property="og:title" content="Retiros Verificados · Institutional Power">
+<meta property="og:description" content="Certificados de pago reales y verificables. Transparencia total.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#05070a; --bg2:#0a0e14; --card:#0e141d; --card2:#121a25;
+    --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+    --txt:#eef2f7; --muted:#8e9bb0; --muted2:#5f6b7e;
+    --accent:#22e07f; --accent2:#19c9ff; --accentd:#0fae63;
+    --lucid:#b9c4ff; --tradeify:#22e07f;
+    --glow:rgba(34,224,127,.35);
+    --radius:20px; --gut:clamp(16px,4vw,40px);
+    --max:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    background:var(--bg); color:var(--txt); line-height:1.55;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden; position:relative;
+  }
+  /* Aurora de fondo */
+  .aurora{position:fixed; inset:0; z-index:0; overflow:hidden; pointer-events:none}
+  .aurora::before,.aurora::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;will-change:transform}
+  .aurora::before{width:55vw;height:55vw;left:-15vw;top:-20vw;background:radial-gradient(circle,rgba(34,224,127,.30),transparent 68%);animation:drift1 22s ease-in-out infinite alternate}
+  .aurora::after{width:50vw;height:50vw;right:-18vw;top:5vw;background:radial-gradient(circle,rgba(25,201,255,.22),transparent 68%);animation:drift2 26s ease-in-out infinite alternate}
+  @keyframes drift1{to{transform:translate(12vw,10vw) scale(1.15)}}
+  @keyframes drift2{to{transform:translate(-10vw,14vw) scale(1.1)}}
+  .grid-overlay{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 75%);opacity:.5}
+  .wrap{position:relative;z-index:2;max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+
+  /* NAV */
+  nav{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;
+    max-width:var(--max);margin:0 auto;padding:22px var(--gut)}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.02em;font-size:16px}
+  .brand .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+    display:grid;place-items:center;color:#021;font-weight:900;box-shadow:0 0 22px var(--glow)}
+  .brand small{display:block;font-weight:500;color:var(--muted);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+  .nav-link{color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:600;padding:9px 15px;border:1px solid var(--line);border-radius:999px;transition:.2s;white-space:nowrap}
+  .nav-link:hover{color:var(--txt);border-color:var(--line2);background:rgba(255,255,255,.03)}
+
+  /* HERO */
+  header.hero{text-align:center;padding:clamp(40px,8vw,90px) 0 clamp(26px,5vw,46px)}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:'Space Grotesk';font-size:12.5px;font-weight:600;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--accent);
+    background:rgba(34,224,127,.08);border:1px solid rgba(34,224,127,.25);padding:8px 16px;border-radius:999px;margin-bottom:26px}
+  .eyebrow .live{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 var(--glow);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 var(--glow)}70%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+  h1{font-size:clamp(38px,8.5vw,82px);line-height:1.02;font-weight:900;letter-spacing:-.035em;margin-bottom:22px}
+  h1 .grad{background:linear-gradient(120deg,var(--accent) 10%,var(--accent2) 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{max-width:600px;margin:0 auto;color:var(--muted);font-size:clamp(15px,2.3vw,18.5px)}
+  .lead b{color:var(--txt);font-weight:600}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:clamp(30px,5vw,50px) 0}
+  .stat{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px 20px;position:relative;overflow:hidden}
+  .stat::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--line2),transparent)}
+  .stat .k{font-family:'Space Grotesk';font-size:clamp(24px,4.2vw,38px);font-weight:700;letter-spacing:-.02em;line-height:1}
+  .stat .k.money{color:var(--accent)}
+  .stat .l{color:var(--muted);font-size:12.5px;font-weight:500;margin-top:9px;letter-spacing:.02em}
+
+  /* FILTROS */
+  .filterbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:8px 0 26px}
+  .filters{display:flex;gap:9px;flex-wrap:wrap}
+  .chip{font-size:13.5px;font-weight:600;color:var(--muted);background:transparent;border:1px solid var(--line);
+    padding:9px 18px;border-radius:999px;cursor:pointer;transition:.18s;font-family:inherit}
+  .chip:hover{color:var(--txt);border-color:var(--line2)}
+  .chip.on{color:#021;background:linear-gradient(135deg,var(--accent),var(--accentd));border-color:transparent;box-shadow:0 6px 20px var(--glow)}
+  .chip .c{opacity:.7;font-weight:500;margin-left:4px}
+  .seclabel{font-family:'Space Grotesk';font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2)}
+
+  /* GALLERY */
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px;padding-bottom:30px}
+  .cert{position:relative;border-radius:var(--radius);overflow:hidden;cursor:pointer;background:var(--card);
+    border:1px solid var(--line);transition:transform .28s cubic-bezier(.2,.7,.3,1),border-color .28s,box-shadow .28s;
+    opacity:0;transform:translateY(22px)}
+  .cert.in{opacity:1;transform:none}
+  .cert:hover{transform:translateY(-6px);border-color:var(--line2);box-shadow:0 20px 50px -20px rgba(0,0,0,.8),0 0 0 1px var(--line2)}
+  .cert .imgwrap{position:relative;aspect-ratio:3/2;overflow:hidden;background:#000}
+  .cert img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;transform:scale(1.01)}
+  .cert:hover img{transform:scale(1.06)}
+  .cert .veil{position:absolute;inset:0;background:linear-gradient(180deg,transparent 35%,rgba(5,7,10,.55) 72%,rgba(5,7,10,.94) 100%)}
+  .cert .zoom{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+    background:rgba(5,7,10,.55);border:1px solid var(--line2);backdrop-filter:blur(6px);opacity:0;transition:.2s;font-size:15px}
+  .cert:hover .zoom{opacity:1}
+  .cert .meta{position:absolute;left:0;right:0;bottom:0;padding:16px 17px;display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+  .cert .amt{font-family:'Space Grotesk';font-weight:700;font-size:26px;letter-spacing:-.02em;line-height:1;text-shadow:0 2px 12px rgba(0,0,0,.6)}
+  .cert .date{color:var(--muted);font-size:12.5px;font-weight:500;margin-top:6px}
+  .badge{font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 11px;border-radius:999px;white-space:nowrap;text-transform:uppercase}
+  .badge.tradeify{color:var(--tradeify);background:rgba(34,224,127,.12);border:1px solid rgba(34,224,127,.3)}
+  .badge.lucid{color:var(--lucid);background:rgba(185,196,255,.1);border:1px solid rgba(185,196,255,.28)}
+  .verified{position:absolute;top:12px;left:12px;display:flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--accent);background:rgba(5,7,10,.6);border:1px solid rgba(34,224,127,.3);
+    padding:5px 9px;border-radius:999px;backdrop-filter:blur(6px)}
+
+  /* LIGHTBOX */
+  .lb{position:fixed;inset:0;z-index:100;background:rgba(3,5,8,.93);backdrop-filter:blur(10px);
+    display:none;align-items:center;justify-content:center;padding:clamp(16px,4vw,52px);opacity:0;transition:opacity .25s}
+  .lb.open{display:flex;opacity:1}
+  .lb-stage{max-width:1000px;width:100%;text-align:center}
+  .lb img{max-width:100%;max-height:72vh;border-radius:14px;box-shadow:0 30px 90px -20px rgba(0,0,0,.9);border:1px solid var(--line2)}
+  .lb-info{margin-top:20px;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
+  .lb-info .amt{font-family:'Space Grotesk';font-size:30px;font-weight:700;color:var(--accent)}
+  .lb-info .sep{color:var(--muted2)}
+  .lb-info .d{color:var(--muted);font-size:15px}
+  .lb-note{margin-top:14px;color:var(--muted2);font-size:12.5px;max-width:520px;margin-left:auto;margin-right:auto}
+  .lb-x{position:absolute;top:20px;right:22px;width:46px;height:46px;border-radius:12px;border:1px solid var(--line2);
+    background:rgba(255,255,255,.04);color:var(--txt);font-size:22px;cursor:pointer;transition:.2s}
+  .lb-x:hover{background:rgba(255,255,255,.1)}
+  .lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;
+    border:1px solid var(--line2);background:rgba(255,255,255,.04);color:var(--txt);font-size:22px;cursor:pointer;transition:.2s;display:grid;place-items:center}
+  .lb-nav:hover{background:rgba(255,255,255,.12)}
+  .lb-prev{left:clamp(10px,3vw,34px)} .lb-next{right:clamp(10px,3vw,34px)}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:40px 0 60px;position:relative;z-index:2}
+  .foot-grid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+  .foot-note{color:var(--muted2);font-size:12.5px;max-width:560px;line-height:1.7}
+  .foot-note b{color:var(--muted)}
+  .trust{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}
+  .trust span{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:12.5px;font-weight:500}
+  .trust .ic{color:var(--accent)}
+
+  @media(max-width:720px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .gallery{grid-template-columns:1fr}
+    .lb-nav{width:42px;height:42px}
+    nav .nav-link.hideSm{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="aurora"></div>
+<div class="grid-overlay"></div>
+
+<nav>
+  <div class="brand">
+    <span class="dot">IP</span>
+    <span>Institutional&nbsp;Power<small>Retiros verificados</small></span>
+  </div>
+  <a class="nav-link" href="index.html">Panel privado →</a>
+</nav>
+
+<div class="wrap">
+  <header class="hero">
+    <span class="eyebrow"><span class="live"></span>Prueba pública · Verificable</span>
+    <h1>Retiros <span class="grad">reales</span>,<br>a la vista de todos.</h1>
+    <p class="lead">Cada certificado de abajo es un <b>pago real</b> recibido de cuentas de fondeo. Nada de capturas editadas: los de Lucid traen <b>código y QR</b> para que tú mismo los verifiques.</p>
+  </header>
+
+  <section class="stats" id="stats">
+    <div class="stat"><div class="k money" data-count="21341" data-prefix="$">$0</div><div class="l">Total certificado</div></div>
+    <div class="stat"><div class="k" data-count="14">0</div><div class="l">Retiros pagados</div></div>
+    <div class="stat"><div class="k" data-count="2">0</div><div class="l">Empresas de fondeo</div></div>
+    <div class="stat"><div class="k" style="font-size:clamp(18px,3vw,26px);letter-spacing:0">Ago–Oct</div><div class="l">Periodo 2026</div></div>
+  </section>
+
+  <div class="filterbar">
+    <div class="filters" id="filters">
+      <button class="chip on" data-f="all">Todos <span class="c" id="cAll"></span></button>
+      <button class="chip" data-f="Tradeify">Tradeify <span class="c" id="cTradeify"></span></button>
+      <button class="chip" data-f="Lucid">Lucid <span class="c" id="cLucid"></span></button>
+    </div>
+    <span class="seclabel">Toca un certificado para ampliar</span>
+  </div>
+
+  <section class="gallery" id="gallery"></section>
+</div>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <div class="foot-note">
+        <b>Transparencia total.</b> Los montos mostrados corresponden al valor del certificado emitido por cada empresa.
+        Los certificados de Lucid Trading incluyen un código de verificación y QR escaneable para confirmar su autenticidad.
+      </div>
+      <div class="trust">
+        <span><span class="ic">◆</span> Certificados sin editar</span>
+        <span><span class="ic">◆</span> Verificable con QR</span>
+        <span><span class="ic">◆</span> Actualizado al día</span>
+      </div>
+    </div>
+    <a class="nav-link" href="index.html">← Volver al panel</a>
+  </div>
+</footer>
+
+<div class="lb" id="lb">
+  <button class="lb-x" id="lbX" aria-label="Cerrar">✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev" aria-label="Anterior">‹</button>
+  <button class="lb-nav lb-next" id="lbNext" aria-label="Siguiente">›</button>
+  <div class="lb-stage">
+    <img id="lbImg" src="" alt="Certificado de retiro">
+    <div class="lb-info">
+      <span class="amt" id="lbAmt"></span><span class="sep">·</span><span class="d" id="lbDate"></span><span class="sep">·</span><span class="d" id="lbFirm"></span>
+    </div>
+    <div class="lb-note">Pago recibido en cuenta de fondeo. Los certificados de Lucid incluyen código/QR para verificación independiente.</div>
+  </div>
+</div>
+
+<script>
+const RETIROS=[
+  {f:"2026-10-28",e:"Lucid",m:1385,img:"certificados/2026-10-28_lucid_1385.jpg"},
+  {f:"2026-10-23",e:"Tradeify",m:1934,img:"certificados/2026-10-23_tradeify_1934.png"},
+  {f:"2026-10-23",e:"Tradeify",m:1047,img:"certificados/2026-10-23_tradeify_1047.png"},
+  {f:"2026-10-21",e:"Lucid",m:1127,img:"certificados/2026-10-21_lucid_1127.jpg"},
+  {f:"2026-10-15",e:"Tradeify",m:1846,img:"certificados/2026-10-15_tradeify_1846.png"},
+  {f:"2026-10-12",e:"Lucid",m:1882,img:"certificados/2026-10-12_lucid_1882.jpg"},
+  {f:"2026-10-06",e:"Tradeify",m:769,img:"certificados/2026-10-06_tradeify_769.png"},
+  {f:"2026-09-22",e:"Tradeify",m:1215,img:"certificados/2026-09-22_tradeify_1215.png"},
+  {f:"2026-09-22",e:"Tradeify",m:1071,img:"certificados/2026-09-22_tradeify_1071.png"},
+  {f:"2026-09-20",e:"Tradeify",m:1135,img:"certificados/2026-09-20_tradeify_1135.png"},
+  {f:"2026-09-15",e:"Tradeify",m:1614,img:"certificados/2026-09-15_tradeify_1614.png"},
+  {f:"2026-09-13",e:"Tradeify",m:1452,img:"certificados/2026-09-13_tradeify_1452.png"},
+  {f:"2026-09-11",e:"Tradeify",m:1533,img:"certificados/2026-09-11_tradeify_1533.png"},
+  {f:"2026-08-05",e:"Lucid",m:3331,img:"certificados/2026-08-05_lucid_3331.jpg"},
+];
+const MES=["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+const fmtD=f=>{const[y,m,d]=f.split("-").map(Number);return d+" "+MES[m-1]+" "+y;};
+const money=n=>"$"+n.toLocaleString("en-US");
+
+// contadores de filtro
+document.getElementById("cAll").textContent=RETIROS.length;
+document.getElementById("cTradeify").textContent=RETIROS.filter(r=>r.e==="Tradeify").length;
+document.getElementById("cLucid").textContent=RETIROS.filter(r=>r.e==="Lucid").length;
+
+let current=RETIROS.slice();
+const gal=document.getElementById("gallery");
+function render(list){
+  current=list;
+  gal.innerHTML=list.map((r,i)=>`
+    <article class="cert" data-i="${i}">
+      <div class="imgwrap">
+        <img loading="lazy" src="${r.img}" alt="Certificado de retiro ${money(r.m)} · ${r.e}">
+        <div class="veil"></div>
+        <div class="verified">✓ Verificado</div>
+        <div class="zoom">⤢</div>
+        <div class="meta">
+          <div>
+            <div class="amt">${money(r.m)}</div>
+            <div class="date">${fmtD(r.f)}</div>
+          </div>
+          <span class="badge ${r.e.toLowerCase()}">${r.e}</span>
+        </div>
+      </div>
+    </article>`).join("");
+  requestAnimationFrame(()=>{
+    const cards=[...gal.querySelectorAll(".cert")];
+    cards.forEach((c,i)=>{ setTimeout(()=>c.classList.add("in"),40*i); c.onclick=()=>openLB(i); });
+  });
+}
+render(current);
+
+// filtros
+document.getElementById("filters").addEventListener("click",e=>{
+  const b=e.target.closest(".chip"); if(!b)return;
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on")); b.classList.add("on");
+  const f=b.dataset.f;
+  render(f==="all"?RETIROS.slice():RETIROS.filter(r=>r.e===f));
+});
+
+// lightbox
+const lb=document.getElementById("lb"),lbImg=document.getElementById("lbImg");
+let idx=0;
+function showLB(){const r=current[idx];lbImg.src=r.img;document.getElementById("lbAmt").textContent=money(r.m);
+  document.getElementById("lbDate").textContent=fmtD(r.f);document.getElementById("lbFirm").textContent=r.e;}
+function openLB(i){idx=i;showLB();lb.classList.add("open");document.body.style.overflow="hidden";}
+function closeLB(){lb.classList.remove("open");document.body.style.overflow="";}
+function nav(d){idx=(idx+d+current.length)%current.length;showLB();}
+document.getElementById("lbX").onclick=closeLB;
+document.getElementById("lbPrev").onclick=e=>{e.stopPropagation();nav(-1);};
+document.getElementById("lbNext").onclick=e=>{e.stopPropagation();nav(1);};
+lb.onclick=e=>{if(e.target===lb)closeLB();};
+document.addEventListener("keydown",e=>{if(!lb.classList.contains("open"))return;
+  if(e.key==="Escape")closeLB();else if(e.key==="ArrowLeft")nav(-1);else if(e.key==="ArrowRight")nav(1);});
+
+// contadores animados
+function countUp(el){
+  const target=+el.dataset.count,pre=el.dataset.prefix||"",dur=1400,t0=performance.now();
+  function step(t){let p=Math.min((t-t0)/dur,1);p=1-Math.pow(1-p,3);
+    const v=Math.round(target*p);el.textContent=pre+v.toLocaleString("en-US");
+    if(p<1)requestAnimationFrame(step);}
+  requestAnimationFrame(step);
+}
+const io=new IntersectionObserver((ents)=>{ents.forEach(en=>{if(en.isIntersecting){
+  en.target.querySelectorAll("[data-count]").forEach(countUp);io.disconnect();}});},{threshold:.4});
+io.observe(document.getElementById("stats"));
+</script>
+</body>
+</html>

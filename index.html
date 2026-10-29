@@ -624,7 +624,10 @@ window.FIREBASE_CONFIG = {
     </div>
     </div>
 
-    <h2>Historial de retiros</h2>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+      <h2 style="margin:0">Historial de retiros</h2>
+      <a class="btn" href="retiros.html" target="_blank" rel="noopener" title="Página pública de retiros verificados" style="text-decoration:none">🌐 Página pública de retiros</a>
+    </div>
     <div class="card"><div id="retirosList"></div></div>
   </section>
 
@@ -904,18 +907,21 @@ function renderRetiros(){
         <td data-l="Cuenta">#${r.cuentaNum}${c&&c.alias?" · "+c.alias:""}</td>
         <td data-l="Retiro"><input class="tin" type="number" min="1" value="${r.retiroNum}" onchange="editRetiro('${r.id}','retiroNum',this.value)" style="width:52px"></td>
         <td data-l="Monto" style="text-align:right"><input class="tin pos" type="number" min="0" step="0.01" value="${r.monto}" onchange="editRetiro('${r.id}','monto',this.value)" style="width:104px;text-align:right;color:var(--accent-ink)"></td>
-        <td class="act">${(!GUEST&&r.cert)?`<button class="btn mini" title="Ver certificado" onclick="verCertificado('${r.id}')">📄</button> `:""}<button class="btn danger" onclick="delRetiro('${r.id}')">✕</button></td>
+        <td class="act">${(r.cert||r.certFile)?`<button class="btn mini" title="Ver certificado" onclick="verCertificado('${r.id}')">📄</button> `:""}${GUEST?"":`<button class="btn danger" onclick="delRetiro('${r.id}')">✕</button>`}</td>
       </tr>`;
     }).join("")+`</tbody></table>`;
 }
 
-/* Muestra el certificado (imagen guardada en users/{uid}/certificados/{retiroId}) en un overlay */
+/* Muestra el certificado en un overlay. Prioriza el archivo público certificados/<certFile>;
+   si no existe, cae al respaldo en Firestore users/{uid}/certificados/{retiroId}. */
 async function verCertificado(id){
-  if(!IP.getCert){ toast("El certificado se ve al entrar con tu cuenta."); return; }
-  let c; try{ c=await IP.getCert(id); }catch(e){ c=null; }
-  if(!c||!c.dataUrl){ toast("No se encontró el certificado de este retiro."); return; }
+  const r=(data.retiros||[]).find(x=>x.id===id);
+  let src=null;
+  if(r&&r.certFile){ src="certificados/"+encodeURIComponent(r.certFile); }
+  else if(IP.getCert){ try{ const c=await IP.getCert(id); if(c&&c.dataUrl) src=c.dataUrl; }catch(e){} }
+  if(!src){ toast("No se encontró el certificado de este retiro."); return; }
   const ov=document.createElement("div"); ov.className="certov"; ov.onclick=()=>ov.remove();
-  const img=document.createElement("img"); img.src=c.dataUrl; img.alt="Certificado de retiro";
+  const img=document.createElement("img"); img.src=src; img.alt="Certificado de retiro";
   const cap=document.createElement("div"); cap.className="certcap"; cap.textContent="Toca para cerrar";
   ov.appendChild(img); ov.appendChild(cap); document.body.appendChild(ov);
 }
