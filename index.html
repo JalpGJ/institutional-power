@@ -1018,7 +1018,7 @@ function renderGallery(){
     else{
       const total=all.reduce((s,c)=>s+(c.monto||0),0), fechas=all.map(c=>c.fecha).sort();
       const sc=(v,l,cls)=>`<div class="stat"><div class="k ${cls||""}">${v}</div><div class="l">${l}</div></div>`;
-      st.innerHTML=sc(fmtUSD(total),"Total certificado","money")+
+      st.innerHTML=sc(fmtUSD(total),"Total certificado (bruto)","money")+
         sc(String(all.length),all.length===1?"Retiro pagado":"Retiros pagados")+
         sc(String(firmasArr.length),firmasArr.length===1?"Empresa":"Empresas de fondeo")+
         sc(mesCorto(fechas[0])+" – "+mesCorto(fechas[fechas.length-1]),"Periodo");
@@ -1042,7 +1042,7 @@ function renderGallery(){
         </div>
       </div>
     </article>`).join("")+'</div>'+
-    '<div class="foot">Cada monto es el valor del certificado emitido por la empresa. Algunos certificados (los de Lucid) incluyen código y QR para verificación independiente; no todos los certificados llevan QR.</div>';
+    '<div class="foot"><b>Los montos son el valor bruto del certificado</b> emitido por cada empresa, es decir <b>antes</b> de descontar el ~10% que retiene la firma. Por eso este total es mayor que la «Ganancia neta» del Dashboard, que es lo que realmente se recibe (el ~90%). Algunos certificados (los de Lucid) incluyen código y QR para verificación independiente; no todos los certificados llevan QR.</div>';
 }
 
 /* =========================================================
