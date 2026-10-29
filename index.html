@@ -1593,7 +1593,7 @@ function diaInfo(y,m,d,map){
   if(map[d]){
     // día de apertura: color de la tanda + cta + hinchazón y día mínimo
     cls=map[d].tipo; tag=(map[d].tipo==="compra"?"▲":"▼")+' <span class="tw">'+map[d].tipo+" · cta</span>"+map[d].cta;
-    lineas=[[HORA_HINCH+" · Hinchazón",HORA_HINCH_S+" Hinch."],[HORA_MIN+" · Días mínimos",HORA_MIN_S+" Mín."]];
+    lineas=[[HORA_MIN+" · Días mínimos",HORA_MIN_S+" Mín."],[HORA_HINCH+" · Hinchazón",HORA_HINCH_S+" Hinch."]];
   } else {
     const wd=new Date(y,m,d).getDay();
     if(FERIADOS.has(key)){ cls="feriado"; tag="feriado"; }
@@ -1631,8 +1631,8 @@ function calToday(){
     const dir=map[d].tipo==="compra"?"COMPRA":"VENTA";
     cls=map[d].tipo; accion=map[d].tipo==="compra"?"COMPRAR":"VENDER";
     nota="Abre la cuenta "+map[d].cta+" de "+CUENTAS_SEM+" · semana "+map[d].semana+".";
-    lineas=[linCard("Hinchazón",dir,HINCH_CTR,HINCH_SL,HINCH_TP,HORA_HINCH),
-            linCard("Día mínimo",dir,MIN_CTR,MIN_SL,MIN_TP,HORA_MIN)];
+    lineas=[linCard("Día mínimo",dir,MIN_CTR,MIN_SL,MIN_TP,HORA_MIN),
+            linCard("Hinchazón",dir,HINCH_CTR,HINCH_SL,HINCH_TP,HORA_HINCH)];
   } else if(FERIADOS.has(key)){
     cls="feriado"; accion="FERIADO"; nota="Mercado cerrado.";
   } else if(wd===0||wd===6){
