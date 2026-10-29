@@ -16,3 +16,8 @@ serviceAccount*.json
 # Documentos de estrategia (privados) — NO publicar
 *.docx
 *.pdf
+
+# Tokens / credenciales de acceso — NUNCA publicar
+pat.txt
+*token*
+*.token
