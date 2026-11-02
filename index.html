@@ -629,7 +629,7 @@ window.FIREBASE_CONFIG = {
         <div class="it"><span class="sw" style="background:var(--card2)"></span>Fin de semana · sin operar</div>
         <div class="it"><span class="sw" style="background:var(--blue-bg)"></span>Feriado</div>
       </div>
-      <div class="foot">3 cuentas por semana · semana 1 compra · 2 venta · 3 venta · 4 compra. Los días hábiles toman el color de la tanda de su semana (verde compra / rojo venta), aunque ya hayan abierto sus 3 cuentas: esos días solo queda el día mínimo. Los días de transición de fin de mes (semana 4 → semana 1 del mes siguiente) van en compra, porque esos días también se hacen días mínimos en compra. Horarios en tu hora de Winnipeg, Canadá (Hora Central): hinchazón 8:33 am · días mínimos 8:20 am.</div>
+      <div class="foot">3 cuentas por semana · semana 1 compra · 2 venta · 3 venta · 4 compra. Los días hábiles toman el color de la tanda de su semana (verde compra / rojo venta), aunque ya hayan abierto sus 3 cuentas: esos días solo queda el día mínimo. Los días de transición de fin de mes (semana 4 → semana 1 del mes siguiente) van en compra, porque esos días también se hacen días mínimos en compra. Horarios en tu hora de Winnipeg (Hora Central, fija), <b>calculados automáticamente</b> desde las 9:20 (días mínimos) y 9:33 (hinchazón) hora de Nueva York: cuando Nueva York cambia de horario, estas horas se ajustan solas.</div>
     </div>
   </section>
 
@@ -1567,8 +1567,31 @@ function hBars(items,fmt){
    PLAYBOOK (calendario institucional)
 ========================================================= */
 const CUENTAS_SEM=3;
-const HORA_HINCH="8:33 am", HORA_HINCH_S="8:33", HORA_MIN="8:20 am", HORA_MIN_S="8:20";   // hora de Winnipeg (Hora Central, Canadá)
-const ZONA_TXT="hora de Winnipeg, Canadá (Hora Central)";
+/* Horarios AUTOMÁTICOS: la estrategia está en hora de Nueva York (que SÍ cambia de horario, DST).
+   Winnipeg quedó FIJO en UTC-5 (no cambia), así que convertimos de NY -> Winnipeg y se actualiza solo. */
+const NY_MIN={h:9,m:20}, NY_HINCH={h:9,m:33};   // horas en America/New_York (días mínimos / hinchazón)
+const WPG_OFFSET_MIN=-300;                        // Winnipeg fijo = UTC-5 (no cambia de horario)
+const ZONA_TXT="hora de Winnipeg (Hora Central, fija) · calculada desde Nueva York";
+function tzOffsetMin(date,tz){                    // offset (min) de una zona en un instante: localTime = UTC + offset
+  try{
+    const dtf=new Intl.DateTimeFormat("en-US",{timeZone:tz,hour12:false,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+    const p={}; for(const x of dtf.formatToParts(date)) p[x.type]=x.value;
+    const hh=(p.hour==="24")?"00":p.hour;
+    return Math.round((Date.UTC(+p.year,+p.month-1,+p.day,+hh,+p.minute,+p.second)-date.getTime())/60000);
+  }catch(e){ return WPG_OFFSET_MIN; }
+}
+function nyToWpg(y,m,d,t){                         // hora {h,m} de NY ese día -> {h,m} en Winnipeg fijo
+  const ref=new Date(Date.UTC(y,m,d,16,0,0));     // ~mediodía en NY: offset correcto del día (después del cambio DST a las 2am)
+  const nyOff=tzOffsetMin(ref,"America/New_York");// -240 (verano EDT) o -300 (invierno EST)
+  const w=((t.h*60+t.m - nyOff + WPG_OFFSET_MIN)%1440+1440)%1440;
+  return {h:Math.floor(w/60), m:w%60};
+}
+function fmtHora12(h,mm){ const ap=h<12?"am":"pm"; let hh=h%12; if(hh===0)hh=12; return hh+":"+String(mm).padStart(2,"0")+" "+ap; }
+function horasDia(y,m,d){                          // horas de Winnipeg (largo y corto) para días mínimos e hinchazón ese día
+  const a=nyToWpg(y,m,d,NY_MIN), b=nyToWpg(y,m,d,NY_HINCH);
+  return { minLong:fmtHora12(a.h,a.m), minShort:a.h+":"+String(a.m).padStart(2,"0"),
+           hinchLong:fmtHora12(b.h,b.m), hinchShort:b.h+":"+String(b.m).padStart(2,"0") };
+}
 // parámetros de cada operación
 const HINCH_CTR="10 contratos", HINCH_SL="SL 2000", HINCH_TP="TP 3400";
 const MIN_CTR="1 contrato", MIN_SL="SL 400", MIN_TP="TP 150";
@@ -1595,12 +1618,12 @@ function simularMes(y,m){
 }
 /* info de una fecha cualquiera (se usa tanto para el mes visible como para el relleno de los meses vecinos) */
 function diaInfo(y,m,d,map){
-  const key=keyF(y,m,d);
+  const key=keyF(y,m,d), H=horasDia(y,m,d);
   let cls,tag,lineas=[];
   if(map[d]){
     // día de apertura: color de la tanda + cta + hinchazón y día mínimo
     cls=map[d].tipo; tag=(map[d].tipo==="compra"?"▲":"▼")+' <span class="tw">'+map[d].tipo+" · cta</span>"+map[d].cta;
-    lineas=[[HORA_MIN+" · Días mínimos",HORA_MIN_S+" Mín."],[HORA_HINCH+" · Hinchazón",HORA_HINCH_S+" Hinch."]];
+    lineas=[[H.minLong+" · Días mínimos",H.minShort+" Mín."],[H.hinchLong+" · Hinchazón",H.hinchShort+" Hinch."]];
   } else {
     const wd=new Date(y,m,d).getDay();
     if(FERIADOS.has(key)){ cls="feriado"; tag="feriado"; }
@@ -1612,7 +1635,7 @@ function diaInfo(y,m,d,map){
       const ub=Math.floor((d-1)/7);   // banda real de la semana, SIN tope en 3
       cls = ub<=3 ? (bandaCompra(ub)?"compra":"venta") : "compra";
       tag="";
-      lineas=[[HORA_MIN+" · Días mínimos",HORA_MIN_S+" Mín."]];
+      lineas=[[H.minLong+" · Días mínimos",H.minShort+" Mín."]];
     }
   }
   return {cls,tag,lineas};
@@ -1628,7 +1651,7 @@ function linCard(label,dir,ctr,sl,tp,hora){
 function calToday(){
   const sel = calSel || new Date();
   const y=sel.getFullYear(), m=sel.getMonth(), d=sel.getDate(), wd=sel.getDay();
-  const map=simularMes(y,m), key=keyF(y,m,d);
+  const map=simularMes(y,m), key=keyF(y,m,d), H=horasDia(y,m,d);
   const t=new Date(), esHoyReal=(y===t.getFullYear()&&m===t.getMonth()&&d===t.getDate());
   const box=document.getElementById("calToday");
   const f=(esHoyReal?"Hoy · ":"")+DOW[wd]+" "+d+" de "+MESES[m]+" "+y;
@@ -1638,8 +1661,8 @@ function calToday(){
     const dir=map[d].tipo==="compra"?"COMPRA":"VENTA";
     cls=map[d].tipo; accion=map[d].tipo==="compra"?"COMPRAR":"VENDER";
     nota="Abre la cuenta "+map[d].cta+" de "+CUENTAS_SEM+" · semana "+map[d].semana+".";
-    lineas=[linCard("Día mínimo",dir,MIN_CTR,MIN_SL,MIN_TP,HORA_MIN),
-            linCard("Hinchazón",dir,HINCH_CTR,HINCH_SL,HINCH_TP,HORA_HINCH)];
+    lineas=[linCard("Día mínimo",dir,MIN_CTR,MIN_SL,MIN_TP,H.minLong),
+            linCard("Hinchazón",dir,HINCH_CTR,HINCH_SL,HINCH_TP,H.hinchLong)];
   } else if(FERIADOS.has(key)){
     cls="feriado"; accion="FERIADO"; nota="Mercado cerrado.";
   } else if(wd===0||wd===6){
@@ -1651,7 +1674,7 @@ function calToday(){
     cls = dw ? dw.toLowerCase() : "compra";
     accion="DÍA MÍNIMO";
     nota = dw ? "Sin apertura hoy: la tanda de la semana ya está completa." : "Días de transición (semana 4 → semana 1): ambas en compra. Solo el día mínimo, en compra.";
-    lineas=[linCard("Día mínimo",dirMin,MIN_CTR,MIN_SL,MIN_TP,HORA_MIN)];
+    lineas=[linCard("Día mínimo",dirMin,MIN_CTR,MIN_SL,MIN_TP,H.minLong)];
   }
   box.className="cal-today "+cls;
   box.innerHTML=`<div class="fecha">${f}</div><div class="accion">${accion}</div>`
