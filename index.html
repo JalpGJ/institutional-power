@@ -88,6 +88,34 @@
   h2 .hint{font-size:12px;font-weight:400;color:var(--faint)}
   .card{background:linear-gradient(180deg,rgba(255,255,255,.025),transparent),var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);min-width:0}
   .sub{font-size:13px;color:var(--muted)}
+  /* ===== El Sistema (plan de trading · privado) ===== */
+  .pl-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 16px}
+  .pl-fact{background:linear-gradient(180deg,rgba(255,255,255,.025),transparent),var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+  .pl-fact .k{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+  .pl-fact .v{font-family:'Space Grotesk',Inter,sans-serif;font-weight:700;font-size:20px;color:var(--ink);margin-top:3px}
+  .pl-fact .v.acc{color:var(--accent-ink)}
+  .pl-sec{margin:0 0 14px}
+  .pl-h{display:flex;align-items:center;gap:12px;margin:0 0 12px}
+  .pl-badge{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-family:'Space Grotesk',Inter,sans-serif;font-weight:700;font-size:15px;color:var(--accent-ink);background:var(--accent-bg);border:1px solid rgba(34,224,127,.25)}
+  .pl-badge svg{width:18px;height:18px}
+  .pl-h h2{margin:0;font-family:'Space Grotesk',Inter,sans-serif;font-size:19px;font-weight:700;color:var(--ink)}
+  .pl-h .pl-tag{margin-left:auto;font-size:12px;color:var(--faint);text-align:right}
+  .pl-p{color:var(--muted);line-height:1.6;margin:0 0 10px}
+  .pl-p b,.pl-li b,.pl-table b{color:var(--ink)}
+  .pl-ul{list-style:none;margin:0;padding:0}
+  .pl-li{position:relative;padding:5px 0 5px 20px;color:var(--muted);line-height:1.5}
+  .pl-li::before{content:"";position:absolute;left:3px;top:12px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  .pl-kv{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+  .pl-kv span{font-size:12.5px;padding:5px 11px;border-radius:999px;background:var(--card2);border:1px solid var(--line);color:var(--ink)}
+  .pl-note{font-size:12.5px;color:var(--faint);font-style:italic;margin:10px 0 0}
+  .pl-table{width:100%;border-collapse:collapse;margin-top:6px}
+  .pl-table th{text-align:left;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);padding:8px 10px;border-bottom:1px solid var(--line2)}
+  .pl-table td{padding:10px;border-bottom:1px solid var(--line);color:var(--muted);font-size:13.5px;vertical-align:top}
+  .pl-table tr:last-child td{border-bottom:none}
+  .pl-dir{font-weight:700;font-size:12px;padding:3px 11px;border-radius:999px;display:inline-block}
+  .pl-dir.compra{color:var(--accent-ink);background:var(--accent-bg)}
+  .pl-dir.venta{color:var(--red-ink);background:var(--red-bg)}
+  .pl-firm{font-weight:600;color:var(--ink)}
 
   /* ---------- forms ---------- */
   .form{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;align-items:end}
@@ -370,7 +398,7 @@
   .shact{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
   body.guest .owner-only,body.guest .editonly,body.guest .btn.danger,body.guest .rhint{display:none !important}
   /* Vista PÚBLICA (sin login ni enlace de invitado): solo Dashboard y Retiros. Flujo de Caja y Playbook ocultos. */
-  body.public .tab[data-tab="caja"],body.public .tab[data-tab="playbook"],body.public #caja,body.public #playbook{display:none !important}
+  body.public .tab[data-tab="caja"],body.public .tab[data-tab="playbook"],body.public .tab[data-tab="sistema"],body.public #caja,body.public #playbook,body.public #sistema{display:none !important}
   body.public .owner-only,body.public .editonly,body.public .btn.danger,body.public .rhint{display:none !important}
   #btnEntrar{background:var(--accent);color:#04120b;border-color:transparent;font-weight:700}
   #btnEntrar:hover{filter:brightness(1.08)}
@@ -610,6 +638,7 @@ window.FIREBASE_CONFIG = {
     <button class="tab" data-tab="retiros" onclick="tab('retiros')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg><span>Retiros</span></button>
     <button class="tab" data-tab="caja" onclick="tab('caja')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg><span>Flujo de Caja</span></button>
     <button class="tab" data-tab="playbook" onclick="tab('playbook')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Playbook</span></button>
+    <button class="tab" data-tab="sistema" onclick="tab('sistema')"><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg><span>El Sistema</span></button>
   </nav>
 
   <!-- ===================== PLAYBOOK ===================== -->
@@ -696,6 +725,105 @@ window.FIREBASE_CONFIG = {
     <div class="stats-row" id="retStats"></div>
     <div class="filterbar"><div class="chips" id="retFilters"></div><span class="fsum">Toca un certificado para ampliarlo</span></div>
     <div id="galleryBox"></div>
+  </section>
+
+  <!-- ===================== EL SISTEMA (plan de trading · privado) ===================== -->
+  <section class="panel" id="sistema">
+    <div class="rhero">
+      <span class="reyebrow"><span class="rlive"></span>Documento maestro · privado</span>
+      <h1 class="rtitle">El <span class="grad">Sistema</span></h1>
+      <p class="rlead">Mi plan de trading completo — evaluación, hinchazón, días mínimos y retiro. El negocio en una sola página.</p>
+    </div>
+
+    <div class="pl-top">
+      <div class="pl-fact"><div class="k">Meta mensual</div><div class="v acc">$20.000 netos</div></div>
+      <div class="pl-fact"><div class="k">Objetivo evaluación</div><div class="v">$3.000</div></div>
+      <div class="pl-fact"><div class="k">Hinchazón</div><div class="v">9:33 <span style="font-size:13px;color:var(--faint)">NY</span></div></div>
+      <div class="pl-fact"><div class="k">Días mínimos</div><div class="v">9:20 <span style="font-size:13px;color:var(--faint)">NY</span></div></div>
+    </div>
+
+    <div class="card pl-sec">
+      <div class="pl-h"><span class="pl-badge">1</span><h2>Evaluación</h2><span class="pl-tag">pasan 2–3 de cada 10</span></div>
+      <p class="pl-p">Comprar <b>10+ cuentas</b>, operadas una a la vez el mismo día por turnos (seguidas, para que se dé la estadística de fondeo). El objetivo es llegar a <b>$3.000</b> de ganancia. Dos variantes según la consistencia:</p>
+      <ul class="pl-ul">
+        <li class="pl-li"><b>2 días (consistencia 50%):</b> Día 1 +$1.500 · Día 2 +$1.500</li>
+        <li class="pl-li"><b>3 días (consistencia 40%, ej. Tradeify):</b> +$1.000 por día × 3 días</li>
+      </ul>
+      <div class="pl-kv"><span>SL 2.000 / TP 1.500</span><span>20–40 contratos</span><span>mejor en noticias</span></div>
+      <p class="pl-p"><b>Cómo se opera:</b> un trade por día por cada evaluación, de forma <b>consecutiva y siguiendo el precio</b>. Se abre en la dirección del movimiento (si el precio baja, se vende). Al cerrar en <b>take profit</b>, se abre de una vez la siguiente operación en la próxima cuenta <b>en la misma dirección</b>; si una cuenta llega a <b>stop loss</b>, en la siguiente <b>se cambia de dirección</b>. Así se va siguiendo el precio.</p>
+      <p class="pl-p">Por eso, en <b>movimientos fuertes</b> (de venta o de compra) se fondean muchas cuentas; en <b>mercado lateral</b> se fondean menos.</p>
+    </div>
+
+    <div class="card pl-sec">
+      <div class="pl-h"><span class="pl-badge">2</span><h2>Hinchazón</h2><span class="pl-tag">~1 de cada 3 fondeadas</span></div>
+      <p class="pl-p">Con la cuenta fondeada nueva, el <b>Día 1: +$3.400</b>.</p>
+      <div class="pl-kv"><span>10 contratos</span><span>9:33 NY</span><span>SL 2.000 / TP 3.400</span><span>dirección por cronograma</span></div>
+      <p class="pl-p"><b>Dirección por cronograma:</b> es un patrón comprobado en la bolsa —semana 1 compra, 2 venta, 3 venta, 4 compra— que se respeta porque el mercado es <b>constantemente ascendente</b>. En los <b>primeros 3 días de cada semana</b> la probabilidad es aún mayor; por eso la real supera a la teórica.</p>
+    </div>
+
+    <div class="card pl-sec">
+      <div class="pl-h"><span class="pl-badge">3</span><h2>Días Mínimos</h2></div>
+      <p class="pl-p">Días 2 al 5: <b>+$150 por día</b>.</p>
+      <div class="pl-kv"><span>1 contrato</span><span>9:20 NY</span><span>SL 400 / TP 150</span><span>dirección por cronograma</span></div>
+      <p class="pl-p"><b>Matemática:</b> SL 400 / (400 + 150) ≈ <b>0,73 (~73%)</b>. Entramos 10 minutos antes de la apertura; sin importar hacia qué lado se mueva el mercado, la operación ya tiene ~73% de acierto, que subimos un poco más con el cronograma.</p>
+    </div>
+
+    <div class="card pl-sec">
+      <div class="pl-h"><span class="pl-badge">4</span><h2>Retiro y Quema</h2></div>
+      <p class="pl-p">La idea del sistema es <b>exprimir lo más posible a las empresas de fondeo</b> antes de que nos pasen a Live. Y si nos pasan a Live, de todos modos se puede aplicar este mismo sistema.</p>
+      <ul class="pl-ul">
+        <li class="pl-li">Después de retirar, hacer otros <b>5 días mínimos (&gt;$150)</b> para volver a retirar.</li>
+        <li class="pl-li">Tras <b>4 retiros se quema la cuenta</b> y se continúa con cuentas nuevas.</li>
+      </ul>
+    </div>
+
+    <div class="card pl-sec">
+      <div class="pl-h"><span class="pl-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span><h2>Escala Operativa</h2></div>
+      <ul class="pl-ul">
+        <li class="pl-li">Comprar <b>~10 evaluaciones por semana</b>.</li>
+        <li class="pl-li">Meta: <b>mínimo 3 cuentas fondeadas listas cada semana</b> (se hacen 3 días de hinchazón por semana).</li>
+        <li class="pl-li">Si de 10 solo fondean 2, comprar más hasta completar las 3.</li>
+      </ul>
+    </div>
+
+    <div class="card pl-sec">
+      <div class="pl-h"><span class="pl-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></span><h2>Cronograma</h2><span class="pl-tag">se resetea cada mes</span></div>
+      <p class="pl-p">Dirección de compra/venta. Sin sábados ni domingos · <b>sí</b> incluye festivos de bolsa. Bandas de 7 días:</p>
+      <table class="pl-table">
+        <thead><tr><th>Días del mes</th><th>Dirección</th><th>Nota</th></tr></thead>
+        <tbody>
+          <tr><td>1 – 7</td><td><span class="pl-dir compra">COMPRA</span></td><td>Abrir cuentas / días mínimos</td></tr>
+          <tr><td>8 – 14</td><td><span class="pl-dir venta">VENTA</span></td><td>Abrir cuentas / días mínimos</td></tr>
+          <tr><td>15 – 21</td><td><span class="pl-dir venta">VENTA</span></td><td>Abrir cuentas / días mínimos</td></tr>
+          <tr><td>22 – 28</td><td><span class="pl-dir compra">COMPRA</span></td><td>Abrir cuentas / días mínimos</td></tr>
+          <tr><td>29 – 31</td><td><span class="pl-dir compra">COMPRA</span></td><td>Transición: solo días mínimos, no se hincha</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card pl-sec">
+      <div class="pl-h"><span class="pl-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg></span><h2>Matemática</h2></div>
+      <p class="pl-p"><b>Fórmula de probabilidad de pasar:</b> P = SL / (SL + TP)</p>
+      <ul class="pl-ul">
+        <li class="pl-li"><b>Evaluación:</b> 0,57 por día × 2 días (consistencia 50%) = <b>0,32 (32%)</b> → 2–3 de cada 10. (A 3 días con 40%: 0,30.)</li>
+        <li class="pl-li"><b>Día grande (hinchazón):</b> 2.000 / 5.400 = <b>0,37</b>; la estrategia logra ~50% → ~1 de 3 fondeadas.</li>
+      </ul>
+      <p class="pl-note">Los datos reales del negocio (fondeo, hinchazón e ingresos) se miden en el dashboard desde agosto.</p>
+    </div>
+
+    <div class="card pl-sec">
+      <div class="pl-h"><span class="pl-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="1.5"/><path d="M9 6h2M13 6h2M9 10h2M13 10h2M9 14h2M13 14h2M10 19h4"/></svg></span><h2>Firmas con mi modelo exacto</h2></div>
+      <table class="pl-table">
+        <thead><tr><th>Firma</th><th>Plan</th><th>Notas</th></tr></thead>
+        <tbody>
+          <tr><td class="pl-firm">Lucid Trading</td><td>Flex</td><td>Base. EOD $2.000 · objetivo $3.000 (2 o 3 días a elección) · 5 días × $150 · sin ventanas · 90% · cap $2.000.</td></tr>
+          <tr><td class="pl-firm">Tradeify</td><td>Select (Flex)</td><td>Base. EOD $2.000 · sin consistencia fondeada · 5 días × $150 · cap $2.500.</td></tr>
+          <tr><td class="pl-firm">Blue Guardian</td><td>Reserve</td><td>Gemelo exacto. ~$94 pago único · opción Sin-DLL · 5 días × $150 · cap $2.000.</td></tr>
+          <tr><td class="pl-firm">FuturesElite</td><td>Elite</td><td>Casi exacto. ~$99–129 único · EOD $2.000 · 6 días × $150 · cap $2.000.</td></tr>
+        </tbody>
+      </table>
+      <p class="pl-note">Criterio de “clon exacto”: sim-funded · EOD ~$2.000 que se bloquea cerca del balance inicial · objetivo ~$3.000 · sin daily loss limit · sin consistencia fondeada · retiro libre · 5–6 winning days de $150.</p>
+    </div>
   </section>
 </div>
 
