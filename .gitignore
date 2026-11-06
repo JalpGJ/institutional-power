@@ -1,6 +1,7 @@
 # Estrategia / simulador NinjaTrader — NO publicar (repo público)
 Code.txt
 *.cs
+*.pine
 
 # Respaldos de datos del dashboard (contienen finanzas reales) — NO publicar
 institutional_power_respaldo_*.json
