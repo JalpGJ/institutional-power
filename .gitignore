@@ -2,6 +2,7 @@
 Code.txt
 *.cs
 *.pine
+analisis_*.csv
 
 # Respaldos de datos del dashboard (contienen finanzas reales) — NO publicar
 institutional_power_respaldo_*.json
@@ -35,3 +36,6 @@ pat.txt
 # EXCEPCIÓN: la carpeta certificados/ SÍ es pública (prueba de retiros reales)
 !certificados/
 !certificados/**
+
+# Documentos personales (apartamento, ingresos, permisos) - NUNCA publicar
+privado/
